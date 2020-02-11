@@ -1,0 +1,15 @@
+# Don't check auto-generated stuff into git
+coverage
+build
+node_modules
+stats.json
+app/components/shared
+app/components/shared/.idea
+
+# Cruft
+.DS_Store
+npm-debug.log
+.idea
+.git
+/yarn-error.log
+/package-lock.json
