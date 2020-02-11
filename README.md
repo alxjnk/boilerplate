@@ -7,11 +7,6 @@ npm install / yarn install
 ```
 
 Add UI Components
-```$xslt
-https://git.wildberries.ru/Trubin.Aleksey/ui-components
-```
-
-Clone this repository to 'shared' folder in components
 
 ### Installing
 
@@ -42,4 +37,3 @@ Lints and fixes files
 ```
 npm run lint / yarn lint
 ```
-
