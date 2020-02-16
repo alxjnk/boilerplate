@@ -16,9 +16,15 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import classNames from 'classnames';
+import { Container, Row, Col, Card } from 'react-bootstrap';
 import { routes } from '../../routes';
 import { selectSidebarToggle } from './selectors';
 import { toggleSidebar } from './actions';
+import Sidebar from '../../components/Sidebar/index';
+import EventsContainer from '../EventsContainer/index';
+import ClosestBookingsContainer from '../ClosestBookingsContainer/index';
+import LineChartContainer from '../LineChartContainer/index';
+import ColorChartContainer from '../ColorChartContainer/index';
 
 const AppWrapper = createUseStyles({
 	appWrapper: {
@@ -26,25 +32,39 @@ const AppWrapper = createUseStyles({
 		top: 0,
 		height: '100%',
 	},
+	mainContainer: {
+		display: 'flex',
+	},
 	contentWrapper: {
 		position: 'relative',
-		float: 'right',
 		width: 'calc(100% - 250px)',
+		transition: 'width .3s',
 		maxHeight: '100vh',
 		'&.toggled': {
-			width: 'calc(100% - 60px)',
+			// width: 'calc(100% - 60px)',
+			width: '100%',
+			transtion: 'width .3s',
 		},
 	},
 	content: {
-		padding: '44px',
-		minHeight: 'calc(100vh - 60px)',
+		padding: '30px 15px',
+		minHeight: 'calc(100vh - 70px)',
 		overflowY: 'auto',
-		background: '#E5E5E5',
-		marginTop: 60,
+		// background: '#E5E5E5',
+		marginTop: 70,
 		'@media (max-width: 991.98px)': {
 			padding: '15px',
-			maxHeight: 'calc(100vh - 60px)',
+			maxHeight: 'calc(100vh - 70px)',
 		},
+	},
+	container: {
+		maxWidth: '100% !important',
+	},
+	item: {
+		height: 'calc(50vh - 77px)',
+	},
+	itemBody: {
+		overflow: 'auto',
 	},
 	'@media (max-width: 991.98px)': {
 		contentWrapper: {
@@ -52,9 +72,11 @@ const AppWrapper = createUseStyles({
 			position: 'fixed',
 			right: '0',
 			transform: 'translate3d(250px, 0, 0)',
+			transition: 'transform .3s',
 			'&.toggled': {
 				width: '100%',
 				transform: 'translate3d(0, 0, 0)',
+				transition: 'transform .3s',
 			},
 		},
 		content: {
@@ -76,24 +98,51 @@ function App(props) {
 			<Helmet titleTemplate="%s - Content" defaultTitle="App Wrapper">
 				<meta name="description" content="content" />
 			</Helmet>
-			{/* <Sidebar routes={routes} toggle={sidebarToggle} sidebarToggler={sidebarToggler} /> */}
-			<div className={contentWrapper}>
-				<Header sidebarToggle={sidebarToggle} sidebarToggler={sidebarToggler} />
-				<Suspense fallback={<div>Loading...</div>}>
-					<div className={classes.content}>
-						<Switch>
-							{routes.map(prop => (
-								<Route
-									path={prop.path}
-									exact={prop.exact}
-									key={prop.key}
-									name={prop.name}
-									render={routeProps => <prop.component {...routeProps} {...props} />}
-								/>
-							))}
-						</Switch>
-					</div>
-				</Suspense>
+			<Header sidebarToggle={sidebarToggle} sidebarToggler={sidebarToggler} />
+			<div className={classes.mainContainer}>
+				<Sidebar routes={routes} sidebarToggle={sidebarToggle} sidebarToggler={sidebarToggler}>
+					<Switch>
+						{routes.map(prop => (
+							<Route
+								path={prop.path}
+								exact={prop.exact}
+								key={prop.key}
+								name={prop.name}
+								render={routeProps => <prop.component {...routeProps} {...props} />}
+							/>
+						))}
+					</Switch>
+				</Sidebar>
+				<div className={contentWrapper}>
+					<Suspense fallback={<div>Loading...</div>}>
+						<div className={classes.content}>
+							<Container className={classes.container}>
+								<Row>
+									<Col xl="8">
+										<LineChartContainer />
+									</Col>
+									<Col>
+										<EventsContainer />
+									</Col>
+								</Row>
+								<br />
+								<Row>
+									<Col xl="8">
+										<Card className={classes.item}>
+											<Card.Header>Closest bookings</Card.Header>
+											<Card.Body className={classes.itemBody}>
+												<ClosestBookingsContainer />
+											</Card.Body>
+										</Card>
+									</Col>
+									<Col>
+										<ColorChartContainer />
+									</Col>
+								</Row>
+							</Container>
+						</div>
+					</Suspense>
+				</div>
 			</div>
 		</div>
 	);
