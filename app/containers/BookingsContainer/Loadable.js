@@ -1,6 +1,6 @@
 /**
  *
- * Asynchronously loads the component for ClosestBookingsContainer
+ * Asynchronously loads the component for BookingsContainer
  *
  */
 

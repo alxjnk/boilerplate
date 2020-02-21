@@ -42,6 +42,7 @@ latoObserver.load().then(() => {
 async function init() {
 	const initialState = {};
 	const store = await configureStore(initialState, history);
+	console.log(store.getState());
 	const MOUNT_NODE = document.getElementById('app');
 	ReactDOM.render(
 		<Provider store={store}>

@@ -85,10 +85,10 @@ function Header(props) {
 	return (
 		<div className={classes.headerWrapper}>
 			<Navbar expand="lg" className={classes.header}>
-				<Navbar.Toggle className={sidebarTogglerClassName} onClick={() => sidebarToggler()} />
 				<Navbar.Brand href="#home" className={classes.logo}>
 					Logo
 				</Navbar.Brand>
+				<Navbar.Toggle className={sidebarTogglerClassName} onClick={() => sidebarToggler()} />
 				<Navbar.Text className={classes.logOut}>
 					<Button variant="outline-primary">Log Out</Button>
 				</Navbar.Text>

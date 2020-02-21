@@ -12,9 +12,9 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import makeSelectEvents from './selectors';
 import reducer from './reducer';
 import saga from './saga';
+import makeSelectEvents from './selectors';
 import Events from '../../components/Events/index';
 
 const eventsList = [
@@ -24,7 +24,7 @@ const eventsList = [
 	{ 'Booking finishes today': 2 },
 ];
 
-export function EventsContainer() {
+export function EventsContainer(props) {
 	useInjectReducer({ key: 'events', reducer });
 	useInjectSaga({ key: 'events', saga });
 

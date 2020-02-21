@@ -1,9 +1,9 @@
 // import produce from 'immer';
-import closestBookingsContainerReducer from '../reducer';
+import bookingsContainerReducer from '../reducer';
 // import { someAction } from '../actions';
 
 /* eslint-disable default-case, no-param-reassign */
-describe('closestBookingsContainerReducer', () => {
+describe('bookingsContainerReducer', () => {
 	let state;
 	beforeEach(() => {
 		state = {
@@ -13,7 +13,7 @@ describe('closestBookingsContainerReducer', () => {
 
 	it('returns the initial state', () => {
 		const expectedResult = state;
-		expect(closestBookingsContainerReducer(undefined, {})).toEqual(expectedResult);
+		expect(bookingsContainerReducer(undefined, {})).toEqual(expectedResult);
 	});
 
 	/**

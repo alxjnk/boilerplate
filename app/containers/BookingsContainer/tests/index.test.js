@@ -1,6 +1,6 @@
 /**
  *
- * Tests for ClosestBookings
+ * Tests for BookingsContainer
  *
  * @see https://github.com/react-boilerplate/react-boilerplate/tree/master/docs/testing
  *
@@ -10,12 +10,13 @@ import React from 'react';
 import { render } from 'react-testing-library';
 // import 'jest-dom/extend-expect'; // add some helpful assertions
 
-import ClosestBookings from '../index';
+import { BookingsContainer } from '../index';
 
-describe('<ClosestBookings />', () => {
+describe('<BookingsContainer />', () => {
 	it('Expect to not log errors in console', () => {
 		const spy = jest.spyOn(global.console, 'error');
-		render(<ClosestBookings />);
+		const dispatch = jest.fn();
+		render(<BookingsContainer dispatch={dispatch} />);
 		expect(spy).not.toHaveBeenCalled();
 	});
 
@@ -31,7 +32,7 @@ describe('<ClosestBookings />', () => {
 	it.skip('Should render and match the snapshot', () => {
 		const {
 			container: { firstChild },
-		} = render(<ClosestBookings />);
+		} = render(<BookingsContainer />);
 		expect(firstChild).toMatchSnapshot();
 	});
 });

@@ -19,10 +19,14 @@ import classNames from 'classnames';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { routes } from '../../routes';
 import { selectSidebarToggle } from './selectors';
+import {
+	makeSelectCheckInContainer,
+	makeSelectCheckOutContainer
+} from '../BookingsContainer/selectors';
 import { toggleSidebar } from './actions';
 import Sidebar from '../../components/Sidebar/index';
 import EventsContainer from '../EventsContainer/index';
-import ClosestBookingsContainer from '../ClosestBookingsContainer/index';
+import BookingContanier from '../BookingsContainer/index';
 import LineChartContainer from '../LineChartContainer/index';
 import ColorChartContainer from '../ColorChartContainer/index';
 
@@ -127,11 +131,19 @@ function App(props) {
 								</Row>
 								<br />
 								<Row>
-									<Col xl="8">
+									<Col>
 										<Card className={classes.item}>
-											<Card.Header>Closest bookings</Card.Header>
+											<Card.Header>Closest check-in</Card.Header>
 											<Card.Body className={classes.itemBody}>
-												<ClosestBookingsContainer />
+												<BookingContanier bookingsData={props.closestCheckInData} />
+											</Card.Body>
+										</Card>
+									</Col>
+									<Col>
+										<Card className={classes.item}>
+											<Card.Header>Closest check-out</Card.Header>
+											<Card.Body className={classes.itemBody}>
+												<BookingContanier bookingsData={props.closestCheckOutData} />
 											</Card.Body>
 										</Card>
 									</Col>
@@ -157,6 +169,8 @@ App.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
 	sidebarToggle: selectSidebarToggle(),
+	closestCheckInData: makeSelectCheckInContainer(),
+	closestCheckOutData: makeSelectCheckOutContainer(),
 });
 
 function mapDispatchToProps(dispatch) {

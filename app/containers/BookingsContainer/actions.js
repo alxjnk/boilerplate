@@ -1,6 +1,6 @@
 /*
  *
- * ClosestBookingsContainer actions
+ * BookingsContainer actions
  *
  */
 

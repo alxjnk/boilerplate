@@ -1,16 +1,16 @@
 /**
  *
- * ClosestBookings
+ * Bookings
  *
  */
 
 import React from 'react';
 // import PropTypes from 'prop-types';
-import { createUseStyles } from 'react-jss';
+import {createUseStyles} from 'react-jss';
 import classNames from 'classnames';
-import { Accordion, Card, Button } from 'react-bootstrap';
+import { Accordion, Card } from 'react-bootstrap';
 
-const ClosestBookingsWrapper = createUseStyles({
+const BookingsWrapper = createUseStyles({
 	card: {
 		border: 'none',
 	},
@@ -22,6 +22,10 @@ const ClosestBookingsWrapper = createUseStyles({
 			borderBottom: 'none !important',
 		},
 	},
+	toggle: {
+		cursor: 'pointer',
+		border: 'none',
+	},
 	cardBody: {
 		paddingTop: '7px',
 		paddingBottom: '7px',
@@ -32,18 +36,19 @@ const ClosestBookingsWrapper = createUseStyles({
 	},
 });
 
-function ClosestBookings(props) {
-	const classes = ClosestBookingsWrapper();
+function Bookings(props) {
+	const classes = BookingsWrapper();
+	const { bookingsData } = props;
 	return (
 		<Accordion>
-			{props.closestBookingsData.map((item, index) => (
+			{bookingsData.map((item, index) => (
 				<Card className={classes.card} key={item.id}>
 					<Card.Header
 						className={classNames(classes.header, {
-							lastHeader: index === props.closestBookingsData.length - 1,
+							lastHeader: index === bookingsData.length - 1,
 						})}
 					>
-						<Accordion.Toggle as={Button} variant="link" eventKey={item.id}>
+						<Accordion.Toggle className={classes.toggle} as={Card.Header} variant="link" eventKey={item.id}>
 							<b>Name: </b>
 							{item.name}, <b>Room: </b>
 							{item.roomNumber} ...
@@ -52,7 +57,7 @@ function ClosestBookings(props) {
 					<Accordion.Collapse eventKey={item.id}>
 						<Card.Body
 							className={classNames(classes.cardBody, {
-								lastCardBody: index === props.closestBookingsData.length - 1,
+								lastCardBody: index === bookingsData.length - 1,
 							})}
 						>
 							<span>
@@ -82,6 +87,6 @@ function ClosestBookings(props) {
 	);
 }
 
-ClosestBookings.propTypes = {};
+Bookings.propTypes = {};
 
-export default ClosestBookings;
+export default Bookings;
