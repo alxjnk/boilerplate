@@ -23,7 +23,6 @@ const sidebarStyle = theme => ({
 		overflow: 'hidden',
 		zIndex: 10,
 		'&.toggled': {
-			// width: '60px',
 			width: '0',
 			transition: 'width .3s',
 		},
@@ -36,7 +35,6 @@ const sidebarStyle = theme => ({
 		display: 'block',
 		width: '230px',
 		cursor: 'pointer',
-		// height: '25px',
 	},
 	'@media (max-width: 991.98px)': {
 		sidebarWrapper: {
@@ -49,12 +47,6 @@ const sidebarStyle = theme => ({
 				transition: 'width .3s',
 			},
 		},
-		// sidebar: {
-
-		// },
-		// sidebarItem: {
-
-		// },
 	},
 });
 

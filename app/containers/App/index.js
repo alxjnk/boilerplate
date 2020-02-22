@@ -42,7 +42,6 @@ const AppWrapper = createUseStyles({
 		transition: 'width .3s',
 		maxHeight: '100vh',
 		'&.toggled': {
-			// width: 'calc(100% - 60px)',
 			width: '100%',
 			transtion: 'width .3s',
 		},
@@ -51,7 +50,6 @@ const AppWrapper = createUseStyles({
 		padding: '30px 15px',
 		minHeight: 'calc(100vh - 70px)',
 		overflowY: 'auto',
-		// background: '#E5E5E5',
 		marginTop: 70,
 		'@media (max-width: 991.98px)': {
 			padding: '15px',
