@@ -17,7 +17,7 @@ import reducer from './reducer';
 import saga from './saga';
 import LineChart from '../../components/LineChart/index';
 
-export function LineChartContainer() {
+export function LineChartContainer(props) {
 	useInjectReducer({ key: 'lineChartContainer', reducer });
 	useInjectSaga({ key: 'lineChartContainer', saga });
 

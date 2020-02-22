@@ -17,7 +17,7 @@ import makeSelectSidebarContainer from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
-export function SidebarContainer() {
+export function SidebarContainer(props) {
 	useInjectReducer({ key: 'sidebarContainer', reducer });
 	useInjectSaga({ key: 'sidebarContainer', saga });
 

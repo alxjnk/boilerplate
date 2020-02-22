@@ -16,11 +16,11 @@ import reducer from './reducer';
 import saga from './saga';
 import Booking from '../../components/Bookings/index';
 
-export function BookingsContainer(props) {
+export function BookingsContainer({bookingsData, ...props}) {
 	useInjectReducer({ key: 'bookingsContainer', reducer });
 	useInjectSaga({ key: 'bookingsContainer', saga });
 
-	return <Booking bookingsData={props.bookingsData} />;
+	return <Booking bookingsData={bookingsData} />;
 }
 
 // BookingsContainer.propTypes = {

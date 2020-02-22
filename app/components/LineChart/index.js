@@ -15,7 +15,7 @@ const LineChartWrapper = createUseStyles({
 	},
 });
 
-function LineChart() {
+function LineChart(props) {
 	const classes = LineChartWrapper();
 	return (
 		<Card className={classes.item}>

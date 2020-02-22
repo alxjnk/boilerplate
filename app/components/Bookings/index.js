@@ -36,9 +36,8 @@ const BookingsWrapper = createUseStyles({
 	},
 });
 
-function Bookings(props) {
+function Bookings({bookingsData, ...props}) {
 	const classes = BookingsWrapper();
-	const { bookingsData } = props;
 	return (
 		<Accordion>
 			{bookingsData.map((item, index) => (

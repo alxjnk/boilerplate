@@ -17,7 +17,7 @@ import reducer from './reducer';
 import saga from './saga';
 import ColorChart from '../../components/ColorChart/index';
 
-export function ColorChartContainer() {
+export function ColorChartContainer(props) {
 	useInjectReducer({ key: 'colorChartContainer', reducer });
 	useInjectSaga({ key: 'colorChartContainer', saga });
 

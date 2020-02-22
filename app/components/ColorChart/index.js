@@ -15,7 +15,7 @@ const ColorChartWrapper = createUseStyles({
 	},
 });
 
-function ColorChart() {
+function ColorChart(props) {
 	const classes = ColorChartWrapper();
 	return (
 		<Card className={classes.item}>
