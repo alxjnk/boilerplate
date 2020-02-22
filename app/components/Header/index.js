@@ -50,11 +50,11 @@ const headerStyle = theme => ({
 	},
 	arrow: {
 		display: 'block',
-      margin: 'auto',
-      position: 'relative',
-      border: '14px solid transparent',
-      borderRight: '24px solid rgba(0,0,0,.2)',
-      left: '-8px',
+		margin: 'auto',
+		position: 'relative',
+		border: '14px solid transparent',
+		borderRight: '24px solid rgba(0,0,0,.2)',
+		left: '-8px',
 		transition: 'all .3s',
 		'&.toggled': {
 			transform: 'rotate(180deg)',
@@ -96,14 +96,14 @@ function Header(props) {
 		<div className={classes.headerWrapper}>
 			<Navbar expand="lg" className={classes.header}>
 				<button type="button" className={classes.sidebarToggler} onClick={() => sidebarToggler()}>
-					<span className={sidebarArrowClassName}></span>
+					<span className={sidebarArrowClassName} />
 				</button>
 				<Navbar.Brand href="#home" className={classes.logo}>
 					<img src={Logo} alt="logo" height="50px" width="200px" />
 				</Navbar.Brand>
 				<Dropdown alignRight className={classes.dropdownMenu}>
 					<Dropdown.Toggle className={classes.dropdownToggle} variant="success" id="dropdown-basic">
-						<span className={`${classes.toggler} navbar-toggler-icon`}></span>
+						<span className={`${classes.toggler} navbar-toggler-icon`} />
 					</Dropdown.Toggle>
 					<Dropdown.Menu>
 						<Dropdown.Item href="#/action-1">Sign out</Dropdown.Item>
