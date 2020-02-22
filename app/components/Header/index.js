@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { createUseStyles, useTheme } from 'react-jss';
-import { Navbar, Button } from 'react-bootstrap';
+import { Navbar, Dropdown } from 'react-bootstrap';
 import classNames from 'classnames';
 import Logo from '../../images/LOGO.png';
 
@@ -26,12 +26,10 @@ const headerStyle = theme => ({
 		height: '70px',
 		background: '#8ACBAB',
 		alignItems: 'center',
-		boxShadow: '0px 0px 7px rgba(0, 0, 0, 0.25)',
 		justifyContent: 'flex-start',
 		'@media (max-width: 991.98px)': {
 			justifyContent: 'space-between',
 		},
-		// padding: '0 22px 0 22px',
 		padding: '0',
 	},
 	logo: {
@@ -41,36 +39,47 @@ const headerStyle = theme => ({
 		textAlign: 'center',
 	},
 	sidebarToggler: {
-		cursor: 'pointer',
-		background: '#3A0078',
-		boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.21)',
-		color: '#FFFFFF',
-		width: 24,
-		height: 24,
-		borderRadius: '50%',
-		// display: 'none',
-		// ------------------
-		display: 'block',
-		// ------------------
-		'@media (max-width: 991.98px)': {
-			display: 'block',
-		},
-		'& svg': {
-			animation: '1s linear 0s normal none infinite running rot',
-			transform: 'scale(0.6)',
-		},
-		'&.toggled': {
-			'& svg': {
-				transform: 'scale(0.6) rotate(180deg)',
-			},
-		},
-	},
-	toggler: {
-		display: 'block !important',
+		border: '1px solid rgba(0,0,0,.1)',
+		width: '56px',
+		height: '40px',
+		borderRadius: '3px',
 		marginLeft: '25px',
+		display: 'flex',
+		marginRight: '25px',
+		background: 'transparent',
 	},
-	logOut: {
-		margin: '0 25px 0 auto',
+	arrow: {
+		display: 'block',
+      margin: 'auto',
+      position: 'relative',
+      border: '14px solid transparent',
+      borderRight: '24px solid rgba(0,0,0,.2)',
+      left: '-8px',
+		transition: 'all .3s',
+		'&.toggled': {
+			transform: 'rotate(180deg)',
+			transformOrigin: '75% 50% 0',
+			transition: 'all .3s',
+		},
+	},
+	dropdownMenu: {
+		marginLeft: 'auto',
+		marginRight: '25px',
+	},
+	dropdownToggle: {
+		backgroundColor: 'transparent !important',
+		boxShadow: 'none',
+		border: 'none',
+		border: '1px solid rgba(0,0,0,.1)',
+		'&:hover, &:active, &.active, &.focus, &:focus, &.btn-success.dropdown-toggle': {
+			backgroundColor: 'transparent !important',
+			boxShadow: 'none !important',
+			border: 'none !important',
+			border: '1px solid rgba(0,0,0,.1)',
+		},
+		'&:after': {
+			display: 'none',
+		},
 	},
 });
 
@@ -80,19 +89,27 @@ function Header(props) {
 	const { onSearchCard, sidebarToggle, sidebarToggler } = props;
 	const theme = useTheme();
 	const classes = useStyles({ ...props, theme });
-	const sidebarTogglerClassName = classNames(classes.toggler, {
+	const sidebarArrowClassName = classNames(classes.arrow, {
 		toggled: sidebarToggle,
 	});
 	return (
 		<div className={classes.headerWrapper}>
 			<Navbar expand="lg" className={classes.header}>
+				<button type="button" className={classes.sidebarToggler} onClick={() => sidebarToggler()}>
+					<span className={sidebarArrowClassName}></span>
+				</button>
 				<Navbar.Brand href="#home" className={classes.logo}>
 					<img src={Logo} alt="logo" height="50px" width="200px" />
 				</Navbar.Brand>
-				<Navbar.Toggle className={sidebarTogglerClassName} onClick={() => sidebarToggler()} />
-				<Navbar.Text className={classes.logOut}>
-					<Button variant="outline-primary">Log Out</Button>
-				</Navbar.Text>
+				<Dropdown alignRight className={classes.dropdownMenu}>
+					<Dropdown.Toggle className={classes.dropdownToggle} variant="success" id="dropdown-basic">
+						<span className={`${classes.toggler} navbar-toggler-icon`}></span>
+					</Dropdown.Toggle>
+					<Dropdown.Menu>
+						<Dropdown.Item href="#/action-1">Sign out</Dropdown.Item>
+						<Dropdown.Item href="#/action-2">About app</Dropdown.Item>
+					</Dropdown.Menu>
+				</Dropdown>
 			</Navbar>
 		</div>
 	);

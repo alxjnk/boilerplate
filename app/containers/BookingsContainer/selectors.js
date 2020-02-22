@@ -27,8 +27,4 @@ const makeSelectCheckOutContainer = () =>
 		substate => substate.closestCheckOutData,
 	);
 
-export { 
-	selectBookingsContainerDomain, 
-	makeSelectCheckInContainer, 
-	makeSelectCheckOutContainer 
-};
+export { selectBookingsContainerDomain, makeSelectCheckInContainer, makeSelectCheckOutContainer };

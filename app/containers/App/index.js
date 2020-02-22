@@ -19,10 +19,7 @@ import classNames from 'classnames';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { routes } from '../../routes';
 import { selectSidebarToggle } from './selectors';
-import {
-	makeSelectCheckInContainer,
-	makeSelectCheckOutContainer
-} from '../BookingsContainer/selectors';
+import { makeSelectCheckInContainer, makeSelectCheckOutContainer } from '../BookingsContainer/selectors';
 import { toggleSidebar } from './actions';
 import Sidebar from '../../components/Sidebar/index';
 import EventsContainer from '../EventsContainer/index';
