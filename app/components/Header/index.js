@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import { createUseStyles, useTheme } from 'react-jss';
 import { Navbar, Button } from 'react-bootstrap';
 import classNames from 'classnames';
+import Logo from '../../images/logo7.png';
 
 const headerStyle = theme => ({
 	headerWrapper: {
@@ -23,7 +24,7 @@ const headerStyle = theme => ({
 		display: 'flex',
 		width: '100%',
 		height: '70px',
-		background: '#fff',
+		background: '#76bdbe',
 		alignItems: 'center',
 		boxShadow: '0px 0px 7px rgba(0, 0, 0, 0.25)',
 		justifyContent: 'flex-start',
@@ -86,7 +87,7 @@ function Header(props) {
 		<div className={classes.headerWrapper}>
 			<Navbar expand="lg" className={classes.header}>
 				<Navbar.Brand href="#home" className={classes.logo}>
-					Logo
+					<img src={Logo} alt="logo" height="50px" width="200px" />
 				</Navbar.Brand>
 				<Navbar.Toggle className={sidebarTogglerClassName} onClick={() => sidebarToggler()} />
 				<Navbar.Text className={classes.logOut}>
