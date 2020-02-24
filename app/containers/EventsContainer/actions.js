@@ -22,7 +22,7 @@ export function getEventsDataRequest(token) {
 export const getEventsDataSuccess = (data) => {
 	return {
 		type: GET_EVENTS_DATA_SUCCESS,
-		payload: { ...data }
+		payload: [ ...data ]
 	};
 }
 

@@ -5,7 +5,7 @@ import { initialState } from './reducer';
  * Direct selector to the events state domain
  */
 
-const selectEventsDomain = state => state.events || initialState;
+const selectEventsDomain = state => state.eventsContainer || initialState;
 
 /**
  * Other specific selectors
@@ -18,8 +18,7 @@ const selectEventsDomain = state => state.events || initialState;
 const makeSelectEvents = () =>
 	createSelector(
 		selectEventsDomain,
-		substate => substate,
+		substate => substate.eventsList,
 	);
 
-export default makeSelectEvents;
-export { selectEventsDomain };
+export { makeSelectEvents, selectEventsDomain };

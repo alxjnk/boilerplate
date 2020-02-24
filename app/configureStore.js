@@ -37,7 +37,7 @@ export default function configureStore(initialState = {}, history) {
 	const enhancers = [applyMiddleware(...middlewares)];
 
 	const persistConfig = {
-		whitelist: ['global', 'authManager'],
+		whitelist: ['global', 'authManager', 'bookings', 'events'],
 	};
 
 	function transformState(state, { payload, meta }) {

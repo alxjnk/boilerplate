@@ -18,9 +18,9 @@ import Booking from '../../components/Bookings/index';
 import { getBookingsDataRequest } from './actions';
 
 export function BookingsContainer({bookingsData = [], handleBookingsDataRequest, ...props}) {
-	useEffect(() => { handleBookingsDataRequest() }, [])
 	useInjectReducer({ key: 'bookingsContainer', reducer });
 	useInjectSaga({ key: 'bookingsContainer', saga });
+	useEffect(() => { handleBookingsDataRequest() }, [])
 
 	return <Booking bookingsData={bookingsData} />;
 }

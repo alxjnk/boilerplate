@@ -21,6 +21,14 @@ const EventsWrapper = createUseStyles({
 	event: {
 		cursor: 'pointer',
 	},
+	messageHeader: {
+		display: 'flex',
+		justifyContent: 'space-between',
+		marginBottom: '0',
+	},
+	fullname: {
+		fontWeight: 'bold',
+	},
 });
 
 function Events({eventsList, ...props}) {
@@ -31,8 +39,18 @@ function Events({eventsList, ...props}) {
 			<Card.Body className={classes.itemBody}>
 				<ListGroup variant="flush">
 					{eventsList.map(event => (
-						<ListGroup.Item key={Object.keys(event)[0]} className={classes.event}>
-							{`${Object.keys(event)[0]}: ${event[Object.keys(event)[0]]}`}
+						<ListGroup.Item key={event.id} className={classes.event}>
+							<p className={classes.messageHeader}>
+								<span className={classes.fullname}>
+									{`${event.fullName}`}
+								</span>
+								<span>
+									{`${event.platform.toUpperCase()}`}
+								</span>
+							</p>
+							<span>
+								{`${event.message}`}
+							</span> 
 						</ListGroup.Item>
 					))}
 				</ListGroup>
