@@ -16,6 +16,7 @@ import reducer from './reducer';
 import saga from './saga';
 import makeSelectEvents from './selectors';
 import Events from '../../components/Events/index';
+import { getEventsDataRequest } from './actions';
 
 const eventsList = [
 	{ 'Booking event': 4 },
@@ -25,8 +26,9 @@ const eventsList = [
 ];
 
 export function EventsContainer(props) {
-	useInjectReducer({ key: 'events', reducer });
-	useInjectSaga({ key: 'events', saga });
+	getEventsDataRequest();
+	useInjectReducer({ key: 'eventsContainer', reducer });
+	useInjectSaga({ key: 'eventsContainer', saga });
 
 	return <Events eventsList={eventsList} />;
 }
@@ -36,7 +38,7 @@ export function EventsContainer(props) {
 // };
 
 const mapStateToProps = createStructuredSelector({
-	events: makeSelectEvents(),
+	eventsContainer: makeSelectEvents(),
 });
 
 function mapDispatchToProps(dispatch) {

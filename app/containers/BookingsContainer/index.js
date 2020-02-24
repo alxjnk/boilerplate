@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -15,8 +15,10 @@ import { useInjectReducer } from 'utils/injectReducer';
 import reducer from './reducer';
 import saga from './saga';
 import Booking from '../../components/Bookings/index';
+import { getBookingsDataRequest } from './actions';
 
-export function BookingsContainer({bookingsData, ...props}) {
+export function BookingsContainer({bookingsData = [], handleBookingsDataRequest, ...props}) {
+	useEffect(() => { handleBookingsDataRequest() }, [])
 	useInjectReducer({ key: 'bookingsContainer', reducer });
 	useInjectSaga({ key: 'bookingsContainer', saga });
 
@@ -32,6 +34,7 @@ const mapStateToProps = createStructuredSelector({});
 function mapDispatchToProps(dispatch) {
 	return {
 		dispatch,
+		handleBookingsDataRequest: () => dispatch(getBookingsDataRequest()),
 	};
 }
 

@@ -49,8 +49,8 @@ function Bookings({bookingsData, ...props}) {
 					>
 						<Accordion.Toggle className={classes.toggle} as={Card.Header} variant="link" eventKey={item.id}>
 							<b>Name: </b>
-							{item.name}, <b>Room: </b>
-							{item.roomNumber} ...
+							{item.fullName}, <b>Room: </b>
+							{item.room} ...
 						</Accordion.Toggle>
 					</Card.Header>
 					<Accordion.Collapse eventKey={item.id}>
@@ -59,24 +59,49 @@ function Bookings({bookingsData, ...props}) {
 								lastCardBody: index === bookingsData.length - 1,
 							})}
 						>
+							{/* <span>
+								<b>Name: </b>
+								{item.fullName} {item.surname},{' '}
+							</span> */}
+							{/* <br /> */}
 							<span>
-								<b>Full name: </b>
-								{item.name} {item.surname},{' '}
+								<b>Platform: </b>
+								{item.platform},{' '}
 							</span>
 							{/* <br /> */}
 							<span>
-								<b>Arrival date: </b>
-								{item.arrivalDate},{' '}
+								<b>Arrival: </b>
+								{item.arrival},{' '}
 							</span>
 							{/* <br /> */}
 							<span>
-								<b>Depature date: </b>
-								{item.departureDate},{' '}
+								<b>Depature: </b>
+								{item.departure},{' '}
 							</span>
 							{/* <br /> */}
 							<span>
-								<b>Number of people: </b>
-								{item.numberOfPeople},{' '}
+								<b>Room: </b>
+								{item.room},{' '}
+							</span>
+							{/* <br /> */}
+							<span>
+								<b>Price: </b>
+								{item.price},{' '}
+							</span>
+							{/* <br /> */}
+							<span>
+								<b>Pax: </b>
+								{item.pax},{' '}
+							</span>
+							{/* <br /> */}
+							<span>
+								<b>Comment: </b>
+								{item.comment},{' '}
+							</span>
+							{/* <br /> */}
+							<span>
+								<b>Property: </b>
+								{item.property}
 							</span>
 						</Card.Body>
 					</Accordion.Collapse>
