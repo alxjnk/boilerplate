@@ -47,6 +47,7 @@ const headerStyle = theme => ({
 		display: 'flex',
 		marginRight: '25px',
 		background: 'transparent',
+		outline: 'none !important',
 	},
 	arrow: {
 		display: 'block',
