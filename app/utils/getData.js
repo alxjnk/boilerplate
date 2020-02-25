@@ -1,4 +1,4 @@
-export const getData = (path) => {
+export const getData = path => {
 
    return fetch(`${path}`, {
       method: 'GET',

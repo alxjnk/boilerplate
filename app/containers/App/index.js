@@ -87,6 +87,7 @@ const AppWrapper = createUseStyles({
 });
 
 function App(props) {
+
 	const { sidebarToggle, sidebarToggler } = props;
 	const classes = AppWrapper();
 	const contentWrapper = classNames(classes.contentWrapper, {

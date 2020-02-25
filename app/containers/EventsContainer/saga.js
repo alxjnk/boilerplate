@@ -4,7 +4,7 @@ import {
 	getEventsDataSuccess,
 	getEventsDataFailure
 } from './actions';
-import { getData } from './helper';
+import { getData } from '../../utils/getData';
 
 // Individual exports for testing
 export default function* eventsSaga() {

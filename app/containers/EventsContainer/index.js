@@ -17,11 +17,13 @@ import saga from './saga';
 import Events from '../../components/Events/index';
 import { getEventsDataRequest } from './actions';
 import { makeSelectEvents } from './selectors';
+import { subscribeToMessage } from '../../utils/socket';
 
 export function EventsContainer({eventsList = [], handleEventsDataRequest, ...props}) {
 	useInjectReducer({ key: 'eventsContainer', reducer });
 	useInjectSaga({ key: 'eventsContainer', saga });
 	useEffect(() => { handleEventsDataRequest() }, [])
+	useEffect(() => { subscribeToMessage() }, [])
 
 	return <Events eventsList={eventsList} />;
 }

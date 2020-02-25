@@ -79,30 +79,30 @@ function Bookings({bookingsData, ...props}) {
 								{item.departure},{' '}
 							</span>
 							{/* <br /> */}
-							<span>
+							{/* <span>
 								<b>Room: </b>
 								{item.room},{' '}
-							</span>
+							</span> */}
 							{/* <br /> */}
-							<span>
+							{/* <span>
 								<b>Price: </b>
 								{item.price},{' '}
-							</span>
+							</span> */}
 							{/* <br /> */}
 							<span>
 								<b>Pax: </b>
 								{item.pax},{' '}
 							</span>
 							{/* <br /> */}
-							<span>
+							{/* <span>
 								<b>Comment: </b>
 								{item.comment},{' '}
-							</span>
+							</span> */}
 							{/* <br /> */}
-							<span>
+							{/* <span>
 								<b>Property: </b>
 								{item.property}
-							</span>
+							</span> */}
 						</Card.Body>
 					</Accordion.Collapse>
 				</Card>
