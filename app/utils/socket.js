@@ -1,5 +1,7 @@
 import openSocket from 'socket.io-client';
-const  socket = openSocket('http://jobsdone.pro:9000');
+const socket = openSocket('http://jobsdone.pro:9000');
+
+export default socket;
 
 export const subscribeToMessage = (action) => {
    socket.on('new_message', message => {

@@ -21,12 +21,27 @@ import {
 } from './actions';
 import { makeSelectEvents } from './selectors';
 import { subscribeToMessage } from '../../utils/socket';
+// import socket from '../../utils/socket';
 
 export function EventsContainer({eventsList = [], handleEventsDataRequest, handleNewMessageWithSocket, ...props}) {
 	useInjectReducer({ key: 'eventsContainer', reducer });
 	useInjectSaga({ key: 'eventsContainer', saga });
-	useEffect(() => { handleEventsDataRequest() }, [])
-	useEffect(() => { subscribeToMessage(handleNewMessageWithSocket) }, [])
+	useEffect(() => { handleEventsDataRequest() }, []);
+	useEffect(() => { subscribeToMessage(handleNewMessageWithSocket) }, []);
+
+// export function EventsContainer({ eventsList = [], handleEventsDataRequest, ...props }) {
+// 	//TODO: change to default props eventsList
+// 	useInjectReducer({ key: 'eventsContainer', reducer });
+// 	useInjectSaga({ key: 'eventsContainer', saga });
+// 	useEffect(() => {
+// 		handleEventsDataRequest();
+// 	}, []);
+
+// 	useEffect(() => {
+// 		socket.on('new_message', msg => {
+// 			console.log(msg);
+// 		});
+// 	}, []);
 
 	return <Events eventsList={eventsList} />;
 }
@@ -36,7 +51,7 @@ export function EventsContainer({eventsList = [], handleEventsDataRequest, handl
 // };
 
 const mapStateToProps = createStructuredSelector({
-	eventsList: makeSelectEvents(),
+	eventsList: makeSelectEvents()
 });
 
 function mapDispatchToProps(dispatch) {
@@ -44,15 +59,11 @@ function mapDispatchToProps(dispatch) {
 		dispatch,
 		handleEventsDataRequest: () => dispatch(getEventsDataRequest()),
 		handleNewMessageWithSocket: (data) => dispatch(getNewMessageWithSocket(data)),
+
+		// handleEventsDataRequest: () => dispatch(getEventsDataRequest())
 	};
 }
 
-const withConnect = connect(
-	mapStateToProps,
-	mapDispatchToProps,
-);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(
-	withConnect,
-	memo,
-)(EventsContainer);
+export default compose(withConnect, memo)(EventsContainer);
