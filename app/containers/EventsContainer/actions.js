@@ -7,7 +7,8 @@
 import {
 	GET_EVENTS_DATA_REQUEST,
 	GET_EVENTS_DATA_SUCCESS,
-   GET_EVENTS_DATA_FAILURE
+	GET_EVENTS_DATA_FAILURE,
+	GET_NEW_MESSAGE_WITH_SOCKET,
 } from './constants';
 
 export function getEventsDataRequest(token) {
@@ -31,4 +32,11 @@ export const getEventsDataFailure = (error) => {
 		type: GET_EVENTS_DATA_FAILURE,
 		payload: { ...error }
 	};
+}
+
+export const getNewMessageWithSocket = (data) => {
+	return {
+		type: GET_NEW_MESSAGE_WITH_SOCKET,
+		payload: data
+	}
 }

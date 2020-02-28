@@ -6,7 +6,8 @@
 import produce from 'immer';
 import { 
 	GET_EVENTS_DATA_SUCCESS,
-	GET_EVENTS_DATA_FAILURE
+	GET_EVENTS_DATA_FAILURE,
+	GET_NEW_MESSAGE_WITH_SOCKET,
 } from './constants';
 
 export const initialState = {
@@ -24,6 +25,10 @@ const eventsReducer = (state = initialState, action) =>
 			}
 			case GET_EVENTS_DATA_FAILURE: {
 				draft.error = action.payload;
+				break;
+			}
+			case GET_NEW_MESSAGE_WITH_SOCKET: {
+				draft.eventsList = [ ...state.eventsList, action.payload ];
 				break;
 			}
 			default:

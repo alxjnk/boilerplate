@@ -42,7 +42,7 @@ function Events({eventsList, ...props}) {
 						<ListGroup.Item key={event.id} className={classes.event}>
 							<p className={classes.messageHeader}>
 								<span className={classes.fullname}>
-									{`${event.fullName}`}
+									{`${event.fullName || event.full_name}`}
 								</span>
 								<span>
 									{`${event.platform.toUpperCase()}`}

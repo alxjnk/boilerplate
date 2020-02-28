@@ -6,7 +6,7 @@
  * contain code that should be seen on all pages. (e.g. navigation bar)
  */
 
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { Switch, Route } from 'react-router-dom';
@@ -26,6 +26,8 @@ import EventsContainer from '../EventsContainer/index';
 import BookingContanier from '../BookingsContainer/index';
 import LineChartContainer from '../LineChartContainer/index';
 import ColorChartContainer from '../ColorChartContainer/index';
+import { getNewBookingWithSocket } from '../BookingsContainer/actions';
+import { subscribeToBooking } from '../../utils/socket';
 
 const AppWrapper = createUseStyles({
 	appWrapper: {
@@ -88,11 +90,16 @@ const AppWrapper = createUseStyles({
 
 function App(props) {
 
-	const { sidebarToggle, sidebarToggler } = props;
+	const { 
+		sidebarToggle, 
+		sidebarToggler, 
+		handleNewBookingWithSocket, 
+	} = props;
 	const classes = AppWrapper();
 	const contentWrapper = classNames(classes.contentWrapper, {
 		toggled: sidebarToggle,
 	});
+	useEffect(() => { subscribeToBooking(handleNewBookingWithSocket) }, [])
 	return (
 		<div className={classes.appWrapper}>
 			<Helmet titleTemplate="%s - Content" defaultTitle="App Wrapper">
@@ -173,6 +180,7 @@ function mapDispatchToProps(dispatch) {
 	return {
 		dispatch,
 		sidebarToggler: () => dispatch(toggleSidebar()),
+		handleNewBookingWithSocket: (data) => dispatch(getNewBookingWithSocket(data)),
 	};
 }
 

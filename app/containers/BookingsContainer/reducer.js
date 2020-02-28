@@ -6,7 +6,8 @@
 import produce from 'immer';
 import { 
 	GET_BOOKINGS_DATA_SUCCESS,
-	GET_BOOKINGS_DATA_FAILURE
+	GET_BOOKINGS_DATA_FAILURE,
+	GET_NEW_BOOKING_WITH_SOCKET,
 } from './constants';
 
 export const initialState = {
@@ -64,6 +65,7 @@ export const initialState = {
 /* eslint-disable default-case, no-param-reassign */
 const bookingsContainerReducer = (state = initialState, action) =>
 	produce(state, (draft) => {
+		console.log(action);
 		switch (action.type) {
 			case GET_BOOKINGS_DATA_SUCCESS: {
 				draft.closestCheckInData = action.payload;
@@ -71,6 +73,11 @@ const bookingsContainerReducer = (state = initialState, action) =>
 			}
 			case GET_BOOKINGS_DATA_FAILURE: {
 				draft.error = action.payload;
+				break;
+			}
+			case GET_NEW_BOOKING_WITH_SOCKET: {
+				draft.closestCheckInData = [ ...state.closestCheckInData, action.payload ];
+				break;
 			}
 			default:
 				return state;
