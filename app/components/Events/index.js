@@ -33,12 +33,13 @@ const EventsWrapper = createUseStyles({
 
 function Events({eventsList, ...props}) {
 	const classes = EventsWrapper();
+
 	return (
 		<Card className={classes.item}>
 			<Card.Header>Event list</Card.Header>
 			<Card.Body className={classes.itemBody}>
 				<ListGroup variant="flush">
-					{eventsList.map(event => (
+					{eventsList.reverse().map(event => (
 						<ListGroup.Item key={event.id} className={classes.event}>
 							<p className={classes.messageHeader}>
 								<span className={classes.fullname}>
