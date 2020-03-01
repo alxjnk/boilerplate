@@ -49,7 +49,7 @@ function Bookings({bookingsData, ...props}) {
 					>
 						<Accordion.Toggle className={classes.toggle} as={Card.Header} variant="link" eventKey={item.id}>
 							<b>Name: </b>
-							{item.fullName || item.full_name}, <b>Room: </b>
+							{item.full_name}, <b>Room: </b>
 							{item.room} ...
 						</Accordion.Toggle>
 					</Card.Header>

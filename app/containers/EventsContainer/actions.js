@@ -9,6 +9,7 @@ import {
 	GET_EVENTS_DATA_SUCCESS,
 	GET_EVENTS_DATA_FAILURE,
 	GET_NEW_MESSAGE_WITH_SOCKET,
+	EVENTS_TOGGLE,
 } from './constants';
 
 export function getEventsDataRequest(token) {
@@ -38,5 +39,11 @@ export const getNewMessageWithSocket = (data) => {
 	return {
 		type: GET_NEW_MESSAGE_WITH_SOCKET,
 		payload: data
+	}
+}
+
+export const toggleEvents = () => {
+	return {
+		type: EVENTS_TOGGLE,
 	}
 }

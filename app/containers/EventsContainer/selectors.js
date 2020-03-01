@@ -21,4 +21,14 @@ const makeSelectEvents = () =>
 		substate => substate.eventsList,
 	);
 
-export { makeSelectEvents, selectEventsDomain };
+const makeSelectEventsToggle = () =>
+	createSelector(
+		selectEventsDomain,
+		substate => substate.eventsToggle,
+	);
+
+export { 
+	makeSelectEvents, 
+	selectEventsDomain, 
+	makeSelectEventsToggle 
+};

@@ -17,12 +17,16 @@ import saga from './saga';
 import Events from '../../components/Events/index';
 import { 
 	getEventsDataRequest, 
-	getNewMessageWithSocket 
+	getNewMessageWithSocket,
+	toggleEvents,
 } from './actions';
-import { makeSelectEvents } from './selectors';
+import { 
+	makeSelectEvents,
+	makeSelectEventsToggle
+} from './selectors';
 import socket from '../../utils/socket';
 
-export function EventsContainer({eventsList = [], handleEventsDataRequest, handleNewMessageWithSocket, ...props}) {
+export function EventsContainer({eventsList = [], handleEventsDataRequest, handleNewMessageWithSocket, handleEventsToggle, eventsToggle, ...props}) {
 	useInjectReducer({ key: 'eventsContainer', reducer });
 	useInjectSaga({ key: 'eventsContainer', saga });
 	//TODO: change to default props eventsList
@@ -35,7 +39,7 @@ export function EventsContainer({eventsList = [], handleEventsDataRequest, handl
 		});
 	}, []);
 
-	return <Events eventsList={eventsList} />;
+	return <Events eventsList={eventsList} eventsToggle={eventsToggle} eventsToggler={handleEventsToggle} />;
 }
 
 // Events.propTypes = {
@@ -43,14 +47,16 @@ export function EventsContainer({eventsList = [], handleEventsDataRequest, handl
 // };
 
 const mapStateToProps = createStructuredSelector({
-	eventsList: makeSelectEvents()
+	eventsList: makeSelectEvents(),
+	eventsToggle: makeSelectEventsToggle()
 });
 
 function mapDispatchToProps(dispatch) {
 	return {
 		dispatch,
 		handleEventsDataRequest: () => dispatch(getEventsDataRequest()),
-		handleNewMessageWithSocket: (data) => dispatch(getNewMessageWithSocket(data))
+		handleNewMessageWithSocket: (data) => dispatch(getNewMessageWithSocket(data)),
+		handleEventsToggle: () => dispatch(toggleEvents())
 	};
 }
 

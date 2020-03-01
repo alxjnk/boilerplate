@@ -20,6 +20,7 @@ import { Container, Row, Col, Card } from 'react-bootstrap';
 import { routes } from '../../routes';
 import { selectSidebarToggle } from './selectors';
 import { makeSelectBookingsContainer } from '../BookingsContainer/selectors';
+import { makeSelectEventsToggle } from '../EventsContainer/selectors';
 import { toggleSidebar } from './actions';
 import Sidebar from '../../components/Sidebar/index';
 import EventsContainer from '../EventsContainer/index';
@@ -58,10 +59,12 @@ const AppWrapper = createUseStyles({
 		},
 	},
 	content: {
+		position: 'relative',
 		padding: '30px 15px',
 		minHeight: 'calc(100vh - 70px)',
 		overflowY: 'auto',
 		marginTop: 70,
+		zIndex: 10,
 		'@media (max-width: 991.98px)': {
 			padding: '15px',
 			maxHeight: 'calc(100vh - 70px)',
@@ -69,6 +72,19 @@ const AppWrapper = createUseStyles({
 	},
 	container: {
 		maxWidth: '100% !important',
+	},
+	wrapper: {
+		'&.toggled': {
+			position: 'fixed',
+			top: '70px',
+			bottom: '0',
+			left: '0',
+			right: '0',
+			width: '100vw',
+			height: 'calc(100vh - 70px)',
+			display: 'flex',
+			zIndex: 11,
+		},
 	},
 	item: {
 		height: 'calc(50vh - 77px)',
@@ -99,6 +115,7 @@ const AppWrapper = createUseStyles({
 
 function App(props) {
 	const { 
+		eventsToggle,
 		sidebarToggle, 
 		sidebarToggler, 
 		closestBookings = [],
@@ -109,6 +126,9 @@ function App(props) {
 	const classes = AppWrapper();
 	const contentWrapper = classNames(classes.contentWrapper, {
 		toggled: sidebarToggle,
+	});
+	const wrapperClassName = classNames(classes.wrapper, {
+		toggled: eventsToggle,
 	});
 	useEffect(() => { 
 		socket.on('new_booking', booking => {
@@ -145,7 +165,9 @@ function App(props) {
 										<LineChartContainer />
 									</Col>
 									<Col>
-										<EventsContainer />
+										<div className={wrapperClassName}>
+											<EventsContainer />
+										</div>
 									</Col>
 								</Row>
 								<br />
@@ -188,7 +210,8 @@ App.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
 	sidebarToggle: selectSidebarToggle(),
-	closestBookings: makeSelectBookingsContainer()
+	closestBookings: makeSelectBookingsContainer(),
+	eventsToggle: makeSelectEventsToggle()
 });
 
 function mapDispatchToProps(dispatch) {
