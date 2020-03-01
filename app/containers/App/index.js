@@ -19,7 +19,7 @@ import classNames from 'classnames';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { routes } from '../../routes';
 import { selectSidebarToggle } from './selectors';
-import { makeSelectCheckInContainer, makeSelectCheckOutContainer } from '../BookingsContainer/selectors';
+import { makeSelectBookingsContainer } from '../BookingsContainer/selectors';
 import { toggleSidebar } from './actions';
 import Sidebar from '../../components/Sidebar/index';
 import EventsContainer from '../EventsContainer/index';
@@ -28,6 +28,15 @@ import LineChartContainer from '../LineChartContainer/index';
 import ColorChartContainer from '../ColorChartContainer/index';
 import { getNewBookingWithSocket } from '../BookingsContainer/actions';
 import socket from '../../utils/socket';
+import { 
+	checkInBookings,
+	checkOutBookings
+} from '../../utils/bookingsFilter';
+import { 
+	today,
+	date
+} from '../../utils/getDate';
+import { formatDate } from '../../utils/formatDate';
 
 const AppWrapper = createUseStyles({
 	appWrapper: {
@@ -89,14 +98,14 @@ const AppWrapper = createUseStyles({
 });
 
 function App(props) {
-
 	const { 
 		sidebarToggle, 
 		sidebarToggler, 
-		closestCheckInData = [],
-		closestCheckOutData = [],
+		closestBookings = [],
 		handleNewBookingWithSocket, 
 	} = props;
+	const closestCheckInBookings = checkInBookings(closestBookings, formatDate(date()), formatDate(today()));
+	const closestCheckOutBookings = checkOutBookings(closestBookings, formatDate(date()), formatDate(today()));
 	const classes = AppWrapper();
 	const contentWrapper = classNames(classes.contentWrapper, {
 		toggled: sidebarToggle,
@@ -145,7 +154,7 @@ function App(props) {
 										<Card className={classes.item}>
 											<Card.Header>Closest check-in</Card.Header>
 											<Card.Body className={classes.itemBody}>
-												<BookingContanier bookingsData={closestCheckInData} />
+												<BookingContanier bookingsData={closestCheckInBookings} />
 											</Card.Body>
 										</Card>
 									</Col>
@@ -153,7 +162,7 @@ function App(props) {
 										<Card className={classes.item}>
 											<Card.Header>Closest check-out</Card.Header>
 											<Card.Body className={classes.itemBody}>
-												<BookingContanier bookingsData={closestCheckOutData} />
+												<BookingContanier bookingsData={closestCheckOutBookings} />
 											</Card.Body>
 										</Card>
 									</Col>
@@ -179,8 +188,7 @@ App.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
 	sidebarToggle: selectSidebarToggle(),
-	closestCheckInData: makeSelectCheckInContainer(),
-	closestCheckOutData: makeSelectCheckOutContainer()
+	closestBookings: makeSelectBookingsContainer()
 });
 
 function mapDispatchToProps(dispatch) {

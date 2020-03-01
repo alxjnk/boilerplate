@@ -11,7 +11,7 @@ import {
 } from './constants';
 
 export const initialState = {
-	closestCheckInData: [],
+	bookingsData: [],
 	closestCheckOutData: [
 		{
 			id: 1,
@@ -67,7 +67,7 @@ const bookingsContainerReducer = (state = initialState, action) =>
 	produce(state, (draft) => {
 		switch (action.type) {
 			case GET_BOOKINGS_DATA_SUCCESS: {
-				draft.closestCheckInData = action.payload;
+				draft.bookingsData = action.payload;
 				break;
 			}
 			case GET_BOOKINGS_DATA_FAILURE: {
@@ -75,7 +75,7 @@ const bookingsContainerReducer = (state = initialState, action) =>
 				break;
 			}
 			case GET_NEW_BOOKING_WITH_SOCKET: {
-				draft.closestCheckInData = [ ...state.closestCheckInData, action.payload ];
+				draft.bookingsData = [ ...state.bookingsData, action.payload ];
 				break;
 			}
 			default:

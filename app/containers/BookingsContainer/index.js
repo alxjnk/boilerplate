@@ -21,7 +21,7 @@ export function BookingsContainer({bookingsData = [], handleBookingsDataRequest,
 	useInjectReducer({ key: 'bookingsContainer', reducer });
 	useInjectSaga({ key: 'bookingsContainer', saga });
 	useEffect(() => { 
-		handleBookingsDataRequest() 
+		handleBookingsDataRequest(); 
 	}, []);
 
 	return <Booking bookingsData={bookingsData} />;

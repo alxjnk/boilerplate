@@ -15,16 +15,10 @@ const selectBookingsContainerDomain = state => state.bookingsContainer || initia
  * Default selector used by BookingsContainer
  */
 
-const makeSelectCheckInContainer = () =>
+const makeSelectBookingsContainer = () =>
 	createSelector(
 		selectBookingsContainerDomain,
-		substate => substate.closestCheckInData,
+		substate => substate.bookingsData,
 	);
 
-const makeSelectCheckOutContainer = () =>
-	createSelector(
-		selectBookingsContainerDomain,
-		substate => substate.closestCheckOutData,
-	);
-
-export { selectBookingsContainerDomain, makeSelectCheckInContainer, makeSelectCheckOutContainer };
+export { selectBookingsContainerDomain, makeSelectBookingsContainer };
