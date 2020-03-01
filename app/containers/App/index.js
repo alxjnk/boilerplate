@@ -27,7 +27,7 @@ import BookingContanier from '../BookingsContainer/index';
 import LineChartContainer from '../LineChartContainer/index';
 import ColorChartContainer from '../ColorChartContainer/index';
 import { getNewBookingWithSocket } from '../BookingsContainer/actions';
-import { subscribeToBooking } from '../../utils/socket';
+import socket from '../../utils/socket';
 
 const AppWrapper = createUseStyles({
 	appWrapper: {
@@ -93,13 +93,20 @@ function App(props) {
 	const { 
 		sidebarToggle, 
 		sidebarToggler, 
+		closestCheckInData = [],
+		closestCheckOutData = [],
 		handleNewBookingWithSocket, 
 	} = props;
 	const classes = AppWrapper();
 	const contentWrapper = classNames(classes.contentWrapper, {
 		toggled: sidebarToggle,
 	});
-	useEffect(() => { subscribeToBooking(handleNewBookingWithSocket) }, [])
+	useEffect(() => { 
+		socket.on('new_booking', booking => {
+			handleNewBookingWithSocket(booking.record);
+		}); 
+	}, []);
+
 	return (
 		<div className={classes.appWrapper}>
 			<Helmet titleTemplate="%s - Content" defaultTitle="App Wrapper">
@@ -138,7 +145,7 @@ function App(props) {
 										<Card className={classes.item}>
 											<Card.Header>Closest check-in</Card.Header>
 											<Card.Body className={classes.itemBody}>
-												<BookingContanier bookingsData={props.closestCheckInData} />
+												<BookingContanier bookingsData={closestCheckInData} />
 											</Card.Body>
 										</Card>
 									</Col>
@@ -146,7 +153,7 @@ function App(props) {
 										<Card className={classes.item}>
 											<Card.Header>Closest check-out</Card.Header>
 											<Card.Body className={classes.itemBody}>
-												<BookingContanier bookingsData={props.closestCheckOutData} />
+												<BookingContanier bookingsData={closestCheckOutData} />
 											</Card.Body>
 										</Card>
 									</Col>
@@ -173,20 +180,17 @@ App.propTypes = {
 const mapStateToProps = createStructuredSelector({
 	sidebarToggle: selectSidebarToggle(),
 	closestCheckInData: makeSelectCheckInContainer(),
-	closestCheckOutData: makeSelectCheckOutContainer(),
+	closestCheckOutData: makeSelectCheckOutContainer()
 });
 
 function mapDispatchToProps(dispatch) {
 	return {
 		dispatch,
 		sidebarToggler: () => dispatch(toggleSidebar()),
-		handleNewBookingWithSocket: (data) => dispatch(getNewBookingWithSocket(data)),
+		handleNewBookingWithSocket: (data) => dispatch(getNewBookingWithSocket(data))
 	};
 }
 
-const withConnect = connect(
-	mapStateToProps,
-	mapDispatchToProps,
-);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 export default compose(withConnect)(App);

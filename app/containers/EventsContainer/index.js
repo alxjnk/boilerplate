@@ -20,28 +20,20 @@ import {
 	getNewMessageWithSocket 
 } from './actions';
 import { makeSelectEvents } from './selectors';
-import { subscribeToMessage } from '../../utils/socket';
-// import socket from '../../utils/socket';
+import socket from '../../utils/socket';
 
 export function EventsContainer({eventsList = [], handleEventsDataRequest, handleNewMessageWithSocket, ...props}) {
 	useInjectReducer({ key: 'eventsContainer', reducer });
 	useInjectSaga({ key: 'eventsContainer', saga });
-	useEffect(() => { handleEventsDataRequest() }, []);
-	useEffect(() => { subscribeToMessage(handleNewMessageWithSocket) }, []);
-
-// export function EventsContainer({ eventsList = [], handleEventsDataRequest, ...props }) {
-// 	//TODO: change to default props eventsList
-// 	useInjectReducer({ key: 'eventsContainer', reducer });
-// 	useInjectSaga({ key: 'eventsContainer', saga });
-// 	useEffect(() => {
-// 		handleEventsDataRequest();
-// 	}, []);
-
-// 	useEffect(() => {
-// 		socket.on('new_message', msg => {
-// 			console.log(msg);
-// 		});
-// 	}, []);
+	//TODO: change to default props eventsList
+	useEffect(() => { 
+		handleEventsDataRequest() 
+	}, []);
+	useEffect(() => {
+		socket.on('new_message', message => {
+			handleNewMessageWithSocket(message.record);
+		});
+	}, []);
 
 	return <Events eventsList={eventsList} />;
 }
@@ -58,9 +50,7 @@ function mapDispatchToProps(dispatch) {
 	return {
 		dispatch,
 		handleEventsDataRequest: () => dispatch(getEventsDataRequest()),
-		handleNewMessageWithSocket: (data) => dispatch(getNewMessageWithSocket(data)),
-
-		// handleEventsDataRequest: () => dispatch(getEventsDataRequest())
+		handleNewMessageWithSocket: (data) => dispatch(getNewMessageWithSocket(data))
 	};
 }
 

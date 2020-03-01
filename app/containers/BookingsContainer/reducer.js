@@ -65,7 +65,6 @@ export const initialState = {
 /* eslint-disable default-case, no-param-reassign */
 const bookingsContainerReducer = (state = initialState, action) =>
 	produce(state, (draft) => {
-		console.log(action);
 		switch (action.type) {
 			case GET_BOOKINGS_DATA_SUCCESS: {
 				draft.closestCheckInData = action.payload;

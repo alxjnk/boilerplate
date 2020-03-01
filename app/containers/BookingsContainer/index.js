@@ -15,18 +15,14 @@ import { useInjectReducer } from 'utils/injectReducer';
 import reducer from './reducer';
 import saga from './saga';
 import Booking from '../../components/Bookings/index';
-import { 
-	getBookingsDataRequest,
-	// getNewBookingWithSocket
-} from './actions';
-// import { subscribeToBooking } from '../../utils/socket';
+import { getBookingsDataRequest } from './actions';
 
 export function BookingsContainer({bookingsData = [], handleBookingsDataRequest, ...props}) {
-	console.log(bookingsData);
 	useInjectReducer({ key: 'bookingsContainer', reducer });
 	useInjectSaga({ key: 'bookingsContainer', saga });
-	useEffect(() => { handleBookingsDataRequest() }, [])
-	// useEffect(() => { subscribeToBooking(handleNewBookingWithSocket) }, [])
+	useEffect(() => { 
+		handleBookingsDataRequest() 
+	}, []);
 
 	return <Booking bookingsData={bookingsData} />;
 }
@@ -41,16 +37,9 @@ function mapDispatchToProps(dispatch) {
 	return {
 		dispatch,
 		handleBookingsDataRequest: () => dispatch(getBookingsDataRequest()),
-		// handleNewBookingWithSocket: (data) => dispatch(getNewBookingWithSocket(data)),
 	};
 }
 
-const withConnect = connect(
-	mapStateToProps,
-	mapDispatchToProps,
-);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(
-	withConnect,
-	memo,
-)(BookingsContainer);
+export default compose(withConnect, memo)(BookingsContainer);
