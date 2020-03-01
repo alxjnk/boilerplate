@@ -88,6 +88,7 @@ const AppWrapper = createUseStyles({
 			height: 'calc(100vh - 70px)',
 			display: 'flex',
 			zIndex: 11,
+			backgroundColor: '#fff',
 		},
 	},
 	item: {
