@@ -37,6 +37,10 @@ import {
 	today,
 	date
 } from '../../utils/getDate';
+import { 
+	checkInSorter,
+	checkOutSorter
+} from '../../utils/bookingsSorter';
 import { formatDate } from '../../utils/formatDate';
 
 const AppWrapper = createUseStyles({
@@ -121,8 +125,20 @@ function App(props) {
 		closestBookings = [],
 		handleNewBookingWithSocket, 
 	} = props;
-	const closestCheckInBookings = checkInBookings(closestBookings, formatDate(date()), formatDate(today()));
-	const closestCheckOutBookings = checkOutBookings(closestBookings, formatDate(date()), formatDate(today()));
+	const closestCheckInBookings = checkInSorter(
+		checkInBookings(
+			closestBookings, 
+			formatDate(date()), 
+			formatDate(today())
+		)
+	);
+	const closestCheckOutBookings = checkOutSorter(
+		checkOutBookings(
+			closestBookings, 
+			formatDate(date()), 
+			formatDate(today())
+		)
+	);
 	const classes = AppWrapper();
 	const contentWrapper = classNames(classes.contentWrapper, {
 		toggled: sidebarToggle,
