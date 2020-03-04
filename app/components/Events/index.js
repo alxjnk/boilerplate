@@ -10,6 +10,9 @@ import { createUseStyles } from 'react-jss';
 import { Card, ListGroup } from 'react-bootstrap';
 import classNames from 'classnames';
 
+import { styles } from '../../styles/styles';
+import { getStyle } from '../../utils/getStyle';
+
 const EventsWrapper = createUseStyles({
 	item: {
 		height: 'calc(50vh - 77px)',
@@ -70,6 +73,13 @@ function Events({eventsList, eventsToggler, eventsToggle, ...props}) {
 	});
 
 	return (
+		<>
+		<style type="text/css">
+			{`
+				${getStyle(styles, 'card')}
+				${getStyle(styles, 'card-header')}
+			`}
+		</style>
 		<Card className={eventsItemClassName}>
 			<Card.Header className={classes.itemHeader}>
 				<span>Event list</span>
@@ -95,6 +105,7 @@ function Events({eventsList, eventsToggler, eventsToggle, ...props}) {
 				</ListGroup>
 			</Card.Body>
 		</Card>
+		</>
 	);
 }
 
