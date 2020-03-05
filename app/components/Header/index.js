@@ -24,7 +24,7 @@ const headerStyle = theme => ({
 		display: 'flex',
 		width: '100%',
 		height: '70px',
-		background: '#8ACBAB',
+		background: ({theme}) => theme['header']['background-color'],
 		alignItems: 'center',
 		justifyContent: 'flex-start',
 		'@media (max-width: 991.98px)': {
@@ -68,7 +68,6 @@ const headerStyle = theme => ({
 		marginRight: '25px',
 	},
 	dropdownToggle: {
-		backgroundColor: 'transparent !important',
 		boxShadow: 'none',
 		border: 'none',
 		border: '1px solid rgba(0,0,0,.1)',

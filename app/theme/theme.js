@@ -1,6 +1,9 @@
-export const styles = {
+export const theme = {
+   'header': {
+      'background-color': '#8ACBAB',
+   },
    'container': {
-      
+
    },
    'row': {
 
@@ -9,10 +12,10 @@ export const styles = {
 
    },
    'card': {
-      'border': '1px solid #8ACBAB',
+      
    },
    'card-header': {
-      'background-color': '#8ACBAB',
+      
    },
    'button': {
 
