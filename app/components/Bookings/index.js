@@ -59,50 +59,22 @@ function Bookings({bookingsData, ...props}) {
 								lastCardBody: index === bookingsData.length - 1,
 							})}
 						>
-							{/* <span>
-								<b>Name: </b>
-								{item.fullName} {item.surname},{' '}
-							</span> */}
-							{/* <br /> */}
 							<span>
 								<b>Platform: </b>
 								{item.platform},{' '}
 							</span>
-							{/* <br /> */}
 							<span>
 								<b>Arrival: </b>
 								{item.arrival},{' '}
 							</span>
-							{/* <br /> */}
 							<span>
 								<b>Depature: </b>
 								{item.departure},{' '}
 							</span>
-							{/* <br /> */}
-							{/* <span>
-								<b>Room: </b>
-								{item.room},{' '}
-							</span> */}
-							{/* <br /> */}
-							{/* <span>
-								<b>Price: </b>
-								{item.price},{' '}
-							</span> */}
-							{/* <br /> */}
 							<span>
 								<b>Pax: </b>
 								{item.pax},{' '}
 							</span>
-							{/* <br /> */}
-							{/* <span>
-								<b>Comment: </b>
-								{item.comment},{' '}
-							</span> */}
-							{/* <br /> */}
-							{/* <span>
-								<b>Property: </b>
-								{item.property}
-							</span> */}
 						</Card.Body>
 					</Accordion.Collapse>
 				</Card>

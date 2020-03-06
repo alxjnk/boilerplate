@@ -25,6 +25,7 @@ import {
 	makeSelectEventsToggle
 } from './selectors';
 import socket from '../../utils/socket';
+import { sortEventsList } from '../../utils/sortEvents';
 
 export function EventsContainer({eventsList = [], handleEventsDataRequest, handleNewMessageWithSocket, handleEventsToggle, eventsToggle, ...props}) {
 	useInjectReducer({ key: 'eventsContainer', reducer });
@@ -38,8 +39,9 @@ export function EventsContainer({eventsList = [], handleEventsDataRequest, handl
 			handleNewMessageWithSocket(message.record);
 		});
 	}, []);
+	const sortedEventsList = sortEventsList(eventsList);
 
-	return <Events eventsList={eventsList} eventsToggle={eventsToggle} eventsToggler={handleEventsToggle} />;
+	return <Events eventsList={sortedEventsList} eventsToggle={eventsToggle} eventsToggler={handleEventsToggle} />;
 }
 
 // Events.propTypes = {

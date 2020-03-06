@@ -7,7 +7,7 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
-import { Card, ListGroup } from 'react-bootstrap';
+import { Card, ListGroup, Accordion } from 'react-bootstrap';
 import classNames from 'classnames';
 
 const EventsWrapper = createUseStyles({
@@ -76,23 +76,45 @@ function Events({eventsList, eventsToggler, eventsToggle, ...props}) {
 				<span className={eventsToggleClassName} onClick={() => eventsToggler()}>+</span>
 			</Card.Header>
 			<Card.Body className={classes.itemBody}>
-				<ListGroup variant="flush">
-					{[ ...eventsList ].reverse().map(event => (
-						<ListGroup.Item key={event.id} className={classes.event}>
-							<p className={classes.messageHeader}>
-								<span className={classes.fullname}>
-									{`${event.full_name}`}
-								</span>
-								<span>
-									{`${event.platform.toUpperCase()}`}
-								</span>
-							</p>
-							<span>
-								{`${event.message}`}
-							</span> 
-						</ListGroup.Item>
+				<Accordion>
+					{Object.keys(eventsList).map(platform => (
+						<Card key={platform}>
+							<Accordion.Toggle as={Card.Header} eventKey={platform}>
+								{platform.toUpperCase()}
+							</Accordion.Toggle>
+							<Accordion.Collapse eventKey={platform}>
+								<Card.Body>
+									<Accordion>
+										{Object.keys(eventsList[platform]).map(user => (
+											<Card key={user}>
+												<Accordion.Toggle as={Card.Header} eventKey={user}>
+													<p className={classes.messageHeader}>
+														<span className={classes.fullname}>
+															{user}
+														</span>
+													</p>
+												</Accordion.Toggle>
+												<Accordion.Collapse eventKey={user}>
+													<Card.Body>
+														<ListGroup variant="flush">
+															{[ ...eventsList[platform][user] ].reverse().map(event => (
+																<ListGroup.Item key={event.id} className={classes.event}>
+																	<span>
+																		{event.message}
+																	</span> 
+																</ListGroup.Item>
+															))}
+														</ListGroup>
+													</Card.Body>
+												</Accordion.Collapse>
+											</Card>
+										))}
+									</Accordion>
+								</Card.Body>
+							</Accordion.Collapse>
+						</Card>
 					))}
-				</ListGroup>
+				</Accordion>
 			</Card.Body>
 		</Card>
 	);
