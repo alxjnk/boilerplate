@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
 import { 
 	Card, 
@@ -155,6 +155,11 @@ function Events({
 	);
 }
 
-Events.propTypes = {};
+Events.propTypes = {
+	eventsList: PropTypes.array, 
+	eventsToggler: PropTypes.func, 
+	eventsToggle: PropTypes.bool, 
+	handleSendNewMessageWithSocket: PropTypes.func,
+};
 
 export default Events;

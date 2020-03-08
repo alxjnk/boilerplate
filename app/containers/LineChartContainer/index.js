@@ -24,9 +24,9 @@ export function LineChartContainer(props) {
 	return <LineChart />;
 }
 
-// LineChartContainer.propTypes = {
-// 	dispatch: PropTypes.func.isRequired,
-// };
+LineChartContainer.propTypes = {
+	dispatch: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = createStructuredSelector({
 	lineChartContainer: makeSelectLineChartContainer(),

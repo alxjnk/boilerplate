@@ -24,9 +24,9 @@ export function ColorChartContainer(props) {
 	return <ColorChart />;
 }
 
-// ColorChartContainer.propTypes = {
-// 	dispatch: PropTypes.func.isRequired,
-// };
+ColorChartContainer.propTypes = {
+	dispatch: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = createStructuredSelector({
 	colorChartContainer: makeSelectColorChartContainer(),

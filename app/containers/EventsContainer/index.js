@@ -4,8 +4,8 @@
  *
  */
 
-import React, { memo, useEffect, useState } from 'react';
-// import PropTypes from 'prop-types';
+import React, { memo, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
@@ -29,7 +29,7 @@ import socket from '../../utils/socket';
 import { sortEventsList } from '../../utils/sortEvents';
 
 export function EventsContainer({
-		eventsList = [], 
+		eventsList, 
 		handleEventsDataRequest, 
 		handleNewMessageWithSocket, 
 		handleEventsToggle, 
@@ -61,9 +61,22 @@ export function EventsContainer({
 	return <Events eventsList={sortedEventsList} eventsToggle={eventsToggle} eventsToggler={handleEventsToggle} handleSendNewMessageWithSocket={handleSendNewMessageWithSocket} />;
 }
 
-// Events.propTypes = {
-// 	dispatch: PropTypes.func.isRequired,
-// };
+Events.propTypes = {
+	eventsList: PropTypes.object, 
+	handleEventsDataRequest: PropTypes.func.isRequired, 
+	handleNewMessageWithSocket: PropTypes.func.isRequired, 
+	handleEventsToggle: PropTypes.func.isRequired, 
+	eventsToggle: PropTypes.bool.isRequired, 
+	handleSendNewMessageWithSocket: PropTypes.func.isRequired,
+};
+
+Events.defaultProps = { 
+	eventsList: [], 
+	handleEventsDataRequest: () => {}, 
+	handleNewMessageWithSocket: () => {}, 
+	handleEventsToggle: () => {},
+	handleSendNewMessageWithSocket: () => {},
+};
 
 const mapStateToProps = createStructuredSelector({
 	eventsList: makeSelectEvents(),

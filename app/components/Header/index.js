@@ -118,6 +118,8 @@ function Header(props) {
 Header.propTypes = {
 	cardId: PropTypes.number,
 	onSearchCard: PropTypes.func,
+	sidebarToggle: PropTypes.bool, 
+	sidebarToggler: PropTypes.func,
 };
 
 export default Header;

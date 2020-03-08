@@ -240,6 +240,17 @@ App.propTypes = {
 	auth: PropTypes.bool,
 	authUser: PropTypes.func,
 	searchCard: PropTypes.func,
+	eventsToggle: PropTypes.bool,
+	sidebarToggle: PropTypes.bool, 
+	sidebarToggler: PropTypes.func.isRequired, 
+	closestBookings: PropTypes.array,
+	handleNewBookingWithSocket: PropTypes.func.isRequired, 
+};
+
+App.defaultProps = { 
+	closestBookings: [], 
+	sidebarToggler: () => {},
+	handleNewBookingWithSocket: () => {},
 };
 
 const mapStateToProps = createStructuredSelector({

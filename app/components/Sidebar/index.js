@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import ListGroup from 'react-bootstrap/ListGroup';
 // import { Link } from 'react-router-dom';
 import { createUseStyles, useTheme } from 'react-jss';
@@ -75,6 +75,8 @@ function Sidebar(props) {
 	);
 }
 
-Sidebar.propTypes = {};
+Sidebar.propTypes = {
+	sidebarToggle: PropTypes.bool,
+};
 
 export default Sidebar;

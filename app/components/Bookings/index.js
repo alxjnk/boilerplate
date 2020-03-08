@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
 import classNames from 'classnames';
 import { Accordion, Card } from 'react-bootstrap';
@@ -83,6 +83,8 @@ function Bookings({bookingsData, ...props}) {
 	);
 }
 
-Bookings.propTypes = {};
+Bookings.propTypes = {
+	bookingsData: PropTypes.array,
+};
 
 export default Bookings;

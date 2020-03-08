@@ -5,7 +5,7 @@
  */
 
 import React, { memo, useEffect } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
@@ -18,7 +18,7 @@ import Booking from '../../components/Bookings/index';
 import { getBookingsDataRequest } from './actions';
 
 export function BookingsContainer({
-		bookingsData = [], 
+		bookingsData, 
 		handleBookingsDataRequest, 
 		...props
 	}) {
@@ -31,9 +31,16 @@ export function BookingsContainer({
 	return <Booking bookingsData={bookingsData} />;
 }
 
-// BookingsContainer.propTypes = {
-// 	dispatch: PropTypes.func.isRequired,
-// };
+BookingsContainer.propTypes = {
+	bookingsData: PropTypes.array, 
+	handleBookingsDataRequest: PropTypes.func.isRequired,
+};
+
+BookingsContainer.defaultProps = { 
+	bookingsData: [], 
+	handleBookingsDataRequest: () => {},
+};
+
 
 const mapStateToProps = createStructuredSelector({});
 
