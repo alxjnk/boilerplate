@@ -28,7 +28,15 @@ import {
 import socket from '../../utils/socket';
 import { sortEventsList } from '../../utils/sortEvents';
 
-export function EventsContainer({eventsList = [], handleEventsDataRequest, handleNewMessageWithSocket, handleEventsToggle, eventsToggle, handleSendNewMessageWithSocket, ...props}) {
+export function EventsContainer({
+		eventsList = [], 
+		handleEventsDataRequest, 
+		handleNewMessageWithSocket, 
+		handleEventsToggle, 
+		eventsToggle, 
+		handleSendNewMessageWithSocket, 
+		...props
+	}) {
 	useInjectReducer({ key: 'eventsContainer', reducer });
 	useInjectSaga({ key: 'eventsContainer', saga });
 	//TODO: change to default props eventsList

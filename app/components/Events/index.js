@@ -71,7 +71,13 @@ const EventsWrapper = createUseStyles({
 	},
 });
 
-function Events({eventsList, eventsToggler, eventsToggle, handleSendNewMessageWithSocket, ...props}) {
+function Events({
+	eventsList, 
+	eventsToggler, 
+	eventsToggle, 
+	handleSendNewMessageWithSocket, 
+	...props
+}) {
 	const classes = EventsWrapper();
 	const eventsToggleClassName = classNames(classes.toggle, {
 		toggled: eventsToggle,

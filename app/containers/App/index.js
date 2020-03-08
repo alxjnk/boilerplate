@@ -16,7 +16,12 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import classNames from 'classnames';
-import { Container, Row, Col, Card } from 'react-bootstrap';
+import { 
+	Container, 
+	Row, 
+	Col, 
+	Card 
+} from 'react-bootstrap';
 import { routes } from '../../routes';
 import { selectSidebarToggle } from './selectors';
 import { makeSelectBookingsContainer } from '../BookingsContainer/selectors';
@@ -159,9 +164,16 @@ function App(props) {
 			<Helmet titleTemplate="%s - Content" defaultTitle="App Wrapper">
 				<meta name="description" content="content" />
 			</Helmet>
-			<Header sidebarToggle={sidebarToggle} sidebarToggler={sidebarToggler} />
+			<Header 
+				sidebarToggle={sidebarToggle} 
+				sidebarToggler={sidebarToggler} 
+			/>
 			<div className={classes.mainContainer}>
-				<Sidebar routes={routes} sidebarToggle={sidebarToggle} sidebarToggler={sidebarToggler}>
+				<Sidebar 
+					routes={routes} 
+					sidebarToggle={sidebarToggle} 
+					sidebarToggler={sidebarToggler}
+				>
 					<Switch>
 						{routes.map(prop => (
 							<Route
@@ -192,7 +204,9 @@ function App(props) {
 								<Row>
 									<Col>
 										<Card className={classes.item}>
-											<Card.Header>Closest check-in</Card.Header>
+											<Card.Header>
+												Closest check-in
+											</Card.Header>
 											<Card.Body className={classes.itemBody}>
 												<BookingContanier bookingsData={closestCheckInBookings} />
 											</Card.Body>
@@ -200,7 +214,9 @@ function App(props) {
 									</Col>
 									<Col>
 										<Card className={classes.item}>
-											<Card.Header>Closest check-out</Card.Header>
+											<Card.Header>
+												Closest check-out
+											</Card.Header>
 											<Card.Body className={classes.itemBody}>
 												<BookingContanier bookingsData={closestCheckOutBookings} />
 											</Card.Body>
