@@ -7,7 +7,14 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
-import { Card, ListGroup, Accordion } from 'react-bootstrap';
+import { 
+	Card, 
+	ListGroup, 
+	Accordion, 
+	FormControl, 
+	InputGroup, 
+	Button 
+} from 'react-bootstrap';
 import classNames from 'classnames';
 
 const EventsWrapper = createUseStyles({
@@ -58,9 +65,13 @@ const EventsWrapper = createUseStyles({
 	fullname: {
 		fontWeight: 'bold',
 	},
+	textarea: {
+		marginTop: '20px',
+		marginBottom: '-16px',
+	},
 });
 
-function Events({eventsList, eventsToggler, eventsToggle, ...props}) {
+function Events({eventsList, eventsToggler, eventsToggle, handleSendNewMessageWithSocket, ...props}) {
 	const classes = EventsWrapper();
 	const eventsToggleClassName = classNames(classes.toggle, {
 		toggled: eventsToggle,
@@ -68,6 +79,14 @@ function Events({eventsList, eventsToggler, eventsToggle, ...props}) {
 	const eventsItemClassName = classNames(classes.item, {
 		toggled: eventsToggle,
 	});
+	const sendNewMessage = (e) => {
+		e.preventDefault();
+		let value = e.target.children[0].children[0].value;
+
+		if (!value) return;
+		handleSendNewMessageWithSocket(value);
+		e.target.children[0].children[0].value = '';
+	};
 
 	return (
 		<Card className={eventsItemClassName}>
@@ -105,6 +124,16 @@ function Events({eventsList, eventsToggler, eventsToggle, ...props}) {
 																</ListGroup.Item>
 															))}
 														</ListGroup>
+														<form name="sendMessage" onSubmit={sendNewMessage} className={classes.textarea}>
+															<InputGroup className="mb-3">
+																<FormControl name="textarea" as="textarea" placeholder="Type your message..." />
+																<InputGroup.Append>
+																	<Button type="submit" variant="secondary">
+																		Send message
+																	</Button>
+																</InputGroup.Append>
+															</InputGroup>
+														</form>
 													</Card.Body>
 												</Accordion.Collapse>
 											</Card>

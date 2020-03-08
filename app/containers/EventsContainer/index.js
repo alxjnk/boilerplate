@@ -18,6 +18,7 @@ import Events from '../../components/Events/index';
 import { 
 	getEventsDataRequest, 
 	getNewMessageWithSocket,
+	sendNewMessageRequest,
 	toggleEvents,
 } from './actions';
 import { 
@@ -27,21 +28,29 @@ import {
 import socket from '../../utils/socket';
 import { sortEventsList } from '../../utils/sortEvents';
 
-export function EventsContainer({eventsList = [], handleEventsDataRequest, handleNewMessageWithSocket, handleEventsToggle, eventsToggle, ...props}) {
+export function EventsContainer({eventsList = [], handleEventsDataRequest, handleNewMessageWithSocket, handleEventsToggle, eventsToggle, handleSendNewMessageWithSocket, ...props}) {
 	useInjectReducer({ key: 'eventsContainer', reducer });
 	useInjectSaga({ key: 'eventsContainer', saga });
 	//TODO: change to default props eventsList
 	useEffect(() => { 
 		handleEventsDataRequest() 
 	}, []);
+	// get new message with socket
 	useEffect(() => {
 		socket.on('new_message', message => {
 			handleNewMessageWithSocket(message.record);
 		});
 	}, []);
+	// send new message with socket
+	// useEffect(() => {
+	// 	socket.emit('new_message', (data) => {
+	// 		console.log(data);
+	// 		handleSendNewMessageWithSocket(data);
+	// 	});
+	// }, []);
 	const sortedEventsList = sortEventsList(eventsList);
 
-	return <Events eventsList={sortedEventsList} eventsToggle={eventsToggle} eventsToggler={handleEventsToggle} />;
+	return <Events eventsList={sortedEventsList} eventsToggle={eventsToggle} eventsToggler={handleEventsToggle} handleSendNewMessageWithSocket={handleSendNewMessageWithSocket} />;
 }
 
 // Events.propTypes = {
@@ -58,6 +67,7 @@ function mapDispatchToProps(dispatch) {
 		dispatch,
 		handleEventsDataRequest: () => dispatch(getEventsDataRequest()),
 		handleNewMessageWithSocket: (data) => dispatch(getNewMessageWithSocket(data)),
+		handleSendNewMessageWithSocket: (data) => dispatch(sendNewMessageRequest(data)),
 		handleEventsToggle: () => dispatch(toggleEvents())
 	};
 }

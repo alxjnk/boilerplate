@@ -66,6 +66,7 @@ const AppWrapper = createUseStyles({
 		position: 'relative',
 		padding: '30px 15px',
 		minHeight: 'calc(100vh - 70px)',
+		maxHeight: 'calc(100vh - 70px)',
 		overflowY: 'auto',
 		marginTop: 70,
 		zIndex: 10,
