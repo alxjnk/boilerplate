@@ -48,6 +48,10 @@ export function EventsContainer({
 		socket.on('new_message', message => {
 			handleNewMessageWithSocket(message.record);
 		});
+
+		return function cleanup() {
+			socket.close();
+		};
 	}, []);
 	// send new message with socket
 	// useEffect(() => {

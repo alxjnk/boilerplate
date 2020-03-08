@@ -157,6 +157,10 @@ function App(props) {
 		socket.on('new_booking', booking => {
 			handleNewBookingWithSocket(booking.record);
 		}); 
+
+		return function cleanup() {
+			socket.close();
+		};
 	}, []);
 
 	return (
