@@ -44,10 +44,13 @@ export function LineChartContainer(bookingsData, ...props) {
 					}
 					if (new Date(booking.arrival) * 1 <= today) {
 						booking['start'] = 0;
+						booking['startDay'] = new Date(today).getDate();
 					} else {
 						booking['start'] = Math.ceil(new Date(booking.arrival) * 1 / 24 / 60 / 60 / 1000 - today / 24 / 60 / 60 / 1000);
+						booking['startDay'] = new Date(booking.arrival).getDate();
 					}
 					booking['end'] = Math.ceil(new Date(booking.departure) * 1 / 24 / 60 / 60 / 1000 - today / 24 / 60 / 60 / 1000);
+					booking['endDay'] = new Date(booking.departure).getDate();
 					sortedBookingsData[room].push(booking);
 				};
 			});

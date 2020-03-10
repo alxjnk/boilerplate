@@ -8,6 +8,7 @@ import React, { useState, useEffect } from 'react';
 // import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
 import { Card, Dropdown } from 'react-bootstrap';
+import { today, months } from '../../utils/getDate';
 
 const LineChartWrapper = createUseStyles({
 	item: {
@@ -28,6 +29,17 @@ const LineChartWrapper = createUseStyles({
 		height: '100%',
 		overflow: 'auto',
 		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'space-between',
+	},
+	month: {
+		marginBottom: '0px',
+		textAlign: 'center',
+		fontWeight: 'bold',
+	},
+	wrapper: {
+		display: 'flex',
+		flexGrow: 1,
 	},
 	users: {
 		borderBottom: '1px solid transparent',
@@ -85,13 +97,23 @@ function LineChart({sortedBookingsData, ...props}) {
 			</Card.Header>
 			<Card.Body>
 				<div className={classes.chart}>
-					<div className={classes.users}>
-						{sortedBookingsData[room] && sortedBookingsData[room].length && sortedBookingsData[room].map(user => <p name={user.id} key={user.id}>{user.full_name}</p>)}
-					</div>
-					<div className={classes.bookings}>
-						{sortedBookingsData[room] && sortedBookingsData[room].length && sortedBookingsData[room].map(user => <p name={user.id} key={user.id}>
-							<span style={{ backgroundColor: "#8ACBAB", display: 'block', height: '1.5em', marginLeft: `${user.start * 5}%`, width: `${(user.end - user.start) * 5}%`}}></span>
-						</p>)}
+					<p className={classes.month}>{months[new Date(today()).getMonth()]}</p>
+					<div className={classes.wrapper}>
+						<div className={classes.users}>
+							{sortedBookingsData[room] && sortedBookingsData[room].length && sortedBookingsData[room].map(user => <p name={user.id} key={user.id}>{user.full_name}</p>)}
+						</div>
+						<div className={classes.bookings}>
+							{sortedBookingsData[room] && sortedBookingsData[room].length && sortedBookingsData[room].map(user => <p name={user.id} key={user.id}>
+								<span style={{ backgroundColor: "rgba(0,0,0,.05)", display: 'flex', justifyContent: 'space-between', marginLeft: `${user.start * 5}%`, width: `${(user.end - user.start) * 5}%`}}>
+									<span>
+										{new Date(today()).getDate() == user.startDay ? '' : user.startDay}
+									</span>
+									<span>
+										{user.endDay}
+									</span>
+								</span>
+							</p>)}
+						</div>
 					</div>
 				</div>
 			</Card.Body>
