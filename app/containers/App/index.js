@@ -196,7 +196,7 @@ function App(props) {
 							<Container className={classes.container}>
 								<Row>
 									<Col xl="8">
-										<LineChartContainer />
+										<LineChartContainer bookingsData={closestBookings} />
 									</Col>
 									<Col>
 										<div className={wrapperClassName}>

@@ -121,15 +121,6 @@ function Events({
 												</Accordion.Toggle>
 												<Accordion.Collapse eventKey={user}>
 													<Card.Body>
-														<ListGroup variant="flush">
-															{[ ...eventsList[platform][user] ].reverse().map(event => (
-																<ListGroup.Item key={event.id} className={classes.event}>
-																	<span>
-																		{event.message}
-																	</span> 
-																</ListGroup.Item>
-															))}
-														</ListGroup>
 														<form name="sendMessage" onSubmit={sendNewMessage} className={classes.textarea}>
 															<InputGroup className="mb-3">
 																<FormControl name="textarea" as="textarea" placeholder="Type your message..." />
@@ -140,6 +131,15 @@ function Events({
 																</InputGroup.Append>
 															</InputGroup>
 														</form>
+														<ListGroup variant="flush">
+															{[ ...eventsList[platform][user] ].reverse().map(event => (
+																<ListGroup.Item key={event.id} className={classes.event}>
+																	<span>
+																		{event.message}
+																	</span> 
+																</ListGroup.Item>
+															))}
+														</ListGroup>
 													</Card.Body>
 												</Accordion.Collapse>
 											</Card>
