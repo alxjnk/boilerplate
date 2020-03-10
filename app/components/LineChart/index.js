@@ -104,7 +104,7 @@ function LineChart({sortedBookingsData, ...props}) {
 						</div>
 						<div className={classes.bookings}>
 							{sortedBookingsData[room] && sortedBookingsData[room].length && sortedBookingsData[room].map(user => <p name={user.id} key={user.id}>
-								<span style={{ backgroundColor: "rgba(0,0,0,.05)", display: 'flex', justifyContent: 'space-between', marginLeft: `${user.start * 5}%`, width: `${(user.end - user.start) * 5}%`}}>
+								<span style={{ backgroundColor: "rgba(0,0,0,.05)", display: 'flex', justifyContent: 'space-between', marginLeft: `${100 / (31 - new Date(today()).getDate()) * user.start}%`, width: `${100 / (31 - new Date(today()).getDate()) * (user.end - user.start)}%`}}>
 									<span>
 										{new Date(today()).getDate() == user.startDay ? '' : user.startDay}
 									</span>
