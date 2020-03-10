@@ -37,14 +37,23 @@ export function LineChartContainer(bookingsData, ...props) {
 		const rooms = getFieldValues(bookingsData, 'room');
 	
 		rooms.forEach(room => {
-				bookingsData.forEach(booking => {
-					if (booking.room === room && (new Date(booking.departure) * 1) >= today) {
-						if (!(room in sortedBookingsData)) {
-							sortedBookingsData[room] = [];
-						}						
-						sortedBookingsData[room].push(booking);
-					};
-				});
+			bookingsData.forEach(booking => {
+				if (booking.room === room && (new Date(booking.departure) * 1) >= today) {
+					if (!(room in sortedBookingsData)) {
+						sortedBookingsData[room] = [];
+					}
+					if (new Date(booking.arrival) * 1 <= today) {
+						booking['start'] = 0;
+					} else {
+						booking['start'] = Math.ceil(new Date(booking.arrival) * 1 / 24 / 60 / 60 / 1000 - today / 24 / 60 / 60 / 1000);
+					}
+					booking['end'] = Math.ceil(new Date(booking.departure) * 1 / 24 / 60 / 60 / 1000 - today / 24 / 60 / 60 / 1000);
+					sortedBookingsData[room].push(booking);
+				};
+			});
+			sortedBookingsData[room].sort((a, b) => {
+				return new Date(b.arrival) * 1 - new Date(a.arrival) * 1;
+			});
 		});
 
 		return sortedBookingsData;
