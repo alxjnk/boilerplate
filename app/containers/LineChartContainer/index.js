@@ -38,25 +38,29 @@ export function LineChartContainer(bookingsData, ...props) {
 	
 		rooms.forEach(room => {
 			bookingsData.forEach(booking => {
-				if (booking.room === room && (new Date(booking.departure) * 1) >= today) {
+				const newBooking = { ...booking };
+				if (booking.room === room && (new Date(newBooking.departure) * 1) >= today) {
 					if (!(room in sortedBookingsData)) {
 						sortedBookingsData[room] = [];
 					}
-					if (new Date(booking.arrival) * 1 <= today) {
-						booking['start'] = 0;
-						booking['startDay'] = new Date(today).getDate();
+					if (new Date(newBooking.arrival) * 1 <= today) {
+						newBooking['start'] = 0;
+						newBooking['startDay'] = new Date(today).getDate();
 					} else {
-						booking['start'] = Math.ceil(new Date(booking.arrival) * 1 / 24 / 60 / 60 / 1000 - today / 24 / 60 / 60 / 1000);
-						booking['startDay'] = new Date(booking.arrival).getDate();
+						newBooking['start'] = Math.ceil(new Date(newBooking.arrival) * 1 / 24 / 60 / 60 / 1000 - today / 24 / 60 / 60 / 1000);
+						newBooking['startDay'] = new Date(newBooking.arrival).getDate();
 					}
-					booking['end'] = Math.ceil(new Date(booking.departure) * 1 / 24 / 60 / 60 / 1000 - today / 24 / 60 / 60 / 1000);
-					booking['endDay'] = new Date(booking.departure).getDate();
-					sortedBookingsData[room].push(booking);
+					newBooking['end'] = Math.ceil(new Date(newBooking.departure) * 1 / 24 / 60 / 60 / 1000 - today / 24 / 60 / 60 / 1000);
+					newBooking['endDay'] = new Date(newBooking.departure).getDate();
+					sortedBookingsData[room].push(newBooking);
 				};
 			});
-			sortedBookingsData[room].sort((a, b) => {
-				return new Date(b.arrival) * 1 - new Date(a.arrival) * 1;
-			});
+
+			if (sortedBookingsData[room]) {
+				sortedBookingsData[room].sort((a, b) => {
+					return new Date(b.arrival) * 1 - new Date(a.arrival) * 1;
+				});
+			}
 		});
 
 		return sortedBookingsData;
