@@ -80,13 +80,13 @@ function LineChart({sortedBookingsData, ...props}) {
 	return (
 		<Card className={classes.item}>
 			<Card.Header className={classes.dropdownList}>
-				<span>
-					{`Room nr.: ${room}`}
-				</span>
+				{/* <span>
+					{`Room: ${room}`}
+				</span> */}
 				<span>
 				<Dropdown alignRight>
 					<Dropdown.Toggle variant='Secondary' id="dropdown-basic">
-						Choose a room
+						{`Choose a room: ${room}`}
 					</Dropdown.Toggle>
 
 					<Dropdown.Menu>
