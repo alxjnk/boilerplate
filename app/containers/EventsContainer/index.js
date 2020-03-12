@@ -26,7 +26,7 @@ import {
 	makeSelectEventsToggle
 } from './selectors';
 import socket from '../../utils/socket';
-import { sortEventsList } from '../../utils/sortEvents';
+import { sortEventsList } from '../../utils/helper';
 
 export function EventsContainer({
 		eventsList, 

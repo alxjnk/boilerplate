@@ -37,15 +37,15 @@ import socket from '../../utils/socket';
 import { 
 	checkInBookings,
 	checkOutBookings
-} from '../../utils/bookingsFilter';
+} from '../../utils/helper';
 import { 
-	today,
-	date
+	todayInMilliseconds,
+	dateWithDalayInMilliseconds
 } from '../../utils/getDate';
 import { 
-	checkInSorter,
-	checkOutSorter
-} from '../../utils/bookingsSorter';
+	checkInBookingsSorter,
+	checkOutBookingsSorter
+} from '../../utils/helper';
 import { formatDate } from '../../utils/formatDate';
 
 const AppWrapper = createUseStyles({
@@ -132,18 +132,18 @@ function App(props) {
 		closestBookings = [],
 		handleNewBookingWithSocket, 
 	} = props;
-	const closestCheckInBookings = checkInSorter(
+	const closestCheckInBookings = checkInBookingsSorter(
 		checkInBookings(
 			closestBookings, 
-			formatDate(date()), 
-			formatDate(today())
+			formatDate(dateWithDalayInMilliseconds()), 
+			formatDate(todayInMilliseconds())
 		)
 	);
-	const closestCheckOutBookings = checkOutSorter(
+	const closestCheckOutBookings = checkOutBookingsSorter(
 		checkOutBookings(
 			closestBookings, 
-			formatDate(date()), 
-			formatDate(today())
+			formatDate(dateWithDalayInMilliseconds()), 
+			formatDate(todayInMilliseconds())
 		)
 	);
 	const classes = AppWrapper();

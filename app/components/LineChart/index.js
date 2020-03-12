@@ -8,7 +8,7 @@ import React, { useState, useEffect } from 'react';
 // import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
 import { Card, Dropdown } from 'react-bootstrap';
-import { today, months } from '../../utils/getDate';
+import { todayInMilliseconds, months } from '../../utils/getDate';
 
 const LineChartWrapper = createUseStyles({
 	item: {
@@ -70,6 +70,7 @@ const LineChartWrapper = createUseStyles({
 function LineChart({sortedBookingsData, ...props}) {
 	const classes = LineChartWrapper();
 	let currentRoom = Object.keys(sortedBookingsData)[0];
+	const dateToday = new Date(todayInMilliseconds()).getDate();
 	const [room, setRoom] = useState(currentRoom);
 	useEffect(() => {
 		if (currentRoom) {
@@ -80,33 +81,45 @@ function LineChart({sortedBookingsData, ...props}) {
 	return (
 		<Card className={classes.item}>
 			<Card.Header className={classes.dropdownList}>
-				{/* <span>
-					{`Room: ${room}`}
-				</span> */}
 				<span>
-				<Dropdown alignRight>
+				<Dropdown>
 					<Dropdown.Toggle variant='Secondary' id="dropdown-basic">
-						{`Choose a room: ${room}`}
+						{`Room: ${room}`}
 					</Dropdown.Toggle>
 
 					<Dropdown.Menu>
-						{Object.keys(sortedBookingsData).map(room => <Dropdown.Item onClick={(e) => setRoom(prevRoom => e.target.name)} name={room} key={room}>{room}</Dropdown.Item>)}
+						{Object.keys(sortedBookingsData).map(room => (		<Dropdown.Item 
+								onClick={(e) => setRoom(prevRoom => e.target.name)} 
+								name={room} 
+								key={room}
+							>
+								{room}
+							</Dropdown.Item>))}
 					</Dropdown.Menu>
 					</Dropdown>
 				</span>
+				{/* <span className={eventsToggleClassName} onClick={() => eventsToggler()}>
+					+
+				</span> */}
 			</Card.Header>
 			<Card.Body>
 				<div className={classes.chart}>
-					<p className={classes.month}>{months[new Date(today()).getMonth()]}</p>
+					<p className={classes.month}>{months[new Date(todayInMilliseconds()).getMonth()]}</p>
 					<div className={classes.wrapper}>
 						<div className={classes.users}>
 							{sortedBookingsData[room] && sortedBookingsData[room].length && sortedBookingsData[room].map(user => <p name={user.id} key={user.id}>{user.full_name}</p>)}
 						</div>
 						<div className={classes.bookings}>
 							{sortedBookingsData[room] && sortedBookingsData[room].length && sortedBookingsData[room].map(user => <p name={user.id} key={user.id}>
-								<span style={{ backgroundColor: "rgba(0,0,0,.05)", display: 'flex', justifyContent: 'space-between', marginLeft: `${100 / (31 - new Date(today()).getDate()) * user.start}%`, width: `${100 / (31 - new Date(today()).getDate()) * (user.end - user.start)}%`}}>
+								<span style={{ 
+									backgroundColor: "rgba(0,0,0,.05)",
+									padding: "0 5px", display: 'flex',
+									justifyContent: 'space-between',
+									marginLeft: `${100 / (31 - dateToday) * user.start}%`, 
+									width: `${100 / (31 - dateToday) * (user.end - user.start)}%`
+								}}>
 									<span>
-										{new Date(today()).getDate() == user.startDay ? '' : user.startDay}
+										{dateToday == user.startDay ? '' : user.startDay}
 									</span>
 									<span>
 										{user.endDay}
