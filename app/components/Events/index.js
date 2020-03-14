@@ -13,7 +13,8 @@ import {
 	Accordion, 
 	FormControl, 
 	InputGroup, 
-	Button 
+	Button, 
+	CardColumns
 } from 'react-bootstrap';
 import classNames from 'classnames';
 
@@ -59,8 +60,29 @@ const EventsWrapper = createUseStyles({
 	},
 	messageHeader: {
 		display: 'flex',
-		justifyContent: 'space-between',
+		// justifyContent: 'space-between',
 		marginBottom: '0',
+		// alignItems: 'flex-end',
+		flexDirection: 'column',
+	},
+	innerHeader: {
+		display: 'flex',
+		position: 'relative',
+	},
+	platform: {
+		position: 'absolute',
+		top: '-15px',
+		right: '-15px',
+		color: 'rgba(0, 0, 0, .5)',
+	},
+	lastMessage: {
+		fontSize: '0.8em',
+		color: 'rgba(0, 0, 0, .5)',
+		display: 'block',
+      height: '1em',
+      lineHeight: '1em',
+		marginLeft: '10px',
+		overflow: 'hidden',
 	},
 	fullname: {
 		fontWeight: 'bold',
@@ -105,11 +127,19 @@ function Events({
 					{Object.keys(eventsList).map(user => (
 						<Card key={user}>
 							<Accordion.Toggle as={Card.Header} eventKey={user}>
-								<p className={classes.messageHeader}>
-									<span className={classes.fullname}>
-										{user.toUpperCase()}
+								<div className={classes.messageHeader}>
+									<div className={classes.innerHeader}>
+										<span className={classes.fullname}>
+											{user.toUpperCase()}
+										</span>
+										<span className={classes.platform}>
+											{eventsList[user][0]['platform']}
+										</span>
+									</div>
+									<span className={classes.lastMessage}>
+										{[ ...eventsList[user]].reverse()[0]['message']}
 									</span>
-								</p>
+								</div>
 							</Accordion.Toggle>
 							<Accordion.Collapse eventKey={user}>
 								<Card.Body>
@@ -124,7 +154,7 @@ function Events({
 										</InputGroup>
 									</form>
 									<ListGroup variant="flush">
-										{[ ...eventsList[user] ].reverse().map(event => (
+										{[ ...eventsList[user]].reverse().map(event => (
 											<ListGroup.Item key={event.id} className={classes.event}>
 												<span>
 													{event.message}
