@@ -36,16 +36,14 @@ import { getNewBookingWithSocket } from '../BookingsContainer/actions';
 import socket from '../../utils/socket';
 import { 
 	checkInBookings,
-	checkOutBookings
+	checkOutBookings,
+	checkInBookingsSorter,
+	checkOutBookingsSorter
 } from '../../utils/helper';
 import { 
 	todayInMilliseconds,
 	dateWithDalayInMilliseconds
 } from '../../utils/getDate';
-import { 
-	checkInBookingsSorter,
-	checkOutBookingsSorter
-} from '../../utils/helper';
 import { formatDate } from '../../utils/formatDate';
 
 const AppWrapper = createUseStyles({

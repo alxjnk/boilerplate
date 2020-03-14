@@ -62,6 +62,8 @@ export function EventsContainer({
 	// }, []);
 	const sortedEventsList = sortEventsList(eventsList);
 
+	console.log(sortedEventsList);
+
 	return <Events eventsList={sortedEventsList} eventsToggle={eventsToggle} eventsToggler={handleEventsToggle} handleSendNewMessageWithSocket={handleSendNewMessageWithSocket} />;
 }
 

@@ -102,49 +102,36 @@ function Events({
 			</Card.Header>
 			<Card.Body className={classes.itemBody}>
 				<Accordion>
-					{Object.keys(eventsList).map(platform => (
-						<Card key={platform}>
-							<Accordion.Toggle as={Card.Header} eventKey={platform}>
-								{platform.toUpperCase()}
+					{Object.keys(eventsList).map(user => (
+						<Card key={user}>
+							<Accordion.Toggle as={Card.Header} eventKey={user}>
+								<p className={classes.messageHeader}>
+									<span className={classes.fullname}>
+										{user.toUpperCase()}
+									</span>
+								</p>
 							</Accordion.Toggle>
-							<Accordion.Collapse eventKey={platform}>
+							<Accordion.Collapse eventKey={user}>
 								<Card.Body>
-									<Accordion>
-										{Object.keys(eventsList[platform]).map(user => (
-											<Card key={user}>
-												<Accordion.Toggle as={Card.Header} eventKey={user}>
-													<p className={classes.messageHeader}>
-														<span className={classes.fullname}>
-															{user}
-														</span>
-													</p>
-												</Accordion.Toggle>
-												<Accordion.Collapse eventKey={user}>
-													<Card.Body>
-														<form name="sendMessage" onSubmit={sendNewMessage} className={classes.textarea}>
-															<InputGroup className="mb-3">
-																<FormControl name="textarea" as="textarea" placeholder="Type your message..." />
-																<InputGroup.Append>
-																	<Button type="submit" variant="secondary">
-																		Send message
-																	</Button>
-																</InputGroup.Append>
-															</InputGroup>
-														</form>
-														<ListGroup variant="flush">
-															{[ ...eventsList[platform][user] ].reverse().map(event => (
-																<ListGroup.Item key={event.id} className={classes.event}>
-																	<span>
-																		{event.message}
-																	</span> 
-																</ListGroup.Item>
-															))}
-														</ListGroup>
-													</Card.Body>
-												</Accordion.Collapse>
-											</Card>
+									<form name="sendMessage" onSubmit={sendNewMessage} className={classes.textarea}>
+										<InputGroup className="mb-3">
+											<FormControl name="textarea" as="textarea" placeholder="Type your message..." />
+											<InputGroup.Append>
+												<Button type="submit" variant="secondary">
+													Send message
+												</Button>
+											</InputGroup.Append>
+										</InputGroup>
+									</form>
+									<ListGroup variant="flush">
+										{[ ...eventsList[user] ].reverse().map(event => (
+											<ListGroup.Item key={event.id} className={classes.event}>
+												<span>
+													{event.message}
+												</span> 
+											</ListGroup.Item>
 										))}
-									</Accordion>
+									</ListGroup>
 								</Card.Body>
 							</Accordion.Collapse>
 						</Card>
