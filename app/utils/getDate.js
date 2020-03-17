@@ -1,11 +1,13 @@
 const dayDelay = 5;
 
+export const dayInMilliseconds = 24 * 60 * 60 * 1000;
+
 export const todayInMilliseconds = () => {
    return new Date() * 1;
 };
 
 export const dateWithDalayInMilliseconds = () => {
-   return new Date() * 1 + dayDelay * 24 * 60 * 60 * 1000;
+   return new Date() * 1 + dayDelay * dayInMilliseconds;
 };
 
 export const months = {

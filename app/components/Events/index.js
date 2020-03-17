@@ -13,10 +13,11 @@ import {
 	Accordion, 
 	FormControl, 
 	InputGroup, 
-	Button, 
-	CardColumns
+	Button
 } from 'react-bootstrap';
 import classNames from 'classnames';
+import { format } from 'date-fns';
+// import { platforms } from '../../variables/platforms';
 
 const EventsWrapper = createUseStyles({
 	item: {
@@ -30,6 +31,12 @@ const EventsWrapper = createUseStyles({
 	itemHeader: {
 		display: 'flex',
       justifyContent: 'space-between',
+	},
+	wrapper: {
+		display: 'flex',
+		marginBottom: '0',
+		flexDirection: 'column',
+		flexGrow: '1',
 	},
 	itemBody: {
 		overflow: 'auto',
@@ -60,32 +67,50 @@ const EventsWrapper = createUseStyles({
 	},
 	messageHeader: {
 		display: 'flex',
-		// justifyContent: 'space-between',
-		marginBottom: '0',
-		// alignItems: 'flex-end',
-		flexDirection: 'column',
+		alignItems: 'center',
+		'& svg': {
+			width: '30px',
+			height: '30px',
+			marginRight: '10px',
+		},
 	},
 	innerHeader: {
 		display: 'flex',
-		position: 'relative',
+		justifyContent: 'space-between',
+	},
+	fullname: {
+		width: '65%',
+		fontWeight: 'bold',
+		overflow: 'hidden',
+		textOverflow: 'ellipsis',
+		whiteSpace: 'nowrap',
 	},
 	platform: {
-		position: 'absolute',
-		top: '-15px',
-		right: '-15px',
+		height: '48px',
+		width: '48px',
+		overflow: 'hiden',
+		borderRadius: '50%',
+		backgroundColor: 'rgba(0,0,0,.08)',
+		marginRight: '20px',
+		textAlign: 'center',
+		lineHeight: '48px',
 		color: 'rgba(0, 0, 0, .5)',
+	},
+	date: {
+		fontSize: '0.9em',
 	},
 	lastMessage: {
 		fontSize: '0.8em',
 		color: 'rgba(0, 0, 0, .5)',
-		display: 'block',
-      height: '1em',
-      lineHeight: '1em',
-		marginLeft: '10px',
-		overflow: 'hidden',
+		width: '78%',
+		// overflow: 'hidden',
+		// textOverflow: 'ellipsis',
+		// whiteSpace: 'nowrap',
 	},
-	fullname: {
-		fontWeight: 'bold',
+	newMessage: {
+		borderRadius: '0.8em',
+		backgroundColor: 'rgba(0,0,0,.08)',
+		padding: '0px 7px',
 	},
 	textarea: {
 		marginTop: '20px',
@@ -120,7 +145,7 @@ function Events({
 		<Card className={eventsItemClassName}>
 			<Card.Header className={classes.itemHeader}>
 				<span>Event list</span>
-				<span className={eventsToggleClassName} onClick={() => eventsToggler()}>+</span>
+				<span className={eventsToggleClassName} onClick={() => eventsToggler()}>{/*-*/}+</span>
 			</Card.Header>
 			<Card.Body className={classes.itemBody}>
 				<Accordion>
@@ -128,17 +153,29 @@ function Events({
 						<Card key={user}>
 							<Accordion.Toggle as={Card.Header} eventKey={user}>
 								<div className={classes.messageHeader}>
-									<div className={classes.innerHeader}>
-										<span className={classes.fullname}>
-											{user.toUpperCase()}
-										</span>
-										<span className={classes.platform}>
-											{eventsList[user][0]['platform']}
-										</span>
+									<div className={classes.platform}>
+										{eventsList[user][0]['platform']}
 									</div>
-									<span className={classes.lastMessage}>
-										{[ ...eventsList[user]].reverse()[0]['message']}
-									</span>
+									<div className={classes.wrapper}>
+										<div className={classes.innerHeader}>
+											<span className={classes.fullname}>
+												{user.toUpperCase()}
+											</span>
+											<span className={classes.date}>
+												{new Date() * 1 - new Date(format(new Date(), 'RRRR-LL-dd')) * 1 > (new Date() - new Date('2020-03-01T08:27:53.919Z')) ? format(new Date((eventsList[user][0]['createdAt'])), 'HH:mm') : format(new Date((eventsList[user][0]['createdAt'])), 'dd-LL-RRRR')}
+											</span>
+										</div>
+										<div className={classes.innerHeader}>
+											<span className={classes.lastMessage}>
+												{[ ...eventsList[user]].reverse()[0]['message'].length < 20 ? [ ...eventsList[user]].reverse()[0]['message'] : [ ...eventsList[user]].reverse()[0]['message'].slice(0, 20) + '...'}
+											</span>
+											<span className={classes.newMessage}>
+												{eventsList[user].map(item => {
+													return item.new ? 1 : 0;
+												}).length}
+											</span>
+										</div>
+									</div>
 								</div>
 							</Accordion.Toggle>
 							<Accordion.Collapse eventKey={user}>
