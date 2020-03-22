@@ -134,12 +134,11 @@ function Messages({ messages, messagesToggler, messagesToggle, handleSendNewMess
 		handleSendNewMessageWithSocket(value);
 		e.target.children[0].children[0].value = '';
 	};
-	console.log(messages);
 
 	return (
 		<Card className={messagesItemClassName}>
 			<Card.Header className={classes.itemHeader}>
-				<span>Event list</span>
+				<span>Messages</span>
 				<span className={messagesToggleClassName} onClick={() => messagesToggler()}>
 					{/*-*/}+
 				</span>
@@ -157,13 +156,13 @@ function Messages({ messages, messagesToggler, messagesToggle, handleSendNewMess
 											<span className={classes.date}>
 												{new Date() * 1 - new Date(format(new Date(), 'RRRR-LL-dd')) * 1 >
 												new Date() - new Date('2020-03-01T08:27:53.919Z')
-													? format(new Date([...messages[user]].reverse()[0].createdAt), 'HH:mm')
-													: format(new Date([...messages[user]].reverse()[0].createdAt), 'dd-LL-RRRR')}
+													? format(new Date([...messages[user]][0].createdAt), 'HH:mm')
+													: format(new Date([...messages[user]][0].createdAt), 'dd-LL-RRRR')}
 											</span>
 										</div>
 										<div className={classes.innerHeader}>
 											<span className={classes.lastMessage}>
-												{[...messages[user]].reverse()[0].message}
+												{[...messages[user]][0].message}
 											</span>
 											<span className={classes.newMessage}>
 												{messages[user].map(item => (item.new ? 1 : 0)).length}

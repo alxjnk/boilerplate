@@ -60,6 +60,7 @@ export function MessagesContainer({
 	// 		handleSendNewMessageWithSocket(data);
 	// 	});
 	// }, []);
+	
 	const sortedMessages = sortMessages(messages);
 
 	return <Messages messages={sortedMessages} messagesToggle={messagesToggle} messagesToggler={handleMessagesToggle} handleSendNewMessageWithSocket={handleSendNewMessageWithSocket} />;

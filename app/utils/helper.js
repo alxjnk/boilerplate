@@ -9,19 +9,29 @@ const getFieldValues = (arr, field) => {
 };
 
 export const sortMessages = messages => {
-   const sortedMessages = {};
+   let sortedMessages = {};
+   const tempSortedMessages = {};
    const users = getFieldValues(messages, 'full_name');
 
    users.forEach(user => {
       messages.forEach(message => {
          if (message.full_name === user) {
-            if (!(user in sortedMessages)) {
-               sortedMessages[user] = [];
+            if (!(user in tempSortedMessages)) {
+               tempSortedMessages[user] = [];
             }						
-            sortedMessages[user].push(message);
+            tempSortedMessages[user].push(message);
          };
       });
+      tempSortedMessages[user].reverse();
    });
+   
+   if (Object.keys(tempSortedMessages)) {
+      Object.keys(tempSortedMessages).sort((a, b) => {
+         return new Date(tempSortedMessages[b][0]['createdAt']) * 1 - new Date(tempSortedMessages[a][0]['createdAt']) * 1;
+      }).forEach(field => {
+         sortedMessages[field] = tempSortedMessages[field];
+      })
+   };
 
    return sortedMessages;
 };
