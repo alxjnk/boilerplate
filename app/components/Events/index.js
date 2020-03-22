@@ -37,6 +37,7 @@ const EventsWrapper = createUseStyles({
 		marginBottom: '0',
 		flexDirection: 'column',
 		flexGrow: '1',
+		width: 'calc(100% - 108px)',
 	},
 	itemBody: {
 		overflow: 'auto',
@@ -79,7 +80,7 @@ const EventsWrapper = createUseStyles({
 		justifyContent: 'space-between',
 	},
 	fullname: {
-		width: '65%',
+		width: '60%',
 		fontWeight: 'bold',
 		overflow: 'hidden',
 		textOverflow: 'ellipsis',
@@ -87,8 +88,9 @@ const EventsWrapper = createUseStyles({
 	},
 	platform: {
 		height: '48px',
+		minWidth: '48px',
 		width: '48px',
-		overflow: 'hiden',
+		overflow: 'hidden',
 		borderRadius: '50%',
 		backgroundColor: 'rgba(0,0,0,.08)',
 		marginRight: '20px',
@@ -102,10 +104,10 @@ const EventsWrapper = createUseStyles({
 	lastMessage: {
 		fontSize: '0.8em',
 		color: 'rgba(0, 0, 0, .5)',
-		width: '78%',
-		// overflow: 'hidden',
-		// textOverflow: 'ellipsis',
-		// whiteSpace: 'nowrap',
+		width: '75%',
+		overflow: 'hidden',
+		textOverflow: 'ellipsis',
+		whiteSpace: 'nowrap',
 	},
 	newMessage: {
 		borderRadius: '0.8em',
@@ -167,7 +169,7 @@ function Events({
 										</div>
 										<div className={classes.innerHeader}>
 											<span className={classes.lastMessage}>
-												{[ ...eventsList[user]].reverse()[0]['message'].length < 20 ? [ ...eventsList[user]].reverse()[0]['message'] : [ ...eventsList[user]].reverse()[0]['message'].slice(0, 20) + '...'}
+												{[ ...eventsList[user]].reverse()[0]['message']}
 											</span>
 											<span className={classes.newMessage}>
 												{eventsList[user].map(item => {

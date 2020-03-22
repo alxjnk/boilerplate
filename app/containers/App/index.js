@@ -196,7 +196,7 @@ function App(props) {
 									<Col xl="8">
 										<LineChartContainer bookingsData={closestBookings} />
 									</Col>
-									<Col>
+									<Col xl="4">
 										<div className={wrapperClassName}>
 											<EventsContainer />
 										</div>
