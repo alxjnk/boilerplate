@@ -1,6 +1,6 @@
 /**
  *
- * Events
+ * MessagesContainer
  *
  */
 
@@ -14,34 +14,34 @@ import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import reducer from './reducer';
 import saga from './saga';
-import Events from '../../components/Events/index';
+import Messages from '../../components/Messages/index';
 import { 
-	getEventsDataRequest, 
+	getMessagesDataRequest, 
 	getNewMessageWithSocket,
 	sendNewMessageRequest,
-	toggleEvents,
+	toggleMessages,
 } from './actions';
 import { 
-	makeSelectEvents,
-	makeSelectEventsToggle
+	makeSelectMessages,
+	makeSelectMessagesToggle
 } from './selectors';
 import socket from '../../utils/socket';
-import { sortEventsList } from '../../utils/helper';
+import { sortMessages } from '../../utils/helper';
 
-export function EventsContainer({
-		eventsList, 
-		handleEventsDataRequest, 
+export function MessagesContainer({
+		messages, 
+		handleMessagesDataRequest, 
 		handleNewMessageWithSocket, 
-		handleEventsToggle, 
-		eventsToggle, 
+		handleMessagesToggle, 
+		messagesToggle, 
 		handleSendNewMessageWithSocket, 
 		...props
 	}) {
-	useInjectReducer({ key: 'eventsContainer', reducer });
-	useInjectSaga({ key: 'eventsContainer', saga });
-	//TODO: change to default props eventsList
+	useInjectReducer({ key: 'messagesContainer', reducer });
+	useInjectSaga({ key: 'messagesContainer', saga });
+	//TODO: change to default props messages
 	useEffect(() => { 
-		handleEventsDataRequest() 
+		handleMessagesDataRequest() 
 	}, []);
 	// get new message with socket
 	useEffect(() => {
@@ -60,43 +60,43 @@ export function EventsContainer({
 	// 		handleSendNewMessageWithSocket(data);
 	// 	});
 	// }, []);
-	const sortedEventsList = sortEventsList(eventsList);
+	const sortedMessages = sortMessages(messages);
 
-	return <Events eventsList={sortedEventsList} eventsToggle={eventsToggle} eventsToggler={handleEventsToggle} handleSendNewMessageWithSocket={handleSendNewMessageWithSocket} />;
+	return <Messages messages={sortedMessages} messagesToggle={messagesToggle} messagesToggler={handleMessagesToggle} handleSendNewMessageWithSocket={handleSendNewMessageWithSocket} />;
 }
 
-Events.propTypes = {
-	eventsList: PropTypes.object, 
-	handleEventsDataRequest: PropTypes.func.isRequired, 
+Messages.propTypes = {
+	messages: PropTypes.object, 
+	handleMessagesDataRequest: PropTypes.func.isRequired, 
 	handleNewMessageWithSocket: PropTypes.func.isRequired, 
-	handleEventsToggle: PropTypes.func.isRequired, 
-	eventsToggle: PropTypes.bool.isRequired, 
+	handleMessagesToggle: PropTypes.func.isRequired, 
+	messagesToggle: PropTypes.bool.isRequired, 
 	handleSendNewMessageWithSocket: PropTypes.func.isRequired,
 };
 
-Events.defaultProps = { 
-	eventsList: [], 
-	handleEventsDataRequest: () => {}, 
+Messages.defaultProps = { 
+	messages: [], 
+	handleMessagesDataRequest: () => {}, 
 	handleNewMessageWithSocket: () => {}, 
-	handleEventsToggle: () => {},
+	handleMessagesToggle: () => {},
 	handleSendNewMessageWithSocket: () => {},
 };
 
 const mapStateToProps = createStructuredSelector({
-	eventsList: makeSelectEvents(),
-	eventsToggle: makeSelectEventsToggle()
+	messages: makeSelectMessages(),
+	messagesToggle: makeSelectMessagesToggle()
 });
 
 function mapDispatchToProps(dispatch) {
 	return {
 		dispatch,
-		handleEventsDataRequest: () => dispatch(getEventsDataRequest()),
+		handleMessagesDataRequest: () => dispatch(getMessagesDataRequest()),
 		handleNewMessageWithSocket: (data) => dispatch(getNewMessageWithSocket(data)),
 		handleSendNewMessageWithSocket: (data) => dispatch(sendNewMessageRequest(data)),
-		handleEventsToggle: () => dispatch(toggleEvents())
+		handleMessagesToggle: () => dispatch(toggleMessages())
 	};
 }
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(withConnect, memo)(EventsContainer);
+export default compose(withConnect, memo)(MessagesContainer);

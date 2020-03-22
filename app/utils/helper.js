@@ -8,22 +8,22 @@ const getFieldValues = (arr, field) => {
    return values;
 };
 
-export const sortEventsList = eventsList => {
-   const sortedEventsList = {};
-   const users = getFieldValues(eventsList, 'full_name');
+export const sortMessages = messages => {
+   const sortedMessages = {};
+   const users = getFieldValues(messages, 'full_name');
 
    users.forEach(user => {
-      eventsList.forEach(event => {
-         if (event.full_name === user) {
-            if (!(user in sortedEventsList)) {
-               sortedEventsList[user] = [];
+      messages.forEach(message => {
+         if (message.full_name === user) {
+            if (!(user in sortedMessages)) {
+               sortedMessages[user] = [];
             }						
-            sortedEventsList[user].push(event);
+            sortedMessages[user].push(message);
          };
       });
    });
 
-   return sortedEventsList;
+   return sortedMessages;
 };
 
 export const sortBookingsData = (bookingsData, today) => {

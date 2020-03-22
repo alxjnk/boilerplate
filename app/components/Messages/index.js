@@ -1,25 +1,18 @@
 /**
  *
- * Events
+ * Messages
  *
  */
 
 import React from 'react';
 import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
-import { 
-	Card, 
-	ListGroup, 
-	Accordion, 
-	FormControl, 
-	InputGroup, 
-	Button
-} from 'react-bootstrap';
+import { Card, ListGroup, Accordion, FormControl, InputGroup, Button } from 'react-bootstrap';
 import classNames from 'classnames';
 import { format } from 'date-fns';
 // import { platforms } from '../../variables/platforms';
 
-const EventsWrapper = createUseStyles({
+const MessagesWrapper = createUseStyles({
 	item: {
 		height: 'calc(50vh - 77px)',
 		margin: 'auto',
@@ -30,7 +23,7 @@ const EventsWrapper = createUseStyles({
 	},
 	itemHeader: {
 		display: 'flex',
-      justifyContent: 'space-between',
+		justifyContent: 'space-between',
 	},
 	wrapper: {
 		display: 'flex',
@@ -97,9 +90,14 @@ const EventsWrapper = createUseStyles({
 		textAlign: 'center',
 		lineHeight: '48px',
 		color: 'rgba(0, 0, 0, .5)',
+		fontSize: '0.7em',
 	},
 	date: {
 		fontSize: '0.9em',
+		lineHeight: '1.7em',
+		overflow: 'hidden',
+		textOverflow: 'ellipsis',
+		whiteSpace: 'nowrap',
 	},
 	lastMessage: {
 		fontSize: '0.8em',
@@ -120,61 +118,55 @@ const EventsWrapper = createUseStyles({
 	},
 });
 
-function Events({
-	eventsList, 
-	eventsToggler, 
-	eventsToggle, 
-	handleSendNewMessageWithSocket, 
-	...props
-}) {
-	const classes = EventsWrapper();
-	const eventsToggleClassName = classNames(classes.toggle, {
-		toggled: eventsToggle,
+function Messages({ messages, messagesToggler, messagesToggle, handleSendNewMessageWithSocket, ...props }) {
+	const classes = MessagesWrapper();
+	const messagesToggleClassName = classNames(classes.toggle, {
+		toggled: messagesToggle,
 	});
-	const eventsItemClassName = classNames(classes.item, {
-		toggled: eventsToggle,
+	const messagesItemClassName = classNames(classes.item, {
+		toggled: messagesToggle,
 	});
-	const sendNewMessage = (e) => {
+	const sendNewMessage = e => {
 		e.preventDefault();
-		let value = e.target.children[0].children[0].value;
+		const { value } = e.target.children[0].children[0];
 
 		if (!value) return;
 		handleSendNewMessageWithSocket(value);
 		e.target.children[0].children[0].value = '';
 	};
+	console.log(messages);
 
 	return (
-		<Card className={eventsItemClassName}>
+		<Card className={messagesItemClassName}>
 			<Card.Header className={classes.itemHeader}>
 				<span>Event list</span>
-				<span className={eventsToggleClassName} onClick={() => eventsToggler()}>{/*-*/}+</span>
+				<span className={messagesToggleClassName} onClick={() => messagesToggler()}>
+					{/*-*/}+
+				</span>
 			</Card.Header>
 			<Card.Body className={classes.itemBody}>
 				<Accordion>
-					{Object.keys(eventsList).map(user => (
+					{Object.keys(messages).map(user => (
 						<Card key={user}>
 							<Accordion.Toggle as={Card.Header} eventKey={user}>
 								<div className={classes.messageHeader}>
-									<div className={classes.platform}>
-										{eventsList[user][0]['platform']}
-									</div>
+									<div className={classes.platform}>{messages[user][0].platform.replace(/\..+/, '')}</div>
 									<div className={classes.wrapper}>
 										<div className={classes.innerHeader}>
-											<span className={classes.fullname}>
-												{user.toUpperCase()}
-											</span>
+											<span className={classes.fullname}>{user.toUpperCase()}</span>
 											<span className={classes.date}>
-												{new Date() * 1 - new Date(format(new Date(), 'RRRR-LL-dd')) * 1 > (new Date() - new Date('2020-03-01T08:27:53.919Z')) ? format(new Date((eventsList[user][0]['createdAt'])), 'HH:mm') : format(new Date((eventsList[user][0]['createdAt'])), 'dd-LL-RRRR')}
+												{new Date() * 1 - new Date(format(new Date(), 'RRRR-LL-dd')) * 1 >
+												new Date() - new Date('2020-03-01T08:27:53.919Z')
+													? format(new Date([...messages[user]].reverse()[0].createdAt), 'HH:mm')
+													: format(new Date([...messages[user]].reverse()[0].createdAt), 'dd-LL-RRRR')}
 											</span>
 										</div>
 										<div className={classes.innerHeader}>
 											<span className={classes.lastMessage}>
-												{[ ...eventsList[user]].reverse()[0]['message']}
+												{[...messages[user]].reverse()[0].message}
 											</span>
 											<span className={classes.newMessage}>
-												{eventsList[user].map(item => {
-													return item.new ? 1 : 0;
-												}).length}
+												{messages[user].map(item => (item.new ? 1 : 0)).length}
 											</span>
 										</div>
 									</div>
@@ -184,7 +176,11 @@ function Events({
 								<Card.Body>
 									<form name="sendMessage" onSubmit={sendNewMessage} className={classes.textarea}>
 										<InputGroup className="mb-3">
-											<FormControl name="textarea" as="textarea" placeholder="Type your message..." />
+											<FormControl
+												name="textarea"
+												as="textarea"
+												placeholder="Type your message..."
+											/>
 											<InputGroup.Append>
 												<Button type="submit" variant="secondary">
 													Send message
@@ -193,11 +189,9 @@ function Events({
 										</InputGroup>
 									</form>
 									<ListGroup variant="flush">
-										{[ ...eventsList[user]].reverse().map(event => (
+										{[...messages[user]].reverse().map(event => (
 											<ListGroup.Item key={event.id} className={classes.event}>
-												<span>
-													{event.message}
-												</span> 
+												<span>{event.message}</span>
 											</ListGroup.Item>
 										))}
 									</ListGroup>
@@ -211,11 +205,11 @@ function Events({
 	);
 }
 
-Events.propTypes = {
-	eventsList: PropTypes.array, 
-	eventsToggler: PropTypes.func, 
-	eventsToggle: PropTypes.bool, 
+Messages.propTypes = {
+	messages: PropTypes.array,
+	messagesToggler: PropTypes.func,
+	messagesToggle: PropTypes.bool,
 	handleSendNewMessageWithSocket: PropTypes.func,
 };
 
-export default Events;
+export default Messages;

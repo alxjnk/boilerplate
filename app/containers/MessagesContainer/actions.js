@@ -1,39 +1,39 @@
 /*
  *
- * Events actions
+ * Messages actions
  *
  */
 
 import {
-	GET_EVENTS_DATA_REQUEST,
-	GET_EVENTS_DATA_SUCCESS,
-	GET_EVENTS_DATA_FAILURE,
+	GET_MESSAGES_DATA_REQUEST,
+	GET_MESSAGES_DATA_SUCCESS,
+	GET_MESSAGES_DATA_FAILURE,
 	GET_NEW_MESSAGE_WITH_SOCKET,
 	SEND_NEW_MESSAGE_REQUEST,
 	SEND_NEW_MESSAGE_SUCCESS,
 	SEND_NEW_MESSAGE_FAILURE,
-	EVENTS_TOGGLE,
+	MESSAGES_TOGGLE,
 } from './constants';
 
-export function getEventsDataRequest(token) {
+export function getMessagesDataRequest(token) {
 	return {
-		type: GET_EVENTS_DATA_REQUEST,
+		type: GET_MESSAGES_DATA_REQUEST,
 		// payload: {
 		// 	token: token,
 		// }
 	};
 };
 
-export const getEventsDataSuccess = (data) => {
+export const getMessagesDataSuccess = (data) => {
 	return {
-		type: GET_EVENTS_DATA_SUCCESS,
+		type: GET_MESSAGES_DATA_SUCCESS,
 		payload: [ ...data ]
 	};
 };
 
-export const getEventsDataFailure = (error) => {
+export const getMessagesDataFailure = (error) => {
 	return {
-		type: GET_EVENTS_DATA_FAILURE,
+		type: GET_MESSAGES_DATA_FAILURE,
 		payload: { ...error }
 	};
 };
@@ -66,8 +66,8 @@ export const sendNewMessageFailure = (data) => {
 	}
 };
 
-export const toggleEvents = () => {
+export const toggleMessages = () => {
 	return {
-		type: EVENTS_TOGGLE,
+		type: MESSAGES_TOGGLE,
 	}
 };

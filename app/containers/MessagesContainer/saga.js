@@ -1,11 +1,11 @@
 import { takeEvery, call, put } from 'redux-saga/effects';
 import { 
-	GET_EVENTS_DATA_REQUEST,
+	GET_MESSAGES_DATA_REQUEST,
 	SEND_NEW_MESSAGE_REQUEST
 } from './constants';
 import {
-	getEventsDataSuccess,
-	getEventsDataFailure,
+	getMessagesDataSuccess,
+	getMessagesDataFailure,
 	sendNewMessageSuccess,
 	sendNewMessageFailure
 } from './actions';
@@ -13,25 +13,25 @@ import { getData } from '../../utils/getData';
 import socket from '../../utils/socket';
 
 // Individual exports for testing
-export default function* eventsSaga() {
+export default function* messagesSaga() {
 	const path = `http://jobsdone.pro:9000/cm-api/messages`;
 
-	yield takeEvery(GET_EVENTS_DATA_REQUEST,
+	yield takeEvery(GET_MESSAGES_DATA_REQUEST,
 		function* (action) {
 			try {
 				const result = yield call(getData, path);
 
 				if (result.error) throw result;
 
-				yield put(getEventsDataSuccess(result));
+				yield put(getMessagesDataSuccess(result));
 			} catch (error) {
-				yield put(getEventsDataFailure(error));
+				yield put(getMessagesDataFailure(error));
 			}
 		}
 	);
 };
 
-export function* eventsSocketSaga() {
+export function* messagesSocketSaga() {
 	yield takeEvery(SEND_NEW_MESSAGE_REQUEST,
 		function* (action) {
 			cosnole.log(action);

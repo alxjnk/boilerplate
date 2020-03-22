@@ -98,7 +98,7 @@ function LineChart({sortedBookingsData, ...props}) {
 					</Dropdown.Menu>
 					</Dropdown>
 				</span>
-				{/* <span className={eventsToggleClassName} onClick={() => eventsToggler()}>
+				{/* <span className={messagesToggleClassName} onClick={() => messagesToggler()}>
 					+
 				</span> */}
 			</Card.Header>
