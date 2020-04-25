@@ -7,6 +7,8 @@ import produce from 'immer';
 import { 
 	GET_MESSAGES_DATA_SUCCESS,
 	GET_MESSAGES_DATA_FAILURE,
+	SEND_ALL_MESSAGES_DATA_SUCCESS,
+	SEND_ALL_MESSAGES_DATA_FAILURE,
 	GET_NEW_MESSAGE_WITH_SOCKET,
 	MESSAGES_TOGGLE,
 } from './constants';
@@ -26,6 +28,14 @@ const messagesReducer = (state = initialState, action) =>
 				break;
 			}
 			case GET_MESSAGES_DATA_FAILURE: {
+				draft.error = action.payload;
+				break;
+			}
+			case SEND_ALL_MESSAGES_DATA_SUCCESS: {
+				draft.messages = action.payload;
+				break;
+			}
+			case SEND_ALL_MESSAGES_DATA_FAILURE: {
 				draft.error = action.payload;
 				break;
 			}

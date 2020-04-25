@@ -110,7 +110,13 @@ const AppWrapper = createUseStyles({
 });
 
 function App(props) {
-	const { messagesToggle, sidebarToggle, sidebarToggler, closestBookings = [], handleNewBookingWithSocket } = props;
+	const { 
+		messagesToggle, 
+		sidebarToggle, 
+		sidebarToggler, 
+		closestBookings = [], 
+		handleNewBookingWithSocket 
+	} = props;
 	const closestCheckInBookings = checkInBookingsSorter(
 		checkInBookings(closestBookings, formatDate(dateWithDalayInMilliseconds()), formatDate(todayInMilliseconds())),
 	);

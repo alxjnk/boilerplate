@@ -9,6 +9,9 @@ import {
 	GET_MESSAGES_DATA_SUCCESS,
 	GET_MESSAGES_DATA_FAILURE,
 	GET_NEW_MESSAGE_WITH_SOCKET,
+	SEND_ALL_MESSAGES_DATA_REQUEST,
+	SEND_ALL_MESSAGES_DATA_SUCCESS,
+	SEND_ALL_MESSAGES_DATA_FAILURE,
 	SEND_NEW_MESSAGE_REQUEST,
 	SEND_NEW_MESSAGE_SUCCESS,
 	SEND_NEW_MESSAGE_FAILURE,
@@ -59,9 +62,30 @@ export const sendNewMessageSuccess = (data) => {
 	}
 };
 
-export const sendNewMessageFailure = (data) => {
+export const sendNewMessageFailure = (error) => {
 	return {
 		type: SEND_NEW_MESSAGE_FAILURE,
+		payload: { ...error }
+	}
+};
+
+export const sendAllMessagesRequest = (data) => {
+	return {
+		type: SEND_ALL_MESSAGES_DATA_REQUEST,
+		payload: data
+	}
+};
+
+export const sendAllMessagesSuccess = (data) => {
+	return {
+		type: SEND_ALL_MESSAGES_DATA_SUCCESS,
+		payload: data
+	}
+};
+
+export const sendAllMessagesFailure = (error) => {
+	return {
+		type: SEND_ALL_MESSAGES_DATA_FAILURE,
 		payload: { ...error }
 	}
 };

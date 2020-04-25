@@ -23,6 +23,7 @@ export const initialState = {
 /* eslint-disable default-case, no-param-reassign */
 const appReducer = (state = initialState, action) =>
 	produce(state, draft => {
+		// console.log('app reducer action: ', action.type);
 		switch (action.type) {
 			case SIDEBAR_TOGGLE:
 				draft.toggleSidebar = !state.toggleSidebar;

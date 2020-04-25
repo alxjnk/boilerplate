@@ -20,6 +20,7 @@ import {
 	getNewMessageWithSocket,
 	sendNewMessageRequest,
 	toggleMessages,
+	sendAllMessagesRequest,
 } from './actions';
 import { 
 	makeSelectMessages,
@@ -35,6 +36,7 @@ export function MessagesContainer({
 		handleMessagesToggle, 
 		messagesToggle, 
 		handleSendNewMessageWithSocket, 
+		handleSendAllMessages,
 		...props
 	}) {
 	useInjectReducer({ key: 'messagesContainer', reducer });
@@ -60,14 +62,20 @@ export function MessagesContainer({
 	// 		handleSendNewMessageWithSocket(data);
 	// 	});
 	// }, []);
-	
+
 	const sortedMessages = sortMessages(messages);
 
-	return <Messages messages={sortedMessages} messagesToggle={messagesToggle} messagesToggler={handleMessagesToggle} handleSendNewMessageWithSocket={handleSendNewMessageWithSocket} />;
+	return <Messages 
+				messages={messages} 
+				sortedMessages={sortedMessages} 
+				messagesToggle={messagesToggle} 
+				messagesToggler={handleMessagesToggle} handleSendNewMessageWithSocket={handleSendNewMessageWithSocket} 
+				handleSendAllMessages={handleSendAllMessages} 
+			/>;
 }
 
 Messages.propTypes = {
-	messages: PropTypes.object, 
+	messages: PropTypes.array, 
 	handleMessagesDataRequest: PropTypes.func.isRequired, 
 	handleNewMessageWithSocket: PropTypes.func.isRequired, 
 	handleMessagesToggle: PropTypes.func.isRequired, 
@@ -94,7 +102,8 @@ function mapDispatchToProps(dispatch) {
 		handleMessagesDataRequest: () => dispatch(getMessagesDataRequest()),
 		handleNewMessageWithSocket: (data) => dispatch(getNewMessageWithSocket(data)),
 		handleSendNewMessageWithSocket: (data) => dispatch(sendNewMessageRequest(data)),
-		handleMessagesToggle: () => dispatch(toggleMessages())
+		handleMessagesToggle: () => dispatch(toggleMessages()),
+		handleSendAllMessages: (data) => dispatch(sendAllMessagesRequest(data)),
 	};
 }
 

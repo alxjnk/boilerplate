@@ -11,4 +11,7 @@ export const GET_NEW_MESSAGE_WITH_SOCKET = 'app/MessagesContainer/GET_NEW_MESSAG
 export const SEND_NEW_MESSAGE_REQUEST = 'app/MessagesContainer/SEND_NEW_MESSAGE_REQUEST';
 export const SEND_NEW_MESSAGE_SUCCESS = 'app/MessagesContainer/SEND_NEW_MESSAGE_SUCCESS';
 export const SEND_NEW_MESSAGE_FAILURE = 'app/MessagesContainer/SEND_NEW_MESSAGE_FAILURE';
+export const SEND_ALL_MESSAGES_DATA_REQUEST = 'app/MessagesContainer/SEND_ALL_MESSAGE_REQUEST';
+export const SEND_ALL_MESSAGES_DATA_SUCCESS = 'app/MessagesContainer/SEND_ALL_MESSAGE_SUCCESS';
+export const SEND_ALL_MESSAGES_DATA_FAILURE = 'app/MessagesContainer/SEND_ALL_MESSAGE_FAILURE';
 export const MESSAGES_TOGGLE = 'app/MessagesContainer/MESSAGES_TOGGLE';

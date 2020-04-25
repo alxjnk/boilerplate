@@ -10,7 +10,6 @@ import { createUseStyles } from 'react-jss';
 import { Card, ListGroup, Accordion, FormControl, InputGroup, Button } from 'react-bootstrap';
 import classNames from 'classnames';
 import { format } from 'date-fns';
-// import { platforms } from '../../variables/platforms';
 
 const MessagesWrapper = createUseStyles({
 	item: {
@@ -118,7 +117,15 @@ const MessagesWrapper = createUseStyles({
 	},
 });
 
-function Messages({ messages, messagesToggler, messagesToggle, handleSendNewMessageWithSocket, ...props }) {
+function Messages({ 
+		messages, 
+		sortedMessages, 
+		messagesToggler, 
+		messagesToggle, 
+		handleSendNewMessageWithSocket,
+		handleSendAllMessages, 
+		...props 
+	}) {
 	const classes = MessagesWrapper();
 	const messagesToggleClassName = classNames(classes.toggle, {
 		toggled: messagesToggle,
@@ -135,6 +142,26 @@ function Messages({ messages, messagesToggler, messagesToggle, handleSendNewMess
 		e.target.children[0].children[0].value = '';
 	};
 
+	//по имени пользователя меняет значение поля new с true на false
+	const changeMessagesStatus = (messages, fullName) => {
+		return messages.map(message => {
+			if (message['full_name'] === fullName) {
+				message.new = false;
+			}
+
+			return message;
+		})
+	};
+	// меняем статус сообщений
+	const changeMesStatus = e => {
+		// получаем поле full_name пользователя по клику
+		const fullName = e.currentTarget.querySelector('span').innerText;
+		// меняем статус сообщения new с true на false
+		const changedMessages = changeMessagesStatus(messages, fullName);
+		// вызываем хендлер по добавлению сообщений с измененным статусом в базу данных
+		handleSendAllMessages(changedMessages);
+	};
+
 	return (
 		<Card className={messagesItemClassName}>
 			<Card.Header className={classes.itemHeader}>
@@ -145,27 +172,27 @@ function Messages({ messages, messagesToggler, messagesToggle, handleSendNewMess
 			</Card.Header>
 			<Card.Body className={classes.itemBody}>
 				<Accordion>
-					{Object.keys(messages).map(user => (
+					{Object.keys(sortedMessages).map(user => (
 						<Card key={user}>
-							<Accordion.Toggle as={Card.Header} eventKey={user}>
+							<Accordion.Toggle as={Card.Header} eventKey={user} onClick={changeMesStatus}>
 								<div className={classes.messageHeader}>
-									<div className={classes.platform}>{messages[user][0].platform.replace(/\..+/, '')}</div>
+									<div className={classes.platform}>{sortedMessages[user][0].platform.replace(/\..+/, '')}</div>
 									<div className={classes.wrapper}>
 										<div className={classes.innerHeader}>
-											<span className={classes.fullname}>{user.toUpperCase()}</span>
+											<span className={classes.fullname}>{user}</span>
 											<span className={classes.date}>
 												{new Date() * 1 - new Date(format(new Date(), 'RRRR-LL-dd')) * 1 >
 												new Date() - new Date('2020-03-01T08:27:53.919Z')
-													? format(new Date([...messages[user]][0].createdAt), 'HH:mm')
-													: format(new Date([...messages[user]][0].createdAt), 'dd-LL-RRRR')}
+													? format(new Date([...sortedMessages[user]][0].createdAt), 'HH:mm')
+													: format(new Date([...sortedMessages[user]][0].createdAt), 'dd-LL-RRRR')}
 											</span>
 										</div>
 										<div className={classes.innerHeader}>
 											<span className={classes.lastMessage}>
-												{[...messages[user]][0].message}
+												{[...sortedMessages[user]][0].message}
 											</span>
-											<span className={classes.newMessage}>
-												{messages[user].map(item => (item.new ? 1 : 0)).length}
+											<span className={sortedMessages[user].map(item => item.new ? 1 : 0).reduce((result, num) => result + num, 0) ? classes.newMessage : ''}>
+												{sortedMessages[user].map(item => item.new ? 1 : 0).reduce((result, num) => result + num, 0) ? sortedMessages[user].map(item => item.new ? 1 : 0).reduce((result, num) => result + num, 0) : ''}
 											</span>
 										</div>
 									</div>
@@ -188,7 +215,7 @@ function Messages({ messages, messagesToggler, messagesToggle, handleSendNewMess
 										</InputGroup>
 									</form>
 									<ListGroup variant="flush">
-										{[...messages[user]].reverse().map(event => (
+										{[...sortedMessages[user]].map(event => (
 											<ListGroup.Item key={event.id} className={classes.event}>
 												<span>{event.message}</span>
 											</ListGroup.Item>
@@ -206,9 +233,11 @@ function Messages({ messages, messagesToggler, messagesToggle, handleSendNewMess
 
 Messages.propTypes = {
 	messages: PropTypes.array,
+	sortedMessages: PropTypes.array,
 	messagesToggler: PropTypes.func,
 	messagesToggle: PropTypes.bool,
 	handleSendNewMessageWithSocket: PropTypes.func,
+	handleSendAllMessages: PropTypes.func,
 };
 
 export default Messages;
