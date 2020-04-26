@@ -1,3 +1,5 @@
+import { format } from 'date-fns';
+
 const getFieldValues = (arr, field) => {
    const values = [];
 
@@ -6,6 +8,20 @@ const getFieldValues = (arr, field) => {
    });
 
    return values;
+};
+// получаем дату/время создания последнего сообщения
+export const getLastMessageCreateDate = (messages, user) => {
+   return new Date() * 1 - new Date(format(new Date(), 'RRRR-LL-dd')) * 1 > new Date() - new Date([...messages[user]][0].createdAt) ? format(new Date([...messages[user]][0].createdAt), 'HH:mm') : format(new Date([...messages[user]][0].createdAt), 'dd-LL-RRRR')
+};
+// получаем количество новых сообщений
+export const getNumberOfNewMessages = (messages, user) => {
+   const numberOfNewMessages = messages[user].map(item => item.new ? 1 : 0).reduce((result, num) => result + num, 0) ? messages[user].map(item => item.new ? 1 : 0).reduce((result, num) => result + num, 0) : '';
+
+   return numberOfNewMessages;
+};
+// определяем есть ли новые сообщения
+export const isNewMessages = (messages, user) => {
+   return messages[user].map(item => item.new ? 1 : 0).reduce((result, num) => result + num, 0);
 };
 // меняем статус сообщения new с true на false
 export const changeMessagesStatus = (messages, fullName) => {

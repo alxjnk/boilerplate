@@ -9,8 +9,13 @@ import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
 import { Card, ListGroup, Accordion, FormControl, InputGroup, Button } from 'react-bootstrap';
 import classNames from 'classnames';
-import { format } from 'date-fns';
-import { changeMessagesStatus } from '../../utils/helper';
+// import { format } from 'date-fns';
+import { 
+	changeMessagesStatus,
+	getNumberOfNewMessages,
+	isNewMessages,
+	getLastMessageCreateDate
+} from '../../utils/helper';
 // import { platforms } from '../../variables/platforms';
 
 const MessagesWrapper = createUseStyles({
@@ -135,6 +140,7 @@ function Messages({
 	const messagesItemClassName = classNames(classes.item, {
 		toggled: messagesToggle,
 	});
+
 	const sendNewMessage = e => {
 		e.preventDefault();
 		const { value } = e.target.children[0].children[0];
@@ -143,6 +149,7 @@ function Messages({
 		handleSendNewMessageWithSocket(value);
 		e.target.children[0].children[0].value = '';
 	};
+	
 	const handlerChangeMessageStatus = e => {
 		const spanCollection = e.currentTarget.querySelectorAll('span');
 		const fullName = spanCollection[0].innerText;
@@ -154,19 +161,6 @@ function Messages({
 			handleSendAllMessages(changedMessages);
 		}
 	};
-
-	//тестовый код/////////////////////////
-	// console.log('sortedMessages: ', sortedMessages);
-	const counterNewMessages = (messages) => {
-
-		return Object.keys(messages).map(key => {
-			return messages[key].map(item => item.new ? 1 : 0).reduce((result, num) => {
-				return result + num;
-			}, 0);
-		});
-	};
-	// console.log("counterNewMessages: ", counterNewMessages(sortedMessages));
-	///////////////////////////////////////
 
 	return (
 		<Card className={messagesItemClassName}>
@@ -187,18 +181,15 @@ function Messages({
 										<div className={classes.innerHeader}>
 											<span className={classes.fullname}>{user}</span>
 											<span className={classes.date}>
-												{new Date() * 1 - new Date(format(new Date(), 'RRRR-LL-dd')) * 1 >
-												new Date() - new Date('2020-03-01T08:27:53.919Z')
-													? format(new Date([...sortedMessages[user]][0].createdAt), 'HH:mm')
-													: format(new Date([...sortedMessages[user]][0].createdAt), 'dd-LL-RRRR')}
+												{getLastMessageCreateDate(sortedMessages, user)}
 											</span>
 										</div>
 										<div className={classes.innerHeader}>
 											<span className={classes.lastMessage}>
 												{[...sortedMessages[user]][0].message}
 											</span>
-											<span className={sortedMessages[user].map(item => item.new ? 1 : 0).reduce((result, num) => result + num, 0) ? classes.newMessage : ''}>
-												{sortedMessages[user].map(item => item.new ? 1 : 0).reduce((result, num) => result + num, 0) ? sortedMessages[user].map(item => item.new ? 1 : 0).reduce((result, num) => result + num, 0) : ''}
+											<span className={isNewMessages(sortedMessages, user) ? classes.newMessage : ''}>
+												{getNumberOfNewMessages(sortedMessages, user)}
 											</span>
 										</div>
 									</div>
