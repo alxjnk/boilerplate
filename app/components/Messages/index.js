@@ -10,6 +10,8 @@ import { createUseStyles } from 'react-jss';
 import { Card, ListGroup, Accordion, FormControl, InputGroup, Button } from 'react-bootstrap';
 import classNames from 'classnames';
 import { format } from 'date-fns';
+import { changeMessagesStatus } from '../../utils/helper';
+// import { platforms } from '../../variables/platforms';
 
 const MessagesWrapper = createUseStyles({
 	item: {
@@ -141,26 +143,30 @@ function Messages({
 		handleSendNewMessageWithSocket(value);
 		e.target.children[0].children[0].value = '';
 	};
+	const handlerChangeMessageStatus = e => {
+		const spanCollection = e.currentTarget.querySelectorAll('span');
+		const fullName = spanCollection[0].innerText;
+		const newMessage = spanCollection[spanCollection.length - 1].innerText ? true : false;
+		
+		if (newMessage) {
+			const changedMessages = changeMessagesStatus(messages, fullName);
 
-	//по имени пользователя меняет значение поля new с true на false
-	const changeMessagesStatus = (messages, fullName) => {
-		return messages.map(message => {
-			if (message['full_name'] === fullName) {
-				message.new = false;
-			}
+			handleSendAllMessages(changedMessages);
+		}
+	};
 
-			return message;
-		})
+	//тестовый код/////////////////////////
+	// console.log('sortedMessages: ', sortedMessages);
+	const counterNewMessages = (messages) => {
+
+		return Object.keys(messages).map(key => {
+			return messages[key].map(item => item.new ? 1 : 0).reduce((result, num) => {
+				return result + num;
+			}, 0);
+		});
 	};
-	// меняем статус сообщений
-	const changeMesStatus = e => {
-		// получаем поле full_name пользователя по клику
-		const fullName = e.currentTarget.querySelector('span').innerText;
-		// меняем статус сообщения new с true на false
-		const changedMessages = changeMessagesStatus(messages, fullName);
-		// вызываем хендлер по добавлению сообщений с измененным статусом в базу данных
-		handleSendAllMessages(changedMessages);
-	};
+	// console.log("counterNewMessages: ", counterNewMessages(sortedMessages));
+	///////////////////////////////////////
 
 	return (
 		<Card className={messagesItemClassName}>
@@ -174,7 +180,7 @@ function Messages({
 				<Accordion>
 					{Object.keys(sortedMessages).map(user => (
 						<Card key={user}>
-							<Accordion.Toggle as={Card.Header} eventKey={user} onClick={changeMesStatus}>
+							<Accordion.Toggle as={Card.Header} eventKey={user} onClick={handlerChangeMessageStatus}>
 								<div className={classes.messageHeader}>
 									<div className={classes.platform}>{sortedMessages[user][0].platform.replace(/\..+/, '')}</div>
 									<div className={classes.wrapper}>

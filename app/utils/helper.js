@@ -7,6 +7,16 @@ const getFieldValues = (arr, field) => {
 
    return values;
 };
+// меняем статус сообщения new с true на false
+export const changeMessagesStatus = (messages, fullName) => {
+   return messages.map(message => {
+      if (message['full_name'] === fullName) {
+         message.new = false;
+      }
+
+      return message;
+   })
+};
 
 export const sortMessages = messages => {
    let sortedMessages = {};
