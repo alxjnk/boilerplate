@@ -17,15 +17,15 @@ import reducer from './reducer';
 import saga from './saga';
 import LineChart from '../../components/LineChart/index';
 import { todayInMilliseconds } from '../../utils/getDate';
-import { sortBookingsData } from '../../utils/helper';
+import { filterBookingsData } from '../../utils/helper';
 
 export function LineChartContainer(bookingsData, ...props) {
 	useInjectReducer({ key: 'lineChartContainer', reducer });
 	useInjectSaga({ key: 'lineChartContainer', saga });
 	
-	const sortedBookingsData = sortBookingsData(bookingsData.bookingsData, todayInMilliseconds());
+	const filteredBookingsData = filterBookingsData(bookingsData.bookingsData, todayInMilliseconds(), todayInMilliseconds() + 30 * 24 * 60 * 60 * 1000);
 
-	return <LineChart sortedBookingsData={sortedBookingsData}/>;
+	return <LineChart filteredBookingsData={filteredBookingsData}/>;
 }
 
 LineChartContainer.propTypes = {

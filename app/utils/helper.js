@@ -62,26 +62,42 @@ export const sortMessages = messages => {
    return sortedMessages;
 };
 
-export const sortBookingsData = (bookingsData, today) => {
+export const filterBookingsData = (bookingsData, startDate, endDate) => {
    const sortedBookingsData = {};
    const rooms = getFieldValues(bookingsData, 'room');
 
    rooms.forEach(room => {
       bookingsData.forEach(booking => {
          const newBooking = { ...booking };
-         if (booking.room === room && (new Date(newBooking.departure) * 1) >= today) {
+
+         if (
+            booking.room === room && 
+               (
+                  (new Date(newBooking.arrival) * 1) <= (new Date(format(new Date(startDate), 'RRRR-LL-dd')) * 1) && 
+                  (new Date(newBooking.departure) * 1) >= (new Date(format(new Date(startDate), 'RRRR-LL-dd')) * 1) || 
+                  (new Date(newBooking.arrival) * 1) >= (new Date(format(new Date(startDate), 'RRRR-LL-dd')) * 1) && 
+                  (new Date(newBooking.arrival) * 1) <= (new Date(format(new Date(endDate), 'RRRR-LL-dd')) * 1 + 86399999) || 
+                  (new Date(newBooking.departure) * 1) >= (new Date(format(new Date(startDate), 'RRRR-LL-dd')) * 1) && 
+                  (new Date(newBooking.departure) * 1) <= (new Date(format(new Date(endDate), 'RRRR-LL-dd')) * 1 + 86399999) 
+                  )
+                  ) {
             if (!(room in sortedBookingsData)) {
                sortedBookingsData[room] = [];
             }
-            if (new Date(newBooking.arrival) * 1 <= today) {
+            if (new Date(newBooking.arrival) * 1 <= startDate) {
                newBooking['start'] = 0;
-               newBooking['startDay'] = new Date(today).getDate();
+               newBooking['startDay'] = new Date(startDate).getDate();
             } else {
-               newBooking['start'] = Math.ceil(new Date(newBooking.arrival) * 1 / 24 / 60 / 60 / 1000 - today / 24 / 60 / 60 / 1000);
+               newBooking['start'] = Math.ceil(new Date(newBooking.arrival) * 1 / 24 / 60 / 60 / 1000 - startDate / 24 / 60 / 60 / 1000);
                newBooking['startDay'] = new Date(newBooking.arrival).getDate();
             }
-            newBooking['end'] = Math.ceil(new Date(newBooking.departure) * 1 / 24 / 60 / 60 / 1000 - today / 24 / 60 / 60 / 1000);
-            newBooking['endDay'] = new Date(newBooking.departure).getDate();
+            if (new Date(newBooking.departure) * 1 >= endDate) {
+               newBooking['end'] = endDate / 24 / 60 / 60 / 1000;
+               newBooking['endDay'] = new Date(newBooking.departure).getDate();
+            } else {
+               newBooking['end'] = Math.ceil(new Date(newBooking.departure) * 1 / 24 / 60 / 60 / 1000 - startDate / 24 / 60 / 60 / 1000);
+               newBooking['endDay'] = new Date(newBooking.departure).getDate();
+            }
             sortedBookingsData[room].push(newBooking);
          };
       });

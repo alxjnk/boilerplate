@@ -64,6 +64,15 @@ const MessagesWrapper = createUseStyles({
 	},
 	event: {
 		cursor: 'pointer',
+		border: 'none !important',
+		margin: '5px',
+		display: 'flex',
+		padding: '0 !important',
+		'& span': {
+			padding: '.75rem 1.25rem',
+			border: '1px solid rgba(0,0,0,.125)',
+			borderRadius: '5px',
+		}
 	},
 	messageHeader: {
 		display: 'flex',
@@ -113,6 +122,12 @@ const MessagesWrapper = createUseStyles({
 		textOverflow: 'ellipsis',
 		whiteSpace: 'nowrap',
 	},
+	chatWinwow: {
+		maxHeight: '300px',
+		overflow: 'auto',
+		border: '1px solid rgba(0,0,0,.125)',
+      borderRadius: '5px',
+	},
 	newMessage: {
 		borderRadius: '0.8em',
 		backgroundColor: 'rgba(0,0,0,.08)',
@@ -149,7 +164,7 @@ function Messages({
 		handleSendNewMessageWithSocket(value);
 		e.target.children[0].children[0].value = '';
 	};
-	
+
 	const handlerChangeMessageStatus = e => {
 		const spanCollection = e.currentTarget.querySelectorAll('span');
 		const fullName = spanCollection[0].innerText;
@@ -197,6 +212,15 @@ function Messages({
 							</Accordion.Toggle>
 							<Accordion.Collapse eventKey={user}>
 								<Card.Body>
+									<div className={classes.chatWinwow}>
+										<ListGroup variant="flush">
+											{[...sortedMessages[user]].map(event => (
+												<ListGroup.Item key={event.id} className={classes.event}>
+													<span>{event.message}</span>
+												</ListGroup.Item>
+											))}
+										</ListGroup>
+									</div>
 									<form name="sendMessage" onSubmit={sendNewMessage} className={classes.textarea}>
 										<InputGroup className="mb-3">
 											<FormControl
@@ -211,13 +235,6 @@ function Messages({
 											</InputGroup.Append>
 										</InputGroup>
 									</form>
-									<ListGroup variant="flush">
-										{[...sortedMessages[user]].map(event => (
-											<ListGroup.Item key={event.id} className={classes.event}>
-												<span>{event.message}</span>
-											</ListGroup.Item>
-										))}
-									</ListGroup>
 								</Card.Body>
 							</Accordion.Collapse>
 						</Card>
