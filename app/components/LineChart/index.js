@@ -8,7 +8,12 @@ import React, { useState, useEffect } from 'react';
 // import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
 import { Card, Dropdown, Button } from 'react-bootstrap';
-import { todayInMilliseconds, months } from '../../utils/getDate';
+import { 
+	todayInMilliseconds, 
+	months, 
+	getPeriodLength, 
+	getAmountDaysInMonth
+} from '../../utils/getDate';
 
 const LineChartWrapper = createUseStyles({
 	item: {
@@ -91,6 +96,7 @@ const LineChartWrapper = createUseStyles({
 
 function LineChart({filteredBookingsData, ...props}) {
 	const classes = LineChartWrapper();
+	const currentMonth = new Date().getMonth();
 	let currentRoom = Object.keys(filteredBookingsData)[0];
 	const dateToday = new Date(todayInMilliseconds()).getDate();
 	const [room, setRoom] = useState(currentRoom);
@@ -99,8 +105,27 @@ function LineChart({filteredBookingsData, ...props}) {
 			setRoom(currentRoom);
 		}
 	}, [currentRoom]);
+	let currentPeriod = 1;
+	const [period, setPeriod] = useState(currentPeriod);
+	useEffect(() => {
+		setPeriod(currentPeriod);
+	}, [currentPeriod]);
 
-	console.log(filteredBookingsData);
+	const changePeriod = (e) => {
+		let value = +e.currentTarget.innerText.match(/\d/)[0];
+
+		setPeriod(prevPeriod => value);
+	};
+	// настраиваем длину отображения месяцев на графике
+	const setMonthsWidthOnChart = (period, index, currentMonth) => {
+		return (
+			index === 0 ? 
+			100 / getPeriodLength(period) * (getAmountDaysInMonth(currentMonth + index) - new Date(todayInMilliseconds()).getDate() + 1) : 
+			index === period ? 
+			100 / getPeriodLength(period) * (new Date(todayInMilliseconds()).getDate() - 1) : 100 / getPeriodLength(period) * getAmountDaysInMonth(currentMonth + index)
+		);
+	};
+
 	
 	return (
 		<Card className={classes.item}>
@@ -123,9 +148,9 @@ function LineChart({filteredBookingsData, ...props}) {
 					</Dropdown>
 				</span>
 				<div className={classes.amountOfMonthes}>
-					<Button variant="secondary">1m</Button>
-					<Button variant="secondary">2m</Button>
-					<Button variant="secondary">3m</Button>
+					<Button variant="secondary" onClick={changePeriod}>1m</Button>
+					<Button variant="secondary" onClick={changePeriod}>2m</Button>
+					<Button variant="secondary" onClick={changePeriod}>3m</Button>
 				</div>
 				<span 
 					// className={messagesToggleClassName} onClick={() => messagesToggler()}
@@ -141,8 +166,18 @@ function LineChart({filteredBookingsData, ...props}) {
 						</div>
 						<div className={classes.bookingsWrapper}>
 							<div className={classes.bookingsHeader}>
-								<span className={classes.month} style={{display: 'block', width: `${100 / 31 * (31 - new Date(todayInMilliseconds()).getDate())}%`}}>{months[new Date(todayInMilliseconds()).getMonth()].monthName}</span>
-								<span className={classes.month} style={{display: 'block', borderRight: 'rgba(0,0,0,.05)', width: `${100 - 100 / 31 * (31 - new Date(todayInMilliseconds()).getDate())}%`}}>{months[new Date(todayInMilliseconds()).getMonth() + 1].monthName}</span>
+								{Array.from({ length: period + 1 }, (_,ind) => ind + 1).map((item, index) => (
+										<span 
+											className={classes.month} 
+											key={months[new Date(todayInMilliseconds()).getMonth() + index].monthName}
+											style={{
+												display: 'block', 
+												width: `${setMonthsWidthOnChart(period, index, currentMonth)}%`
+											}}
+										>
+											{months[new Date(todayInMilliseconds()).getMonth() + index].monthName}
+										</span>
+									))}
 							</div>
 							<div className={classes.bookings}>
 								{filteredBookingsData[room] && filteredBookingsData[room].length && filteredBookingsData[room].map(user => <p name={user.id} key={user.id}>

@@ -74,3 +74,34 @@ export const months = {
       monthName: "December"
    }
 };
+
+export const getAmountDaysInMonth = monthNum => {
+   const currentYear = new Date().getFullYear();
+   
+   if (leapYear(currentYear) && monthNum === 1) {
+      return months[monthNum].amountDaysLeap
+   } else {
+      return months[monthNum].amountDays
+   }
+};
+
+export const getPeriodLength = period => {
+   const numDay = new Date(todayInMilliseconds()).getDate();
+   const currentMonth = new Date(todayInMilliseconds()).getMonth();
+   let periodLength = 0;
+   
+   for (let i = 0; i <= period; i++) {
+      let daysInMonth = 0;
+      if (i === 0) {
+         daysInMonth = getAmountDaysInMonth(currentMonth) - numDay + 1;
+      } else 
+      if (i === period) {
+         daysInMonth = numDay - 1;
+      } else {
+         daysInMonth = getAmountDaysInMonth(currentMonth + i);
+      }
+      periodLength += daysInMonth;
+   }
+
+   return periodLength;
+};
