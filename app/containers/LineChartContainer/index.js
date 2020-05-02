@@ -23,9 +23,9 @@ export function LineChartContainer(bookingsData, ...props) {
 	useInjectReducer({ key: 'lineChartContainer', reducer });
 	useInjectSaga({ key: 'lineChartContainer', saga });
 	
-	const filteredBookingsData = filterBookingsData(bookingsData.bookingsData, todayInMilliseconds(), todayInMilliseconds() + 30 * 24 * 60 * 60 * 1000);
+	// const filteredBookingsData = filterBookingsData(bookingsData.bookingsData, todayInMilliseconds(), todayInMilliseconds() + 30 * 24 * 60 * 60 * 1000);
 
-	return <LineChart filteredBookingsData={filteredBookingsData}/>;
+	return <LineChart bookingsData={bookingsData}/>;
 }
 
 LineChartContainer.propTypes = {

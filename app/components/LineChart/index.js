@@ -14,6 +14,7 @@ import {
 	getPeriodLength, 
 	getAmountDaysInMonth
 } from '../../utils/getDate';
+import { filterBookingsData } from '../../utils/helper';
 
 const LineChartWrapper = createUseStyles({
 	item: {
@@ -94,26 +95,19 @@ const LineChartWrapper = createUseStyles({
 	},
 });
 
-function LineChart({filteredBookingsData, ...props}) {
+function LineChart({bookingsData, ...props}) {
 	const classes = LineChartWrapper();
 	const currentMonth = new Date().getMonth();
-	let currentRoom = Object.keys(filteredBookingsData)[0];
 	const dateToday = new Date(todayInMilliseconds()).getDate();
-	const [room, setRoom] = useState(currentRoom);
-	useEffect(() => {
-		if (currentRoom) {
-			setRoom(currentRoom);
-		}
-	}, [currentRoom]);
 	let currentPeriod = 1;
 	const [period, setPeriod] = useState(currentPeriod);
 	useEffect(() => {
 		setPeriod(currentPeriod);
 	}, [currentPeriod]);
-
+	
 	const changePeriod = (e) => {
 		let value = +e.currentTarget.innerText.match(/\d/)[0];
-
+		
 		setPeriod(prevPeriod => value);
 	};
 	// настраиваем длину отображения месяцев на графике
@@ -125,8 +119,17 @@ function LineChart({filteredBookingsData, ...props}) {
 			100 / getPeriodLength(period) * (new Date(todayInMilliseconds()).getDate() - 1) : 100 / getPeriodLength(period) * getAmountDaysInMonth(currentMonth + index)
 		);
 	};
-
+		
+	const filteredBookingsData = filterBookingsData(bookingsData.bookingsData, todayInMilliseconds(), todayInMilliseconds() + getPeriodLength(period) * 24 * 60 * 60 * 1000);
 	
+	let currentRoom = Object.keys(filteredBookingsData)[0];
+	const [room, setRoom] = useState(currentRoom);
+	useEffect(() => {
+		if (currentRoom) {
+			setRoom(currentRoom);
+		}
+	}, [currentRoom]);
+
 	return (
 		<Card className={classes.item}>
 			<Card.Header className={classes.dropdownList}>
@@ -185,8 +188,8 @@ function LineChart({filteredBookingsData, ...props}) {
 										backgroundColor: "rgba(0,0,0,.05)",
 										padding: "0 5px", display: 'flex',
 										justifyContent: `${user.startDay !== user.endDay ? 'space-between' : 'space-around'}`,
-										marginLeft: `${100 / 31 * user.start}%`, 
-										width: `${100 / 31 * (user.end - user.start + 1)}%`
+										marginLeft: `${100 / getPeriodLength(period) * user.start}%`, 
+										width: `${100 / getPeriodLength(period) * (user.end - user.start + 1)}%`
 									}}>
 										<span>
 											{dateToday === user.startDay && user.startDay !== user.endDay ? '' : user.startDay}
