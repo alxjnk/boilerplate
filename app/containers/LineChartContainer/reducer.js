@@ -4,16 +4,22 @@
  *
  */
 import produce from 'immer';
-import { DEFAULT_ACTION } from './constants';
+import { LINECHART_TOGGLE } from './constants';
 
-export const initialState = {};
+export const initialState = {
+	lineChartToggle: false,
+};
 
 /* eslint-disable default-case, no-param-reassign */
 const lineChartContainerReducer = (state = initialState, action) =>
-	produce(state, (/* draft */) => {
+	produce(state, (draft) => {
 		switch (action.type) {
-			case DEFAULT_ACTION:
+			case LINECHART_TOGGLE: {
+				draft.lineChartToggle = !state.lineChartToggle;
 				break;
+			}
+			default:
+				return state;
 		}
 	});
 

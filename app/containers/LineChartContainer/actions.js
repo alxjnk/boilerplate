@@ -4,10 +4,12 @@
  *
  */
 
-import { DEFAULT_ACTION } from './constants';
+import {
+	LINECHART_TOGGLE
+} from './constants';
 
-export function defaultAction() {
+export const toggleLineChart = () => {
 	return {
-		type: DEFAULT_ACTION,
-	};
-}
+		type: LINECHART_TOGGLE,
+	}
+};

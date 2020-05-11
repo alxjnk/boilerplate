@@ -4,4 +4,4 @@
  *
  */
 
-export const DEFAULT_ACTION = 'app/LineChartContainer/DEFAULT_ACTION';
+export const LINECHART_TOGGLE = 'app/LineChartContainer/LINECHART_TOGGLE';

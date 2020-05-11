@@ -142,8 +142,8 @@ const MessagesWrapper = createUseStyles({
 function Messages({ 
 		messages, 
 		sortedMessages, 
-		messagesToggler, 
 		messagesToggle, 
+		messagesToggler, 
 		handleSendNewMessageWithSocket,
 		handleSendAllMessages, 
 		...props 

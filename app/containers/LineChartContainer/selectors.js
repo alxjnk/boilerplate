@@ -21,5 +21,14 @@ const makeSelectLineChartContainer = () =>
 		substate => substate,
 	);
 
-export default makeSelectLineChartContainer;
-export { selectLineChartContainerDomain };
+const makeSelectLineChartToggle = () =>
+	createSelector(
+		selectLineChartContainerDomain,
+		substate => substate.lineChartToggle,
+	);
+
+export { 
+	selectLineChartContainerDomain, 
+	makeSelectLineChartToggle,
+	makeSelectLineChartContainer,
+};

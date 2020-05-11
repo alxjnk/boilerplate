@@ -12,42 +12,49 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import makeSelectLineChartContainer from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import LineChart from '../../components/LineChart/index';
-import { todayInMilliseconds } from '../../utils/getDate';
-import { filterBookingsData } from '../../utils/helper';
+import { toggleLineChart } from './actions';
+import { 
+	makeSelectLineChartContainer, 
+	makeSelectLineChartToggle 
+} from './selectors';
 
-export function LineChartContainer(bookingsData, ...props) {
+export function LineChartContainer({
+		bookingsData, 
+		lineChartToggle, 
+		handleLineChartToggle, 
+		...props
+	}) {
 	useInjectReducer({ key: 'lineChartContainer', reducer });
 	useInjectSaga({ key: 'lineChartContainer', saga });
-	
-	// const filteredBookingsData = filterBookingsData(bookingsData.bookingsData, todayInMilliseconds(), todayInMilliseconds() + 30 * 24 * 60 * 60 * 1000);
 
-	return <LineChart bookingsData={bookingsData}/>;
-}
+	return <LineChart 
+				bookingsData={bookingsData} 
+				lineChartToggle={lineChartToggle}
+				lineChartToggler={handleLineChartToggle} 
+			/>;
+};
 
 LineChartContainer.propTypes = {
 	dispatch: PropTypes.func.isRequired,
+	lineChartToggle: PropTypes.bool.isRequired,
+	handleLineChartToggle: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
 	lineChartContainer: makeSelectLineChartContainer(),
+	lineChartToggle: makeSelectLineChartToggle()
 });
 
 function mapDispatchToProps(dispatch) {
 	return {
 		dispatch,
+		handleLineChartToggle: () => dispatch(toggleLineChart()),
 	};
 }
 
-const withConnect = connect(
-	mapStateToProps,
-	mapDispatchToProps,
-);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(
-	withConnect,
-	memo,
-)(LineChartContainer);
+export default compose(withConnect, memo)(LineChartContainer);

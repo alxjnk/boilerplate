@@ -8,6 +8,7 @@ import React, { useState, useEffect } from 'react';
 // import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
 import { Card, Dropdown, Button } from 'react-bootstrap';
+import classNames from 'classnames';
 import { 
 	todayInMilliseconds, 
 	months, 
@@ -19,6 +20,11 @@ import { filterBookingsData } from '../../utils/helper';
 const LineChartWrapper = createUseStyles({
 	item: {
 		height: 'calc(50vh - 77px)',
+		margin: 'auto',
+		'&.toggled': {
+			width: 'calc(100% - 60px)',
+			height: 'calc(100% - 60px)',
+		},
 	},
 	dropdownList: {
 		display: 'flex',
@@ -52,6 +58,25 @@ const LineChartWrapper = createUseStyles({
 	wrapper: {
 		display: 'flex',
 		flexGrow: 1,
+	},
+	toggle: {
+		width: '25px',
+		height: '25px',
+		lineHeight: '19px',
+		textAlign: 'center',
+		cursor: 'pointer',
+		fontSize: '32px',
+		borderRadius: '50%',
+		backgroundColor: 'transparent',
+		transition: 'all .3s',
+		'&:hover': {
+			backgroundColor: '#bbb',
+			transition: 'all .3s',
+		},
+		'&.toggled': {
+			transform: 'rotate(45deg)',
+			transition: 'all .3s',
+		},
 	},
 	bookingsWrapper: {
 		display: 'flex',
@@ -95,8 +120,19 @@ const LineChartWrapper = createUseStyles({
 	},
 });
 
-function LineChart({bookingsData, ...props}) {
+function LineChart({
+		bookingsData, 
+		lineChartToggle,
+		lineChartToggler,
+		...props
+	}) {
 	const classes = LineChartWrapper();
+	const lineChartToggleClassName = classNames(classes.toggle, {
+		toggled: lineChartToggle,
+	});
+	const lineChartItemClassName = classNames(classes.item, {
+		toggled: lineChartToggle,
+	});
 	const currentMonth = new Date().getMonth();
 	const dateToday = new Date(todayInMilliseconds()).getDate();
 	let currentPeriod = 1;
@@ -120,8 +156,8 @@ function LineChart({bookingsData, ...props}) {
 		);
 	};
 		
-	const filteredBookingsData = filterBookingsData(bookingsData.bookingsData, todayInMilliseconds(), todayInMilliseconds() + getPeriodLength(period) * 24 * 60 * 60 * 1000);
-	
+	const filteredBookingsData = filterBookingsData(bookingsData, todayInMilliseconds(), todayInMilliseconds() + getPeriodLength(period) * 24 * 60 * 60 * 1000);
+
 	let currentRoom = Object.keys(filteredBookingsData)[0];
 	const [room, setRoom] = useState(currentRoom);
 	useEffect(() => {
@@ -131,7 +167,7 @@ function LineChart({bookingsData, ...props}) {
 	}, [currentRoom]);
 
 	return (
-		<Card className={classes.item}>
+		<Card className={lineChartItemClassName}>
 			<Card.Header className={classes.dropdownList}>
 				<span>
 					<Dropdown>
@@ -156,7 +192,7 @@ function LineChart({bookingsData, ...props}) {
 					<Button variant="secondary" onClick={changePeriod}>3m</Button>
 				</div>
 				<span 
-					// className={messagesToggleClassName} onClick={() => messagesToggler()}
+					className={lineChartToggleClassName} onClick={() => lineChartToggler()}
 				>
 					+
 				</span>
@@ -175,7 +211,8 @@ function LineChart({bookingsData, ...props}) {
 											key={months[new Date(todayInMilliseconds()).getMonth() + index].monthName}
 											style={{
 												display: 'block', 
-												width: `${setMonthsWidthOnChart(period, index, currentMonth)}%`
+												width: `${setMonthsWidthOnChart(period, index, currentMonth)}%`,
+												transition: "all .3s"
 											}}
 										>
 											{months[new Date(todayInMilliseconds()).getMonth() + index].monthName}
@@ -187,15 +224,17 @@ function LineChart({bookingsData, ...props}) {
 									<span style={{ 
 										backgroundColor: "rgba(0,0,0,.05)",
 										padding: "0 5px", display: 'flex',
-										justifyContent: `${user.startDay !== user.endDay ? 'space-between' : 'space-around'}`,
+										justifyContent: `${user.startDay !== user.endDay && user.start + 1 !== user.end ? 'space-between' : 'space-around'}`,
 										marginLeft: `${100 / getPeriodLength(period) * user.start}%`, 
-										width: `${100 / getPeriodLength(period) * (user.end - user.start + 1)}%`
+										width: `${100 / getPeriodLength(period) * (user.end !== getPeriodLength(period) ? user.end - user.start + 1 : user.end - user.start)}%`,
+										transition: "all .3s",
+										whiteSpace: 'nowrap',
 									}}>
 										<span>
 											{dateToday === user.startDay && user.startDay !== user.endDay ? '' : user.startDay}
 										</span>
-										<span style={{display: `${user.startDay === user.endDay ? 'none' : ''}`}}>
-											{user.startDay !== user.endDay ? user.endDay : ''}
+										<span style={{display: `${user.startDay === user.endDay || user.start + 1 === user.end ? 'none' : ''}`}}>
+											{user.startDay !== user.endDay && user.start + 1 !== user.end ? user.endDay : ''}
 										</span>
 									</span>
 								</p>)}

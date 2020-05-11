@@ -92,7 +92,7 @@ export const filterBookingsData = (bookingsData, startDate, endDate) => {
                newBooking['startDay'] = new Date(newBooking.arrival).getDate();
             }
             if (new Date(newBooking.departure) * 1 >= endDate) {
-               newBooking['end'] = endDate / 24 / 60 / 60 / 1000;
+               newBooking['end'] = Math.ceil(new Date(endDate / 24 / 60 / 60 / 1000 - startDate / 24 / 60 / 60 / 1000));
                newBooking['endDay'] = new Date(newBooking.departure).getDate();
             } else {
                newBooking['end'] = Math.ceil(new Date(newBooking.departure) * 1 / 24 / 60 / 60 / 1000 - startDate / 24 / 60 / 60 / 1000);

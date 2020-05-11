@@ -21,6 +21,7 @@ import { routes } from '../../routes';
 import { selectSidebarToggle } from './selectors';
 import { makeSelectBookingsContainer } from '../BookingsContainer/selectors';
 import { makeSelectMessagesToggle } from '../MessagesContainer/selectors';
+import { makeSelectLineChartToggle } from '../LineChartContainer/selectors';
 import { toggleSidebar } from './actions';
 import Sidebar from '../../components/Sidebar/index';
 import MessagesContainer from '../MessagesContainer/index';
@@ -54,8 +55,7 @@ const AppWrapper = createUseStyles({
 	},
 	content: {
 		position: 'relative',
-		padding: '30px 15px',
-		minHeight: 'calc(100vh - 70px)',
+		padding: '29px 15px',
 		maxHeight: 'calc(100vh - 70px)',
 		overflowY: 'auto',
 		marginTop: 70,
@@ -67,6 +67,11 @@ const AppWrapper = createUseStyles({
 	},
 	container: {
 		maxWidth: '100% !important',
+	},
+	topRow: {
+		'& > div': {
+			marginBottom: '25px',
+		}
 	},
 	wrapper: {
 		'&.toggled': {
@@ -112,6 +117,7 @@ const AppWrapper = createUseStyles({
 function App(props) {
 	const { 
 		messagesToggle, 
+		lineChartToggle, 
 		sidebarToggle, 
 		sidebarToggler, 
 		closestBookings = [], 
@@ -127,8 +133,11 @@ function App(props) {
 	const contentWrapper = classNames(classes.contentWrapper, {
 		toggled: sidebarToggle,
 	});
-	const wrapperClassName = classNames(classes.wrapper, {
+	const messagesWrapperClassName = classNames(classes.wrapper, {
 		toggled: messagesToggle,
+	});
+	const lineChartWrapperClassName = classNames(classes.wrapper, {
+		toggled: lineChartToggle,
 	});
 	useEffect(() => {
 		socket.on('new_booking', booking => {
@@ -164,17 +173,18 @@ function App(props) {
 					<Suspense fallback={<div>Loading...</div>}>
 						<div className={classes.content}>
 							<Container className={classes.container}>
-								<Row>
+								<Row className={classes.topRow}>
 									<Col xl="8">
-										<LineChartContainer bookingsData={closestBookings} />
+										<div className={lineChartWrapperClassName}>
+											<LineChartContainer bookingsData={closestBookings} />
+										</div>
 									</Col>
 									<Col xl="4">
-										<div className={wrapperClassName}>
+										<div className={messagesWrapperClassName}>
 											<MessagesContainer />
 										</div>
 									</Col>
 								</Row>
-								<br />
 								<Row>
 									<Col>
 										<Card className={classes.item}>
@@ -227,6 +237,7 @@ const mapStateToProps = createStructuredSelector({
 	sidebarToggle: selectSidebarToggle(),
 	closestBookings: makeSelectBookingsContainer(),
 	messagesToggle: makeSelectMessagesToggle(),
+	lineChartToggle: makeSelectLineChartToggle(),
 });
 
 function mapDispatchToProps(dispatch) {
