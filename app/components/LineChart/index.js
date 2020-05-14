@@ -22,8 +22,8 @@ const LineChartWrapper = createUseStyles({
 		height: 'calc(50vh - 77px)',
 		margin: 'auto',
 		'&.toggled': {
-			width: 'calc(100% - 60px)',
-			height: 'calc(100% - 60px)',
+			width: 'calc(100% - 0px)',
+			height: 'calc(100% + 5px)',
 		},
 	},
 	dropdownList: {
@@ -229,12 +229,15 @@ function LineChart({
 										width: `${100 / getPeriodLength(period) * (user.end !== getPeriodLength(period) ? user.end - user.start + 1 : user.end - user.start)}%`,
 										transition: "all .3s",
 										whiteSpace: 'nowrap',
+										overflow: 'hidden',
 									}}>
 										<span>
 											{dateToday === user.startDay && user.startDay !== user.endDay ? '' : user.startDay}
 										</span>
-										<span style={{display: `${user.startDay === user.endDay || user.start + 1 === user.end ? 'none' : ''}`}}>
-											{user.startDay !== user.endDay && user.start + 1 !== user.end ? user.endDay : ''}
+										<span 
+											style={{display: `${user.startDay === user.endDay || user.start + 1 === user.end && user.start !== 0 ? 'none' : ''}`}}
+										>
+											{user.startDay !== user.endDay && user.start + 1 !== user.end ? user.endDay : user.start === 0 ? user.endDay : ''}
 										</span>
 									</span>
 								</p>)}

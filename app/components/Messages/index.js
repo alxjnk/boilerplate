@@ -23,8 +23,8 @@ const MessagesWrapper = createUseStyles({
 		height: 'calc(50vh - 77px)',
 		margin: 'auto',
 		'&.toggled': {
-			width: 'calc(100% - 60px)',
-			height: 'calc(100% - 60px)',
+			width: 'calc(100% - 0px)',
+			height: 'calc(100% + 5px)',
 		},
 	},
 	itemHeader: {

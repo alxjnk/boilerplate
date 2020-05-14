@@ -50,7 +50,7 @@ const AppWrapper = createUseStyles({
 		maxHeight: '100vh',
 		'&.toggled': {
 			width: '100%',
-			transtion: 'width .3s',
+			transition: 'width .3s',
 		},
 	},
 	content: {
@@ -61,8 +61,10 @@ const AppWrapper = createUseStyles({
 		marginTop: 70,
 		zIndex: 10,
 		'@media (max-width: 991.98px)': {
-			padding: '15px',
+			position: 'relative',
 			maxHeight: 'calc(100vh - 70px)',
+			width: '100%',
+			overflowX: 'unset',
 		},
 	},
 	container: {
@@ -71,20 +73,28 @@ const AppWrapper = createUseStyles({
 	topRow: {
 		'& > div': {
 			marginBottom: '25px',
-		}
+		},
+		'&.lineChartToggled > div:nth-of-type(1)': {
+			position: 'absolute',
+			zIndex: 1,
+			minWidth: 'calc(100% - 30px)',
+			height: 'calc(100% - 60px)',
+		},
+		'&.messagesToggled > div:nth-of-type(2)': {
+			position: 'absolute',
+			zIndex: 1,
+			minWidth: 'calc(100% - 30px)',
+			height: 'calc(100% - 60px)',
+		},
+	},
+	bottomRow: {
+		'&.toggled': {
+			
+		},
 	},
 	wrapper: {
 		'&.toggled': {
-			position: 'fixed',
-			top: '70px',
-			bottom: '0',
-			left: '0',
-			right: '0',
-			width: '100vw',
-			height: 'calc(100vh - 70px)',
-			display: 'flex',
-			zIndex: 11,
-			backgroundColor: '#fff',
+			height: '100%',
 		},
 	},
 	item: {
@@ -105,12 +115,7 @@ const AppWrapper = createUseStyles({
 				transform: 'translate3d(0, 0, 0)',
 				transition: 'transform .3s',
 			},
-		},
-		content: {
-			position: 'absolute',
-			width: '100%',
-			overflowX: 'unset',
-		},
+		}
 	},
 });
 
@@ -138,6 +143,10 @@ function App(props) {
 	});
 	const lineChartWrapperClassName = classNames(classes.wrapper, {
 		toggled: lineChartToggle,
+	});
+	const topRowClassName = classNames(classes.topRow, {
+		lineChartToggled: lineChartToggle,
+		messagesToggled: messagesToggle,
 	});
 	useEffect(() => {
 		socket.on('new_booking', booking => {
@@ -173,19 +182,19 @@ function App(props) {
 					<Suspense fallback={<div>Loading...</div>}>
 						<div className={classes.content}>
 							<Container className={classes.container}>
-								<Row className={classes.topRow}>
-									<Col xl="8">
+								<Row className={topRowClassName}>
+									<Col md="8" xl="8">
 										<div className={lineChartWrapperClassName}>
 											<LineChartContainer bookingsData={closestBookings} />
 										</div>
 									</Col>
-									<Col xl="4">
+									<Col md="4" xl="4">
 										<div className={messagesWrapperClassName}>
 											<MessagesContainer />
 										</div>
 									</Col>
 								</Row>
-								<Row>
+								<Row className={classes.bottomRow}>
 									<Col>
 										<Card className={classes.item}>
 											<Card.Header>Closest check-in</Card.Header>
