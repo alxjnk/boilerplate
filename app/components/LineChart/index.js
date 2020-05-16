@@ -25,10 +25,17 @@ const LineChartWrapper = createUseStyles({
 			width: 'calc(100% - 0px)',
 			height: 'calc(100% + 5px)',
 		},
+		// '&:hover > div > p': {
+		// 	opacity: '1',
+		// 	transition: 'all .3s',
+		// },
 	},
 	dropdownList: {
 		display: 'flex',
 		justifyContent: 'space-between',
+		'& > p': {
+			marginBottom: '0',
+		},
 		'& button': {
 			padding: '0px',
 		},
@@ -38,7 +45,7 @@ const LineChartWrapper = createUseStyles({
 	},
 	amountOfMonthes: {
 		marginLeft: 'auto',
-		marginRight: '20px',
+		marginRight: '10px',
 		'& button': {
 			margin: '0 5px',
 			padding: '3px 8px',
@@ -62,19 +69,40 @@ const LineChartWrapper = createUseStyles({
 	toggle: {
 		width: '25px',
 		height: '25px',
-		lineHeight: '19px',
+		lineHeight: '11px',
 		textAlign: 'center',
 		cursor: 'pointer',
-		fontSize: '32px',
+		fontSize: '50px',
+		border: '2px solid #000',
 		borderRadius: '50%',
 		backgroundColor: 'transparent',
+		transform: 'scale(0.7)',
+		// opacity: '0',
 		transition: 'all .3s',
+		marginTop: '2px',
 		'&:hover': {
 			backgroundColor: '#bbb',
 			transition: 'all .3s',
 		},
-		'&.toggled': {
+		'& > span:nth-of-type(2)': {
+			display: 'block',
+			transform: 'rotate(90deg)',
+			position: 'relative',
+			top: '-5px',
+			left: '6px',
+			transition: 'all .3s',
+		},
+		'& > span:nth-of-type(3)': {
+			display: 'block',
 			transform: 'rotate(45deg)',
+			position: 'relative',
+			top: '-8px',
+			left: '17px',
+		},
+		'&.toggled > span:nth-of-type(2)': {
+			transform: 'rotate(0deg)',
+			top: '-10px',
+			left: '0px',
 			transition: 'all .3s',
 		},
 	},
@@ -169,7 +197,7 @@ function LineChart({
 	return (
 		<Card className={lineChartItemClassName}>
 			<Card.Header className={classes.dropdownList}>
-				<span>
+				<div>
 					<Dropdown>
 						<Dropdown.Toggle variant='Secondary' id="dropdown-basic">
 							{`Room: ${room ? room : ''}`}
@@ -185,17 +213,19 @@ function LineChart({
 								</Dropdown.Item>))}
 						</Dropdown.Menu>
 					</Dropdown>
-				</span>
+				</div>
 				<div className={classes.amountOfMonthes}>
 					<Button variant="secondary" onClick={changePeriod}>1m</Button>
 					<Button variant="secondary" onClick={changePeriod}>2m</Button>
 					<Button variant="secondary" onClick={changePeriod}>3m</Button>
 				</div>
-				<span 
+				<p 
 					className={lineChartToggleClassName} onClick={() => lineChartToggler()}
 				>
-					+
-				</span>
+					<span>-</span>
+					<span>-</span>
+					<span>-</span>
+				</p>
 			</Card.Header>
 			<Card.Body>
 				<div className={classes.chart}>
