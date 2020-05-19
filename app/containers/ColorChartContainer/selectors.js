@@ -21,5 +21,14 @@ const makeSelectColorChartContainer = () =>
 		substate => substate,
 	);
 
-export default makeSelectColorChartContainer;
-export { selectColorChartContainerDomain };
+const makeSelectColorChartToggle = () =>
+	createSelector(
+		selectColorChartContainerDomain,
+		substate => substate.colorChartToggle,
+	);
+
+export { 
+	selectColorChartContainerDomain,
+	makeSelectColorChartToggle,
+	makeSelectColorChartContainer
+};

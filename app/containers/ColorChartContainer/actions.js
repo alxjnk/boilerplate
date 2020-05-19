@@ -4,10 +4,12 @@
  *
  */
 
-import { DEFAULT_ACTION } from './constants';
+import { 
+	COLOR_CHART_TOGGLE, 
+} from './constants';
 
-export function defaultAction() {
+export function toggleColorChart() {
 	return {
-		type: DEFAULT_ACTION,
+		type: COLOR_CHART_TOGGLE,
 	};
 }

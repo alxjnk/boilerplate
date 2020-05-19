@@ -12,16 +12,26 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import makeSelectColorChartContainer from './selectors';
+import { makeSelectColorChartToggle } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import ColorChart from '../../components/ColorChart/index';
+import {
+	toggleColorChart,
+} from './actions';
 
-export function ColorChartContainer(props) {
+export function ColorChartContainer({
+		colorChartToggle,
+		handleColorChartToggle,
+		...props
+	}) {
 	useInjectReducer({ key: 'colorChartContainer', reducer });
 	useInjectSaga({ key: 'colorChartContainer', saga });
 
-	return <ColorChart />;
+	return <ColorChart 
+				colorChartToggle={colorChartToggle}
+				colorChartToggler={handleColorChartToggle} 
+			/>;
 }
 
 ColorChartContainer.propTypes = {
@@ -29,12 +39,13 @@ ColorChartContainer.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-	colorChartContainer: makeSelectColorChartContainer(),
+	colorChartToggle: makeSelectColorChartToggle(),
 });
 
 function mapDispatchToProps(dispatch) {
 	return {
 		dispatch,
+		handleColorChartToggle: () => dispatch(toggleColorChart()),
 	};
 }
 

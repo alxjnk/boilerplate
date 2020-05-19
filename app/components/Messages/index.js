@@ -182,7 +182,7 @@ function Messages({
 			<Card.Header className={classes.itemHeader}>
 				<span>Messages</span>
 				<span className={messagesToggleClassName} onClick={() => messagesToggler()}>
-					{/*-*/}+
+					+
 				</span>
 			</Card.Header>
 			<Card.Body className={classes.itemBody}>

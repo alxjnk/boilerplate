@@ -22,6 +22,7 @@ import { selectSidebarToggle } from './selectors';
 import { makeSelectBookingsContainer } from '../BookingsContainer/selectors';
 import { makeSelectMessagesToggle } from '../MessagesContainer/selectors';
 import { makeSelectLineChartToggle } from '../LineChartContainer/selectors';
+import { makeSelectColorChartToggle } from '../ColorChartContainer/selectors';
 import { toggleSidebar } from './actions';
 import Sidebar from '../../components/Sidebar/index';
 import MessagesContainer from '../MessagesContainer/index';
@@ -88,8 +89,12 @@ const AppWrapper = createUseStyles({
 		},
 	},
 	bottomRow: {
-		'&.toggled': {
-			
+		'&.colorChartToggled > div:nth-of-type(3)': {
+			position: 'absolute',
+			top: '29px',
+			zIndex: 1,
+			maxWidth: 'calc(100% - 31px)',
+			height: 'calc(100% - 63px)',
 		},
 	},
 	wrapper: {
@@ -123,6 +128,7 @@ function App(props) {
 	const { 
 		messagesToggle, 
 		lineChartToggle, 
+		colorChartToggle, 
 		sidebarToggle, 
 		sidebarToggler, 
 		closestBookings = [], 
@@ -147,6 +153,12 @@ function App(props) {
 	const topRowClassName = classNames(classes.topRow, {
 		lineChartToggled: lineChartToggle,
 		messagesToggled: messagesToggle,
+	});
+	const colorChartWrapperClassName = classNames(classes.wrapper, {
+		toggled: colorChartToggle,
+	});
+	const bottomRowClassName = classNames(classes.bottomRow, {
+		colorChartToggled: colorChartToggle,
 	});
 	useEffect(() => {
 		socket.on('new_booking', booking => {
@@ -194,7 +206,7 @@ function App(props) {
 										</div>
 									</Col>
 								</Row>
-								<Row className={classes.bottomRow}>
+								<Row className={bottomRowClassName}>
 									<Col>
 										<Card className={classes.item}>
 											<Card.Header>Closest check-in</Card.Header>
@@ -212,7 +224,9 @@ function App(props) {
 										</Card>
 									</Col>
 									<Col>
-										<ColorChartContainer />
+										<div className={colorChartWrapperClassName}>
+											<ColorChartContainer />
+										</div>
 									</Col>
 								</Row>
 							</Container>
@@ -230,6 +244,7 @@ App.propTypes = {
 	authUser: PropTypes.func,
 	searchCard: PropTypes.func,
 	messagesToggle: PropTypes.bool,
+	colorChartToggle: PropTypes.bool,
 	sidebarToggle: PropTypes.bool,
 	sidebarToggler: PropTypes.func.isRequired,
 	closestBookings: PropTypes.array,
@@ -247,6 +262,7 @@ const mapStateToProps = createStructuredSelector({
 	closestBookings: makeSelectBookingsContainer(),
 	messagesToggle: makeSelectMessagesToggle(),
 	lineChartToggle: makeSelectLineChartToggle(),
+	colorChartToggle: makeSelectColorChartToggle(),
 });
 
 function mapDispatchToProps(dispatch) {

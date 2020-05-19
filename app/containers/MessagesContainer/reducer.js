@@ -22,6 +22,7 @@ export const initialState = {
 /* eslint-disable default-case, no-param-reassign */
 const messagesReducer = (state = initialState, action) =>
 	produce(state, (draft) => {
+		// console.log('25: Messages reducer STATE: ', state);
 		switch (action.type) {
 			case GET_MESSAGES_DATA_SUCCESS: {
 				draft.messages = action.payload;

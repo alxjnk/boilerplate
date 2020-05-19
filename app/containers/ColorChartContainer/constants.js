@@ -4,4 +4,4 @@
  *
  */
 
-export const DEFAULT_ACTION = 'app/ColorChartContainer/DEFAULT_ACTION';
+export const COLOR_CHART_TOGGLE = 'app/ColorChartContainer/COLOR_CHART_TOGGLE';
