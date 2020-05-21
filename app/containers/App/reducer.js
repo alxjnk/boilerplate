@@ -12,12 +12,16 @@ import {
 	LOAD_REPOS_SUCCESS, 
 	LOAD_REPOS, 
 	LOAD_REPOS_ERROR, 
-	SIDEBAR_TOGGLE 
+	SIDEBAR_TOGGLE, 
+	CHECK_IN_TOGGLE, 
+	CHECK_OUT_TOGGLE, 
 } from './constants';
 
 // The initial state of the App
 export const initialState = {
 	toggleSidebar: false,
+	checkInToggle: false,
+	checkOutToggle: false,
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -27,6 +31,12 @@ const appReducer = (state = initialState, action) =>
 		switch (action.type) {
 			case SIDEBAR_TOGGLE:
 				draft.toggleSidebar = !state.toggleSidebar;
+				break;
+			case CHECK_IN_TOGGLE:
+				draft.checkInToggle = !state.checkInToggle;
+				break;
+			case CHECK_OUT_TOGGLE:
+				draft.checkOutToggle = !state.checkOutToggle;
 				break;
 			default:
 				break;

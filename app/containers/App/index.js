@@ -18,12 +18,20 @@ import { compose } from 'redux';
 import classNames from 'classnames';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { routes } from '../../routes';
-import { selectSidebarToggle } from './selectors';
+import { 
+	selectSidebarToggle,
+	selectCheckInToggle,
+	selectCheckOutToggle,
+} from './selectors';
 import { makeSelectBookingsContainer } from '../BookingsContainer/selectors';
 import { makeSelectMessagesToggle } from '../MessagesContainer/selectors';
 import { makeSelectLineChartToggle } from '../LineChartContainer/selectors';
 import { makeSelectColorChartToggle } from '../ColorChartContainer/selectors';
-import { toggleSidebar } from './actions';
+import { 
+	toggleSidebar,
+	checkInToggle,
+	checkOutToggle
+} from './actions';
 import Sidebar from '../../components/Sidebar/index';
 import MessagesContainer from '../MessagesContainer/index';
 import BookingContanier from '../BookingsContainer/index';
@@ -89,12 +97,45 @@ const AppWrapper = createUseStyles({
 		},
 	},
 	bottomRow: {
+		'&.checkInToggled > div:nth-of-type(1)': {
+			position: 'absolute',
+			top: '29px',
+			zIndex: 1,
+			maxWidth: 'calc(100% - 31px)',
+			height: 'calc(100% - 63px)',
+		},
+		'&.checkOutToggled > div:nth-of-type(2)': {
+			position: 'absolute',
+			top: '29px',
+			zIndex: 1,
+			maxWidth: 'calc(100% - 31px)',
+			height: 'calc(100% - 63px)',
+		},
 		'&.colorChartToggled > div:nth-of-type(3)': {
 			position: 'absolute',
 			top: '29px',
 			zIndex: 1,
 			maxWidth: 'calc(100% - 31px)',
 			height: 'calc(100% - 63px)',
+		},
+	},
+	toggle: {
+		width: '25px',
+		height: '25px',
+		lineHeight: '19px',
+		textAlign: 'center',
+		cursor: 'pointer',
+		fontSize: '32px',
+		borderRadius: '50%',
+		backgroundColor: 'transparent',
+		transition: 'all .3s',
+		'&:hover': {
+			backgroundColor: '#bbb',
+			transition: 'all .3s',
+		},
+		'&.toggled': {
+			transform: 'rotate(45deg)',
+			transition: 'all .3s',
 		},
 	},
 	wrapper: {
@@ -104,6 +145,14 @@ const AppWrapper = createUseStyles({
 	},
 	item: {
 		height: 'calc(50vh - 77px)',
+		'&.toggled': {
+			width: 'calc(100% + 1px)',
+			height: 'calc(100% + 5px)',
+		},
+		'& > div': {
+			display: 'flex',
+			justifyContent: 'space-between',
+		}
 	},
 	itemBody: {
 		overflow: 'auto',
@@ -131,6 +180,10 @@ function App(props) {
 		colorChartToggle, 
 		sidebarToggle, 
 		sidebarToggler, 
+		checkInToggle,
+		checkInToggler,
+		checkOutToggle,
+		checkOutToggler,
 		closestBookings = [], 
 		handleNewBookingWithSocket 
 	} = props;
@@ -158,7 +211,27 @@ function App(props) {
 		toggled: colorChartToggle,
 	});
 	const bottomRowClassName = classNames(classes.bottomRow, {
+		checkInToggled: checkInToggle,
+		checkOutToggled: checkOutToggle,
 		colorChartToggled: colorChartToggle,
+	});
+	const checkInWrapperClassName = classNames(classes.wrapper, {
+		toggled: checkInToggle,
+	});
+	const checkInItemClassName = classNames(classes.item, {
+		toggled: checkInToggle,
+	});
+	const checkInToggleClassName = classNames(classes.toggle, {
+		toggled: checkInToggle,
+	});
+	const checkOutWrapperClassName = classNames(classes.wrapper, {
+		toggled: checkOutToggle,
+	});
+	const checkOutItemClassName = classNames(classes.item, {
+		toggled: checkOutToggle,
+	});
+	const checkOutToggleClassName = classNames(classes.toggle, {
+		toggled: checkOutToggle,
 	});
 	useEffect(() => {
 		socket.on('new_booking', booking => {
@@ -208,20 +281,34 @@ function App(props) {
 								</Row>
 								<Row className={bottomRowClassName}>
 									<Col>
-										<Card className={classes.item}>
-											<Card.Header>Closest check-in</Card.Header>
-											<Card.Body className={classes.itemBody}>
-												<BookingContanier bookingsData={closestCheckInBookings} />
-											</Card.Body>
-										</Card>
+										<div className={checkInWrapperClassName}>
+											<Card className={checkInItemClassName}>
+												<Card.Header>
+													<span>Closest check-in</span>
+													<span className={checkInToggleClassName} onClick={() => checkInToggler()}>
+														+
+													</span>
+												</Card.Header>
+												<Card.Body className={classes.itemBody}>
+													<BookingContanier bookingsData={closestCheckInBookings} />
+												</Card.Body>
+											</Card>
+										</div>
 									</Col>
 									<Col>
-										<Card className={classes.item}>
-											<Card.Header>Closest check-out</Card.Header>
-											<Card.Body className={classes.itemBody}>
-												<BookingContanier bookingsData={closestCheckOutBookings} />
-											</Card.Body>
-										</Card>
+										<div className={checkOutWrapperClassName}>
+											<Card className={checkOutItemClassName}>
+												<Card.Header>
+													<span>Closest check-out</span>
+													<span className={checkOutToggleClassName} onClick={() => checkOutToggler()}>
+														+
+													</span>
+												</Card.Header>
+												<Card.Body className={classes.itemBody}>
+													<BookingContanier bookingsData={closestCheckOutBookings} />
+												</Card.Body>
+											</Card>
+										</div>
 									</Col>
 									<Col>
 										<div className={colorChartWrapperClassName}>
@@ -247,6 +334,10 @@ App.propTypes = {
 	colorChartToggle: PropTypes.bool,
 	sidebarToggle: PropTypes.bool,
 	sidebarToggler: PropTypes.func.isRequired,
+	checkInToggle: PropTypes.bool,
+	checkInToggler: PropTypes.func.isRequired,
+	checkOutToggle: PropTypes.bool,
+	checkOutToggler: PropTypes.func.isRequired,
 	closestBookings: PropTypes.array,
 	handleNewBookingWithSocket: PropTypes.func.isRequired,
 };
@@ -254,11 +345,15 @@ App.propTypes = {
 App.defaultProps = {
 	closestBookings: [],
 	sidebarToggler: () => {},
+	checkInToggler: () => {},
+	checkOutToggler: () => {},
 	handleNewBookingWithSocket: () => {},
 };
 
 const mapStateToProps = createStructuredSelector({
 	sidebarToggle: selectSidebarToggle(),
+	checkInToggle: selectCheckInToggle(),
+	checkOutToggle: selectCheckOutToggle(),
 	closestBookings: makeSelectBookingsContainer(),
 	messagesToggle: makeSelectMessagesToggle(),
 	lineChartToggle: makeSelectLineChartToggle(),
@@ -269,6 +364,8 @@ function mapDispatchToProps(dispatch) {
 	return {
 		dispatch,
 		sidebarToggler: () => dispatch(toggleSidebar()),
+		checkInToggler: () => dispatch(checkInToggle()),
+		checkOutToggler: () => dispatch(checkOutToggle()),
 		handleNewBookingWithSocket: data => dispatch(getNewBookingWithSocket(data)),
 	};
 }

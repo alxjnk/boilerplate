@@ -14,3 +14,5 @@ export const LOAD_REPOS_SUCCESS = 'boilerplate/App/LOAD_REPOS_SUCCESS';
 export const LOAD_REPOS_ERROR = 'boilerplate/App/LOAD_REPOS_ERROR';
 
 export const SIDEBAR_TOGGLE = 'app/App/SIDEBAR_TOGGLE';
+export const CHECK_IN_TOGGLE = 'app/App/CHECK_IN_TOGGLE';
+export const CHECK_OUT_TOGGLE = 'app/App/CHECK_OUT_TOGGLE';
