@@ -15,19 +15,19 @@ export const getLastMessageCreateDate = (messages, user) => {
 };
 // получаем количество новых сообщений
 export const getNumberOfNewMessages = (messages, user) => {
-   const numberOfNewMessages = messages[user].map(item => item.new ? 1 : 0).reduce((result, num) => result + num, 0) ? messages[user].map(item => item.new ? 1 : 0).reduce((result, num) => result + num, 0) : '';
+   const numberOfNewMessages = messages[user].map(item => item.viewed ? 0 : 1).reduce((result, num) => result + num, 0) ? messages[user].map(item => item.viewed ? 0 : 1).reduce((result, num) => result + num, 0) : '';
 
    return numberOfNewMessages;
 };
 // определяем есть ли новые сообщения
 export const isNewMessages = (messages, user) => {
-   return messages[user].map(item => item.new ? 1 : 0).reduce((result, num) => result + num, 0);
+   return messages[user].map(item => item.viewed ? 0 : 1).reduce((result, num) => result + num, 0);
 };
 // меняем статус сообщения new с true на false
 export const changeMessagesStatus = (messages, fullName) => {
    return messages.map(message => {
       if (message['full_name'] === fullName) {
-         message.new = false;
+         message.viewed = true;
       }
 
       return message;

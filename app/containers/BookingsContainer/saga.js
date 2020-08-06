@@ -8,7 +8,8 @@ import { getData } from '../../utils/getData';
 
 // Individual exports for testing
 export default function* bookingsContainerSaga() {
-	const path = `http://jobsdone.pro:9000/cm-api/bookings`;
+	// const path = `http://jobsdone.pro:9000/cm-api/bookings`;
+	const path = `http://localhost:9000/cm-api/bookings`;
 
 	yield takeEvery(GET_BOOKINGS_DATA_REQUEST,
 		function* (action) {

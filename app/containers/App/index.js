@@ -64,7 +64,7 @@ const AppWrapper = createUseStyles({
 	},
 	content: {
 		position: 'relative',
-		padding: '29px 15px',
+		padding: '29px 15px 0',
 		maxHeight: 'calc(100vh - 70px)',
 		overflowY: 'auto',
 		marginTop: 70,
@@ -97,6 +97,9 @@ const AppWrapper = createUseStyles({
 		},
 	},
 	bottomRow: {
+		'& > div': {
+			marginBottom: '25px',
+		},
 		'&.checkInToggled > div:nth-of-type(1)': {
 			position: 'absolute',
 			top: '29px',
@@ -280,7 +283,7 @@ function App(props) {
 									</Col>
 								</Row>
 								<Row className={bottomRowClassName}>
-									<Col>
+									<Col md="4" xl="4">
 										<div className={checkInWrapperClassName}>
 											<Card className={checkInItemClassName}>
 												<Card.Header>
@@ -295,7 +298,7 @@ function App(props) {
 											</Card>
 										</div>
 									</Col>
-									<Col>
+									<Col md="4" xl="4">
 										<div className={checkOutWrapperClassName}>
 											<Card className={checkOutItemClassName}>
 												<Card.Header>
@@ -310,7 +313,7 @@ function App(props) {
 											</Card>
 										</div>
 									</Col>
-									<Col>
+									<Col md="4" xl="4">
 										<div className={colorChartWrapperClassName}>
 											<ColorChartContainer />
 										</div>

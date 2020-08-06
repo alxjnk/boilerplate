@@ -11,6 +11,9 @@ import classNames from 'classnames';
 import { Accordion, Card } from 'react-bootstrap';
 
 const BookingsWrapper = createUseStyles({
+	accordion: {
+		width: '100%',
+	},
 	card: {
 		border: 'none',
 	},
@@ -25,6 +28,9 @@ const BookingsWrapper = createUseStyles({
 	toggle: {
 		cursor: 'pointer',
 		border: 'none',
+		overflow: 'hidden',
+		textOverflow: 'ellipsis',
+		whiteSpace: 'nowrap',
 	},
 	cardBody: {
 		paddingTop: '7px',
@@ -39,7 +45,7 @@ const BookingsWrapper = createUseStyles({
 function Bookings({bookingsData, ...props}) {
 	const classes = BookingsWrapper();
 	return (
-		<Accordion>
+		<Accordion className={classes.accordion}>
 			{bookingsData.map((item, index) => (
 				<Card className={classes.card} key={item.id}>
 					<Card.Header
@@ -48,9 +54,8 @@ function Bookings({bookingsData, ...props}) {
 						})}
 					>
 						<Accordion.Toggle className={classes.toggle} as={Card.Header} variant="link" eventKey={item.id}>
-							<b>Name: </b>
-							{item.full_name}, <b>Room: </b>
-							{item.room} ...
+							<b> Name: </b> {item.full_name}, 
+							<b> Room: </b> {item.room}...
 						</Accordion.Toggle>
 					</Card.Header>
 					<Accordion.Collapse eventKey={item.id}>

@@ -17,7 +17,8 @@ import { sendData } from '../../utils/sendData';
 import socket from '../../utils/socket';
 
 export function* getMessagesSaga() {
-	const path = `http://jobsdone.pro:9000/cm-api/messages`;
+	// const path = `http://jobsdone.pro:9000/cm-api/messages`;
+	const path = `http://localhost:9000/cm-api/messages`;
 
 	try {
 		const result = yield call(getData, path);
@@ -29,8 +30,10 @@ export function* getMessagesSaga() {
 };
 
 export function* sendAllMessagesSaga(action) {
-	const path = `http://jobsdone.pro:9000/cm-api/messages`;
+	// const path = `http://jobsdone.pro:9000/cm-api/messages`;
+	const path = `http://localhost:9000/cm-api/messages`;
 	const messages = [ ...action.payload ];
+	console.log('36 saga messages container: ', messages)
 	
 	try {
 		const result = yield call(sendData, messages, path);
