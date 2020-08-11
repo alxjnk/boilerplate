@@ -29,7 +29,7 @@ const headerStyle = theme => ({
 		'@media (max-width: 991.98px)': {
 			justifyContent: 'space-between',
 		},
-		padding: '0 44px 0 22px',
+		padding: '0 43px 0 22px',
 	},
 	sidebarToggler: {
 		cursor: 'pointer',
