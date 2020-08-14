@@ -4,16 +4,18 @@
  *
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { createUseStyles, useTheme } from 'react-jss';
+import { Navbar, Dropdown } from 'react-bootstrap';
 import classNames from 'classnames';
+import Logo from '../../images/LOGO.png';
 
 const headerStyle = theme => ({
 	headerWrapper: {
 		zIndex: 500,
 		position: 'fixed',
-		width: props => (props.sidebarToggle ? 'calc(100vw - 60px)' : 'calc(100vw - 250px)'),
+		width: '100vw',
 		'@media (max-width: 991.98px)': {
 			width: '100% !important',
 		},
@@ -21,36 +23,62 @@ const headerStyle = theme => ({
 	header: {
 		display: 'flex',
 		width: '100%',
-		height: 60,
-		background: '#fff',
+		height: '70px',
+		background: ({theme}) => theme['header']['background-color'],
 		alignItems: 'center',
-		boxShadow: '0px 0px 7px rgba(0, 0, 0, 0.25)',
 		justifyContent: 'flex-start',
 		'@media (max-width: 991.98px)': {
 			justifyContent: 'space-between',
 		},
-		padding: '0 44px 0 22px',
+		padding: '0',
+	},
+	logo: {
+		width: '250px',
+		height: '100%',
+		lineHeight: '60px',
+		textAlign: 'center',
 	},
 	sidebarToggler: {
-		cursor: 'pointer',
-		background: '#3A0078',
-		boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.21)',
-		color: '#FFFFFF',
-		width: 24,
-		height: 24,
-		borderRadius: '50%',
-		display: 'none',
-		'@media (max-width: 991.98px)': {
-			display: 'block',
-		},
-		'& svg': {
-			animation: '1s linear 0s normal none infinite running rot',
-			transform: 'scale(0.6)',
-		},
+		border: '1px solid rgba(0,0,0,.1)',
+		width: '50px',
+		height: '40px',
+		borderRadius: '3px',
+		marginLeft: '25px',
+		display: 'flex',
+		marginRight: '25px',
+		background: 'transparent',
+		outline: 'none !important',
+	},
+	arrow: {
+		display: 'block',
+		margin: 'auto',
+		position: 'relative',
+		border: '14px solid transparent',
+		borderRight: '24px solid rgba(0,0,0,.2)',
+		left: '-8px',
+		transition: 'all .3s',
 		'&.toggled': {
-			'& svg': {
-				transform: 'scale(0.6) rotate(180deg)',
-			},
+			transform: 'rotate(180deg)',
+			transformOrigin: '71% 50% 0',
+			transition: 'all .3s',
+		},
+	},
+	dropdownMenu: {
+		marginLeft: 'auto',
+		marginRight: '25px',
+	},
+	dropdownToggle: {
+		boxShadow: 'none',
+		border: 'none',
+		border: '1px solid rgba(0,0,0,.1)',
+		'&:hover, &:active, &.active, &.focus, &:focus, &.btn-success.dropdown-toggle': {
+			backgroundColor: 'transparent !important',
+			boxShadow: 'none !important',
+			border: 'none !important',
+			border: '1px solid rgba(0,0,0,.1)',
+		},
+		'&:after': {
+			display: 'none',
 		},
 	},
 });
@@ -61,16 +89,28 @@ function Header(props) {
 	const { onSearchCard, sidebarToggle, sidebarToggler } = props;
 	const theme = useTheme();
 	const classes = useStyles({ ...props, theme });
-	const sidebarTogglerClassName = classNames(classes.sidebarToggler, {
+	const sidebarArrowClassName = classNames(classes.arrow, {
 		toggled: sidebarToggle,
 	});
 	return (
 		<div className={classes.headerWrapper}>
-			<div className={classes.header}>
-				<div className={sidebarTogglerClassName} onClick={() => sidebarToggler()}>
-					<div>Arrow left</div>
-				</div>
-			</div>
+			<Navbar expand="lg" className={classes.header}>
+				<Navbar.Brand href="#home" className={classes.logo}>
+					<img src={Logo} alt="logo" height="50px" width="200px" />
+				</Navbar.Brand>
+				<button type="button" className={classes.sidebarToggler} onClick={() => sidebarToggler()}>
+					<span className={sidebarArrowClassName} />
+				</button>
+				<Dropdown alignRight className={classes.dropdownMenu}>
+					<Dropdown.Toggle className={classes.dropdownToggle} variant="success" id="dropdown-basic">
+						<span className={`${classes.toggler} navbar-toggler-icon`} />
+					</Dropdown.Toggle>
+					<Dropdown.Menu>
+						<Dropdown.Item href="#/action-1">Sign out</Dropdown.Item>
+						<Dropdown.Item href="#/action-2">About app</Dropdown.Item>
+					</Dropdown.Menu>
+				</Dropdown>
+			</Navbar>
 		</div>
 	);
 }
@@ -78,6 +118,8 @@ function Header(props) {
 Header.propTypes = {
 	cardId: PropTypes.number,
 	onSearchCard: PropTypes.func,
+	sidebarToggle: PropTypes.bool, 
+	sidebarToggler: PropTypes.func,
 };
 
 export default Header;

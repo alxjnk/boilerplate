@@ -15,4 +15,21 @@ const selectSidebarToggle = () =>
 		globalState => globalState.toggleSidebar,
 	);
 
-export { selectGlobal, selectSidebarToggle };
+const selectCheckInToggle = () =>
+	createSelector(
+		selectGlobal,
+		globalState => globalState.checkInToggle,
+	);
+
+const selectCheckOutToggle = () =>
+	createSelector(
+		selectGlobal,
+		globalState => globalState.checkOutToggle,
+	);
+
+export { 
+	selectGlobal, 
+	selectSidebarToggle,
+	selectCheckInToggle,
+	selectCheckOutToggle
+};

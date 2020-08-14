@@ -9,6 +9,10 @@
 import '@babel/polyfill';
 
 // Import all the third party stuff
+import 'bootstrap/dist/css/bootstrap.min.css';
+import $ from 'jquery';
+import Popper from 'popper.js';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -24,6 +28,8 @@ import App from 'containers/App';
 import configureStore from './configureStore';
 import AuthManager from './containers/AuthManager';
 import ErrorBoundary from './containers/ErrorBoundary';
+import { ThemeProvider } from 'react-jss';
+import { theme } from './theme/theme';
 // Observe loading of Open Sans (to remove open sans, remove the <link> tag in
 // the index.html file and this observer)
 const latoObserver = new FontFaceObserver('lato', {});
@@ -40,15 +46,17 @@ async function init() {
 	const store = await configureStore(initialState, history);
 	const MOUNT_NODE = document.getElementById('app');
 	ReactDOM.render(
-		<Provider store={store}>
-			<ConnectedRouter history={history}>
-				<ErrorBoundary>
-					<AuthManager>
-						<App />
-					</AuthManager>
-				</ErrorBoundary>
-			</ConnectedRouter>
-		</Provider>,
+		<ThemeProvider theme={theme}>
+			<Provider store={store}>
+				<ConnectedRouter history={history}>
+					<ErrorBoundary>
+						<AuthManager>
+							<App />
+						</AuthManager>
+					</ErrorBoundary>
+				</ConnectedRouter>
+			</Provider>
+		</ThemeProvider>,
 		MOUNT_NODE,
 	);
 }
