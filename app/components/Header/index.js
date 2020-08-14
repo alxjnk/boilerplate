@@ -30,7 +30,6 @@ const headerStyle = theme => ({
 		'@media (max-width: 991.98px)': {
 			justifyContent: 'space-between',
 		},
-<<<<<<< HEAD
 		padding: '0',
 	},
 	logo: {
@@ -38,9 +37,6 @@ const headerStyle = theme => ({
 		height: '100%',
 		lineHeight: '60px',
 		textAlign: 'center',
-=======
-		padding: '0 43px 0 22px',
->>>>>>> 37ff1dc63ea55a9487fafe781abc552701b82230
 	},
 	sidebarToggler: {
 		border: '1px solid rgba(0,0,0,.1)',
