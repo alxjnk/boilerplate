@@ -42,7 +42,7 @@ const BookingsWrapper = createUseStyles({
 	},
 });
 
-function Bookings({bookingsData, ...props}) {
+function Bookings({ bookingsData, ...props }) {
 	const classes = BookingsWrapper();
 	return (
 		<Accordion className={classes.accordion}>
@@ -54,8 +54,7 @@ function Bookings({bookingsData, ...props}) {
 						})}
 					>
 						<Accordion.Toggle className={classes.toggle} as={Card.Header} variant="link" eventKey={item.id}>
-							<b> Name: </b> {item.full_name}, 
-							<b> Room: </b> {item.room}...
+							<b> Name: </b> {item.full_name},<b> Room: </b> {item.room}...
 						</Accordion.Toggle>
 					</Card.Header>
 					<Accordion.Collapse eventKey={item.id}>

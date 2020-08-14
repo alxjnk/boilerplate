@@ -137,6 +137,9 @@ const MessagesWrapper = createUseStyles({
 		marginTop: '20px',
 		marginBottom: '-16px',
 	},
+	admin: {
+		marginLeft: 'auto',
+	}
 });
 
 function Messages({ 
@@ -155,13 +158,29 @@ function Messages({
 	const messagesItemClassName = classNames(classes.item, {
 		toggled: messagesToggle,
 	});
-
+	
 	const sendNewMessage = e => {
 		e.preventDefault();
-		const { value } = e.target.children[0].children[0];
-
+		const user_id = e.target.parentElement.parentElement.parentElement.dataset.id;
+		const value = e.target.children[0].children[0].value.trim();
+		const message = messages.find((item) => {
+			return item.user_id === user_id
+		});
+		
 		if (!value) return;
-		handleSendNewMessageWithSocket(value);
+		
+		const newMessage = {
+			full_name: message.full_name,
+			platform: message.platform,
+			room: message.room,
+			property: message.property,
+			message: value,
+			viewed: true,
+			user_id: user_id,
+			admin: true
+		};
+
+		handleSendNewMessageWithSocket(newMessage);
 		e.target.children[0].children[0].value = '';
 	};
 
@@ -176,7 +195,7 @@ function Messages({
 			handleSendAllMessages(changedMessages);
 		}
 	};
-
+	
 	return (
 		<Card className={messagesItemClassName}>
 			<Card.Header className={classes.itemHeader}>
@@ -188,13 +207,13 @@ function Messages({
 			<Card.Body className={classes.itemBody}>
 				<Accordion>
 					{Object.keys(sortedMessages).map(user => (
-						<Card key={user}>
+						<Card key={user} data-id={sortedMessages[user][0].user_id}>
 							<Accordion.Toggle as={Card.Header} eventKey={user} onClick={handlerChangeMessageStatus}>
 								<div className={classes.messageHeader}>
 									<div className={classes.platform}>{sortedMessages[user][0].platform.replace(/\..+/, '')}</div>
 									<div className={classes.wrapper}>
 										<div className={classes.innerHeader}>
-											<span className={classes.fullname}>{user}</span>
+											<span className={classes.fullname}>{sortedMessages[user][0].full_name}</span>
 											<span className={classes.date}>
 												{getLastMessageCreateDate(sortedMessages, user)}
 											</span>
@@ -216,12 +235,16 @@ function Messages({
 										<ListGroup variant="flush">
 											{[...sortedMessages[user]].map(event => (
 												<ListGroup.Item key={event.id} className={classes.event}>
-													<span>{event.message}</span>
+													<span className={event.admin ? classes.admin : ''}>{event.message}</span>
 												</ListGroup.Item>
 											))}
 										</ListGroup>
 									</div>
-									<form name="sendMessage" onSubmit={sendNewMessage} className={classes.textarea}>
+									<form 
+										name="sendMessage" 
+										onSubmit={sendNewMessage} 
+										className={classes.textarea}
+									>
 										<InputGroup className="mb-3">
 											<FormControl
 												name="textarea"
@@ -229,7 +252,10 @@ function Messages({
 												placeholder="Type your message..."
 											/>
 											<InputGroup.Append>
-												<Button type="submit" variant="secondary">
+												<Button 
+													type="submit" 
+													variant="secondary"  
+												>
 													Send message
 												</Button>
 											</InputGroup.Append>

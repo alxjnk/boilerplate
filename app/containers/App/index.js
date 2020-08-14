@@ -18,20 +18,12 @@ import { compose } from 'redux';
 import classNames from 'classnames';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { routes } from '../../routes';
-import { 
-	selectSidebarToggle,
-	selectCheckInToggle,
-	selectCheckOutToggle,
-} from './selectors';
+import { selectSidebarToggle, selectCheckInToggle, selectCheckOutToggle } from './selectors';
 import { makeSelectBookingsContainer } from '../BookingsContainer/selectors';
 import { makeSelectMessagesToggle } from '../MessagesContainer/selectors';
 import { makeSelectLineChartToggle } from '../LineChartContainer/selectors';
 import { makeSelectColorChartToggle } from '../ColorChartContainer/selectors';
-import { 
-	toggleSidebar,
-	checkInToggle,
-	checkOutToggle
-} from './actions';
+import { toggleSidebar, checkInToggle, checkOutToggle } from './actions';
 import Sidebar from '../../components/Sidebar/index';
 import MessagesContainer from '../MessagesContainer/index';
 import BookingContanier from '../BookingsContainer/index';
@@ -155,7 +147,7 @@ const AppWrapper = createUseStyles({
 		'& > div': {
 			display: 'flex',
 			justifyContent: 'space-between',
-		}
+		},
 	},
 	itemBody: {
 		overflow: 'auto',
@@ -172,23 +164,23 @@ const AppWrapper = createUseStyles({
 				transform: 'translate3d(0, 0, 0)',
 				transition: 'transform .3s',
 			},
-		}
+		},
 	},
 });
 
 function App(props) {
-	const { 
-		messagesToggle, 
-		lineChartToggle, 
-		colorChartToggle, 
-		sidebarToggle, 
-		sidebarToggler, 
+	const {
+		messagesToggle,
+		lineChartToggle,
+		colorChartToggle,
+		sidebarToggle,
+		sidebarToggler,
 		checkInToggle,
 		checkInToggler,
 		checkOutToggle,
 		checkOutToggler,
-		closestBookings = [], 
-		handleNewBookingWithSocket 
+		closestBookings = [],
+		handleNewBookingWithSocket,
 	} = props;
 	const closestCheckInBookings = checkInBookingsSorter(
 		checkInBookings(closestBookings, formatDate(dateWithDalayInMilliseconds()), formatDate(todayInMilliseconds())),
@@ -288,7 +280,10 @@ function App(props) {
 											<Card className={checkInItemClassName}>
 												<Card.Header>
 													<span>Closest check-in</span>
-													<span className={checkInToggleClassName} onClick={() => checkInToggler()}>
+													<span
+														className={checkInToggleClassName}
+														onClick={() => checkInToggler()}
+													>
 														+
 													</span>
 												</Card.Header>
@@ -303,7 +298,10 @@ function App(props) {
 											<Card className={checkOutItemClassName}>
 												<Card.Header>
 													<span>Closest check-out</span>
-													<span className={checkOutToggleClassName} onClick={() => checkOutToggler()}>
+													<span
+														className={checkOutToggleClassName}
+														onClick={() => checkOutToggler()}
+													>
 														+
 													</span>
 												</Card.Header>

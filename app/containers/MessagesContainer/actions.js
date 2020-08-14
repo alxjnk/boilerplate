@@ -19,6 +19,7 @@ import {
 } from './constants';
 
 export function getMessagesDataRequest(token) {
+	console.log('messages actions 22: getMessagesDataRequest');
 	return {
 		type: GET_MESSAGES_DATA_REQUEST,
 		// payload: {
@@ -49,6 +50,7 @@ export const getNewMessageWithSocket = (data) => {
 };
 
 export const sendNewMessageRequest = (data) => {
+	console.log('messages actions 53: ', data);
 	return {
 		type: SEND_NEW_MESSAGE_REQUEST,
 		payload: data
@@ -70,6 +72,7 @@ export const sendNewMessageFailure = (error) => {
 };
 
 export const sendAllMessagesRequest = (data) => {
+	console.log('messages actions 75: ', data);
 	return {
 		type: SEND_ALL_MESSAGES_DATA_REQUEST,
 		payload: data

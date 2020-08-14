@@ -9,6 +9,8 @@ import {
 	GET_MESSAGES_DATA_FAILURE,
 	SEND_ALL_MESSAGES_DATA_SUCCESS,
 	SEND_ALL_MESSAGES_DATA_FAILURE,
+	SEND_NEW_MESSAGE_SUCCESS,
+	SEND_NEW_MESSAGE_FAILURE,
 	GET_NEW_MESSAGE_WITH_SOCKET,
 	MESSAGES_TOGGLE,
 } from './constants';
@@ -40,8 +42,22 @@ const messagesReducer = (state = initialState, action) =>
 				draft.error = action.payload;
 				break;
 			}
+			case SEND_NEW_MESSAGE_SUCCESS: {
+				draft.messages = [
+					...state.messages,
+					action.payload
+				];
+				break;
+			}
+			case SEND_NEW_MESSAGE_FAILURE: {
+				draft.error = action.payload;
+				break;
+			}
 			case GET_NEW_MESSAGE_WITH_SOCKET: {
-				draft.messages = [ ...state.messages, action.payload ];
+				draft.messages = [ 
+					...state.messages, 
+					action.payload 
+				];
 				break;
 			}
 			case MESSAGES_TOGGLE: {

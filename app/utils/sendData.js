@@ -1,6 +1,6 @@
-export const sendData = (messages, path) => {
+export const sendData = (messages, path, method = 'POST') => {
    return fetch(`${path}`, {
-      method: 'POST',
+      method: method,
       headers: {
          'Content-Type': 'application/json;charset=utf-8'
       },

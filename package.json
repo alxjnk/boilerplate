@@ -41,6 +41,7 @@
     "> 1%",
     "IE 8"
   ],
+  "proxy": "http://localhost:9000",
   "lint-staged": {
     "*.js": [
       "npm run lint:eslint:fix",
