@@ -15,7 +15,7 @@ const ColorChartWrapper = createUseStyles({
 		height: 'calc(50vh - 77px)',
 		'&.toggled': {
 			width: 'calc(100% + 1px)',
-			height: 'calc(100% + 5px)',
+			height: 'calc(100% + 10px)',
 		},
 	},
 	itemHeader: {

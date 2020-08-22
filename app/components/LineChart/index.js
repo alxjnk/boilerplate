@@ -23,7 +23,7 @@ const LineChartWrapper = createUseStyles({
 		margin: 'auto',
 		'&.toggled': {
 			width: 'calc(100% - 0px)',
-			height: 'calc(100% + 5px)',
+			height: 'calc(100% + 7px)',
 		},
 		// '&:hover > div > p': {
 		// 	opacity: '1',
